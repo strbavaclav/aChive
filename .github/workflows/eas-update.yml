@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: "18.x"
           cache: yarn
+          working-directory: ./frontend
 
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
@@ -25,6 +26,8 @@ jobs:
 
       - name: 📦 Install dependencies
         run: yarn install
+        working-directory: ./frontend
 
       - name: 🚀 Create update
         run: eas update --auto --non-interactive
+        working-directory: ./frontend
