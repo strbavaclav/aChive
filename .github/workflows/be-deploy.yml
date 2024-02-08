@@ -33,3 +33,11 @@ jobs:
             -t europe-west3-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT_ID }}/achivebe/achive_be:latest . \
             --push
         working-directory: ./backend
+
+      - name: 🚀 Deploy to Google Cloud Run
+        run: |
+          gcloud run deploy achive-be \
+            --image europe-west3-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT_ID }}/achivebe/achive_be:latest \
+            --region europe-west3 \
+            --platform managed \
+            --allow-unauthenticated
