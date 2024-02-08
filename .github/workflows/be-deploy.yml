@@ -14,19 +14,22 @@ jobs:
       - name: 🏗 Setup repo
         uses: actions/checkout@v3
 
+      - name: 🔑 Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0.4.0
+        with:
+          credentials_json: ${{ secrets.GOOGLE_APPLICATION_KEY }}
+
       - name: 🏗 Install the gCloud CLI
         uses: google-github-actions/setup-gcloud@v2
         with:
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
-          service_account_key: ${{ secrets.GOOGLE_APPLICATION_KEY }}
-          export_default_credentials: true
 
       - name: 🛠 Configure Docker
         run: gcloud auth configure-docker europe-west3-docker.pkg.dev
 
       - name: 🐳 Build and Push Docker image
         run: |
-          docker buildx build --platform linux/amd64
-            -t europe-west3-docker.pkg.dev/$GOOGLE_PROJECT_ID/achivebe/achive_be:latest .
-            docker push europe-west3-docker.pkg.dev/$GOOGLE_PROJECT_ID/achivebe/achive_be:latest
+          docker buildx build --platform linux/amd64 /
+            -t europe-west3-docker.pkg.dev/$GOOGLE_PROJECT_ID/achivebe/achive_be:latest . /
+            -- push
         working-directory: ./backend
