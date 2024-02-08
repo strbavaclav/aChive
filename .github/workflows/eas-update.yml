@@ -1,3 +1,5 @@
+name: EAS update
+run-name: Deploy to Expo
 on:
   push:
     branches:
@@ -16,7 +18,6 @@ jobs:
         with:
           node-version: "18.x"
           cache: yarn
-          working-directory: ./frontend
 
       - name: 🏗 Setup EAS
         uses: expo/expo-github-action@v8
