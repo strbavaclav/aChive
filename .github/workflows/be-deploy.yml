@@ -5,8 +5,6 @@ on:
   push:
     branches:
       - production
-    paths:
-      - "backend/**"
 
 jobs:
   deploy:
