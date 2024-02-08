@@ -31,12 +31,12 @@ jobs:
       - name: 🐳 Build and Push Docker image
         run: |
           docker buildx build --platform linux/amd64 \
+            -t europe-west3-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT_ID }}/archivebe/archive_be:latest . \
+            --push \
             --build-arg PORT=${{ secrets.PORT }} \
             --build-arg MONGODB_URI=${{ secrets.MONGODB_URI }} \
             --build-arg ACCESS_JWT_SECRET=${{ secrets.ACCESS_JWT_SECRET }} \
-            --build-arg REFRESH_JWT_SECRET=${{ secrets.REFRESH_JWT_SECRET }} \
-            -t europe-west3-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT_ID }}/achivebe/achive_be:latest . \
-            --push \
+            --build-arg REFRESH_JWT_SECRET=${{ secrets.REFRESH_JWT_SECRET }}
         working-directory: ./backend
 
       - name: 🚀 Deploy to Google Cloud Run
