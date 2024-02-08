@@ -1,0 +1,30 @@
+type Mutation {
+  _empty(nothing: String): String
+  signIn(authData: SignInInput!): User
+  signOut(email: String!, password: String!): User
+  signUp(authData: SignUpInput!): User
+}
+
+type Query {
+  _empty: String
+  getAllUsers: [User]
+  getUser(id: ID!): User
+}
+
+input SignInInput {
+  email: String!
+  password: String!
+}
+
+input SignUpInput {
+  email: String!
+  password: String!
+  username: String!
+}
+
+type User {
+  email: String!
+  password: String!
+  token: String
+  username: String!
+}

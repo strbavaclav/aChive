@@ -1,0 +1,28 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "jsx": "react-native",
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "baseUrl": "src",
+    "paths": {
+      "calls/*": ["./calls/*"],
+      "assets/*": ["./assets/*"],
+      "components/*": ["./components/*"],
+      "constants/*": ["./constants/*"],
+      "context/*": ["./context/*"],
+      "data/*": ["./data/*"],
+      "gql/*": ["./gql/*"],
+      "hooks/*": ["./hooks/*"],
+      "locales/*": ["./locales/*"],
+      "navigation/*": ["./navigation/*"],
+      "screens/*": ["./screens/*"],
+      "services/*": ["./services/*"],
+      "styles/*": ["./styles/*"],
+      "types/*": ["./types/*"]
+    }
+  }
+}
