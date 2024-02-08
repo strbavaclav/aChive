@@ -1,12 +1,15 @@
 name: EAS update
 run-name: Deploy to Expo
+
 on:
   push:
     branches:
       - production
+    paths:
+      - "frontend/**"
 
 jobs:
-  update:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
