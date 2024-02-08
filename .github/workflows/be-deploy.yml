@@ -24,15 +24,15 @@ jobs:
         with:
           project_id: ${{ secrets.GOOGLE_PROJECT_ID }}
 
-      - name: 🛠 Configure Docker
-        run: gcloud auth configure-docker europe-west3-docker.pkg.dev
+      # - name: 🛠 Configure Docker
+      #   run: gcloud auth configure-docker europe-west3-docker.pkg.dev
 
-      - name: 🐳 Build and Push Docker image
-        run: |
-          docker buildx build --platform linux/amd64 \
-            -t europe-west3-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT_ID }}/achivebe/achive_be:latest . \
-            --push
-        working-directory: ./backend
+      # - name: 🐳 Build and Push Docker image
+      #   run: |
+      #     docker buildx build --platform linux/amd64 \
+      #       -t europe-west3-docker.pkg.dev/${{ secrets.GOOGLE_PROJECT_ID }}/achivebe/achive_be:latest . \
+      #       --push
+      #   working-directory: ./backend
 
       - name: 🚀 Deploy to Google Cloud Run
         run: |
