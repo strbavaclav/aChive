@@ -16,6 +16,18 @@ RUN yarn install
 # Copy the source code to the container
 COPY . .
 
+# Use arguments passed at build-time
+ARG PORT
+ARG MONGODB_URI
+ARG ACCESS_JWT_SECRET
+ARG REFRESH_JWT_SECRET
+
+# Set environment variables from arguments
+ENV PORT=${PORT}
+ENV MONGODB_URI=${MONGODB_URI}
+ENV ACCESS_JWT_SECRET=${ACCESS_JWT_SECRET}
+ENV REFRESH_JWT_SECRET=${REFRESH_JWT_SECRET}
+
 # Build TypeScript code
 RUN yarn compile
 
