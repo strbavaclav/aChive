@@ -20,10 +20,7 @@ const screenOptions = {
 
 export const AuthStackNavigator = () => {
   return (
-    <AuthStack.Navigator
-      initialRouteName="Splash"
-      screenOptions={screenOptions}
-    >
+    <AuthStack.Navigator initialRouteName="Login" screenOptions={screenOptions}>
       <AuthStack.Screen name="Splash" component={SplashScreen} />
       <AuthStack.Screen
         name="Login"
