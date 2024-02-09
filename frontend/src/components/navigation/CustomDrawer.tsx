@@ -92,7 +92,11 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
             icon={"home"}
             navigate={() => navigation.navigate("Home")}
           />
-          <CustomDrawerItem label={"Recipes"} icon={"bookmarks"} />
+          <CustomDrawerItem
+            label={"Recipes"}
+            icon={"bookmarks"}
+            navigate={() => navigation.navigate("Cookbook")}
+          />
           <CustomDrawerItem
             label={"Shoping list"}
             icon={"cart"}
