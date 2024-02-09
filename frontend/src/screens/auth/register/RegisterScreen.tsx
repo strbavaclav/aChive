@@ -9,61 +9,77 @@ import {
   View,
   Text,
   Heading,
-  Box,
-  FormControl,
-  Input,
-  InputField,
-  FormControlHelper,
-  FormControlHelperText,
-  FormControlError,
-  FormControlErrorIcon,
-  FormControlErrorText,
-  AlertCircleIcon,
   VStack,
-  FormControlLabel,
-  FormControlLabelText,
-  InputSlot,
-  InputIcon,
-  MailIcon,
-  LockIcon,
+  KeyboardAvoidingView,
 } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import OAuthButton from "components/auth/OAuthButton";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { Image } from "react-native";
+import { Image, Platform } from "react-native";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { AuthStackParams } from "navigation/auth";
 import { useSignUp } from "calls/auth/register/useSignUp";
+import {
+  FormProvider,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
+import { FormInput } from "components/form/FormInput";
+import { useTranslation } from "react-i18next";
 
 const image = require("../../../assets/images/register.png");
 
+export const validationSchema = z.object({
+  email: z.string().email("Incorect Email!").min(5),
+  password: z.string().min(1, "Password must be filled!"),
+});
+
+type FormDataType = z.infer<typeof validationSchema>;
+
+export const defaultValues: Partial<FormDataType> = {
+  email: "",
+  password: "",
+};
+
 const RegisterScreen = () => {
+  const { t } = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParams>>();
 
   const { signUpMutation, signUpResult } = useSignUp();
 
-  const handleSignUp = () => {
+  const formContext = useForm<FormDataType>({
+    defaultValues,
+    reValidateMode: "onChange",
+    resolver: zodResolver(validationSchema),
+  });
+
+  const onSubmit: SubmitHandler<FormDataType> = async (values) => {
     try {
-      // signUpMutation({
-      //   variables: {
-      //     authData: {
-      //       email: "test@test.cz",
-      //       username: "test",
-      //       password: "Abeceda123",
-      //     },
-      //   },
-      // });
       navigation.navigate("Onboarding");
     } catch (error) {
       console.log(error);
     }
   };
 
+  const onError: SubmitErrorHandler<FormDataType> = (errors, e) =>
+    console.log(errors);
+
+  const onPress = formContext.handleSubmit(onSubmit, onError);
+
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <KeyboardAvoidingView
+      behavior="padding"
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+      alignItems="center"
+      flex={1}
+      pt={40}
+    >
       <StatusBar style="auto" />
       <Image
         source={image}
@@ -74,91 +90,25 @@ const RegisterScreen = () => {
         Sign up to <Heading color="$primary500">aChive</Heading>
       </Heading>
       <VStack
-        width={"$full"}
+        width={"80%"}
         justifyContent="center"
         alignItems="center"
-        gap={10}
+        gap={1}
         m={10}
       >
-        <Box width={"$3/4"}>
-          <FormControl
-            size="sm"
-            isDisabled={false}
-            isInvalid={false}
-            isReadOnly={false}
-            isRequired={false}
-          >
-            <Input>
-              <InputSlot width={"$1/6"} backgroundColor="$primary500">
-                <InputIcon>
-                  <MailIcon size="sm" color="white" />
-                </InputIcon>
-              </InputSlot>
-              <InputField type="text" placeholder="your@mail.com" />
-            </Input>
-
-            <FormControlError>
-              <FormControlErrorIcon as={AlertCircleIcon} />
-              <FormControlErrorText>
-                At least 6 characters are required.
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
-        </Box>
-        <Box width={"$3/4"}>
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={false}
-            isReadOnly={false}
-            isRequired={false}
-          >
-            <Input>
-              <InputSlot width={"$1/6"} backgroundColor="$primary500">
-                <InputIcon>
-                  <LockIcon color="white" size="sm" />
-                </InputIcon>
-              </InputSlot>
-              <InputSlot>
-                <InputField type="password" placeholder="select a password" />
-              </InputSlot>
-            </Input>
-
-            <FormControlError>
-              <FormControlErrorIcon as={AlertCircleIcon} />
-              <FormControlErrorText>
-                At least 6 characters are required.
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
-        </Box>
-        <Box width={"$3/4"}>
-          <FormControl
-            size="md"
-            isDisabled={false}
-            isInvalid={false}
-            isReadOnly={false}
-            isRequired={false}
-          >
-            <Input>
-              <InputSlot width={"$1/6"} backgroundColor="$primary500">
-                <InputIcon>
-                  <LockIcon color="white" size="sm" />
-                </InputIcon>
-              </InputSlot>
-              <InputSlot>
-                <InputField type="password" placeholder="retype password" />
-              </InputSlot>
-            </Input>
-
-            <FormControlError>
-              <FormControlErrorIcon as={AlertCircleIcon} />
-              <FormControlErrorText>
-                At least 6 characters are required.
-              </FormControlErrorText>
-            </FormControlError>
-          </FormControl>
-        </Box>
+        <FormProvider {...formContext}>
+          <FormInput name="email" placeholder={t("your@mail.cz")} />
+          <FormInput
+            name="password"
+            placeholder={t("select a password")}
+            secret
+          />
+          <FormInput
+            name="password"
+            placeholder={t("retype a password")}
+            secret
+          />
+        </FormProvider>
       </VStack>
       <Button
         size="md"
@@ -167,7 +117,7 @@ const RegisterScreen = () => {
         isDisabled={false}
         isFocusVisible={false}
         m={10}
-        onPress={handleSignUp}
+        onPress={onPress}
       >
         <ButtonText>Sign up </ButtonText>
         <ButtonIcon as={ChevronsRightIcon} />
@@ -179,7 +129,7 @@ const RegisterScreen = () => {
           <LinkText color="$primary600">Log in!</LinkText>
         </Link>
       </HStack>
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

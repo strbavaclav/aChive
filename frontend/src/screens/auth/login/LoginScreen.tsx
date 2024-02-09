@@ -9,22 +9,8 @@ import {
   View,
   Text,
   Heading,
-  Box,
-  FormControl,
-  Input,
-  InputField,
-  FormControlError,
-  FormControlErrorIcon,
-  FormControlErrorText,
-  AlertCircleIcon,
   VStack,
-  InputSlot,
-  InputIcon,
-  MailIcon,
-  LockIcon,
   KeyboardAvoidingView,
-  EyeIcon,
-  EyeOffIcon,
 } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -32,21 +18,35 @@ import OAuthButton from "components/auth/OAuthButton";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Platform, SafeAreaView } from "react-native";
+import { ActivityIndicator, Image, Platform, SafeAreaView } from "react-native";
 import { AuthStackParams } from "navigation/auth";
 import i18next from "services/i18next";
-import { Controller, useForm } from "react-hook-form";
-import { SignInInputs } from "types/auth/SignIn";
+import {
+  FormProvider,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
 import { useAuth } from "context/authContext";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FormInput } from "components/form/FormInput";
+
+export const validationSchema = z.object({
+  email: z.string().email("Incorect Email!").min(5),
+  password: z.string().min(1, "Password must be filled!"),
+});
+
+type FormDataType = z.infer<typeof validationSchema>;
+
+export const defaultValues: Partial<FormDataType> = {
+  email: "test@be.com",
+  password: "Abeceda123",
+};
 
 const LoginScreen = () => {
   const { t } = useTranslation();
-  const [showPassword, setShowPassword] = useState(false);
-  const handleState = () => {
-    setShowPassword((showState) => {
-      return !showState;
-    });
-  };
+  const [isLoading, setIsLoading] = useState(false);
 
   const { onSignIn } = useAuth();
 
@@ -54,179 +54,101 @@ const LoginScreen = () => {
     i18next.changeLanguage(lng);
   };
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignInInputs>({
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+  const formContext = useForm<FormDataType>({
+    defaultValues,
+    reValidateMode: "onChange",
+    resolver: zodResolver(validationSchema),
   });
 
-  const handleLogin = async (data: SignInInputs) => {
+  const onSubmit: SubmitHandler<FormDataType> = async (values) => {
+    setIsLoading(true);
     try {
-      await onSignIn!(data.email, data.password);
+      await onSignIn!(values.email, values.password);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const onError: SubmitErrorHandler<FormDataType> = (errors, e) =>
+    console.log(errors);
+
+  const onPress = formContext.handleSubmit(onSubmit, onError);
 
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParams>>();
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: "space-evenly", alignItems: "center" }}
+    <KeyboardAvoidingView
+      behavior="padding"
+      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+      alignItems="center"
+      flex={1}
+      pt={40}
     >
       <StatusBar style="auto" />
-      <View alignItems="center" flex={1} width={"$full"}>
-        <Image
-          source={require("../../../assets/images/login.png")}
-          style={{ width: "100%", height: 250 }}
-          resizeMode="contain"
-        />
-        <Heading>
-          {t("sign in to")} <Heading color="$primary500">aChive</Heading>
-        </Heading>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-          margin={10}
+      <Image
+        source={require("../../../assets/images/login.png")}
+        style={{ width: "100%", height: 250 }}
+        resizeMode="contain"
+      />
+      <Heading>
+        {t("sign in to")} <Heading color="$primary500">aChive</Heading>
+      </Heading>
+      <VStack
+        width={"80%"}
+        justifyContent="center"
+        alignItems="center"
+        gap={1}
+        m={10}
+      >
+        <FormProvider {...formContext}>
+          <FormInput name="email" placeholder={t("your@mail.cz")} />
+          <FormInput name="password" placeholder={t("password")} secret />
+        </FormProvider>
+        <Button
+          width={200}
+          size="md"
+          variant="solid"
+          action="primary"
+          isDisabled={false}
+          m={10}
+          onPress={onPress}
         >
-          <VStack
-            width={"$full"}
-            justifyContent="center"
-            alignItems="center"
-            gap={10}
-            m={10}
-          >
-            <Box width={"$5/6"}>
-              <FormControl
-                size="sm"
-                isDisabled={false}
-                isInvalid={false}
-                isReadOnly={false}
-                isRequired={false}
-              >
-                <Input>
-                  <InputSlot width={"$1/6"} backgroundColor="$primary500">
-                    <InputIcon>
-                      <MailIcon size="sm" color="white" />
-                    </InputIcon>
-                  </InputSlot>
-                  <InputSlot>
-                    <Controller
-                      control={control}
-                      rules={{ required: true }} // Add your validation rules
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <InputField
-                          autoCapitalize="none"
-                          onBlur={onBlur}
-                          onChangeText={onChange}
-                          value={value}
-                          placeholder={t("your@mail.cz")}
-                        />
-                      )}
-                      name="email"
-                    />
-                  </InputSlot>
-                </Input>
-
-                <FormControlError>
-                  <FormControlErrorIcon as={AlertCircleIcon} />
-                  <FormControlErrorText>
-                    At least 6 characters are required.
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            </Box>
-            <Box width={"$5/6"}>
-              <FormControl
-                size="md"
-                isDisabled={false}
-                isInvalid={false}
-                isReadOnly={false}
-                isRequired={false}
-              >
-                <Input>
-                  <InputSlot width={"$1/6"} backgroundColor="$primary500">
-                    <InputIcon>
-                      <LockIcon color="white" size="sm" />
-                    </InputIcon>
-                  </InputSlot>
-                  <InputSlot width={"$4/6"}>
-                    <Controller
-                      control={control}
-                      rules={{ required: true }} // Add your validation rules
-                      render={({ field: { onChange, onBlur, value } }) => (
-                        <InputField
-                          autoCapitalize="none"
-                          onBlur={onBlur}
-                          onChangeText={onChange}
-                          value={value}
-                          width={"$full"}
-                          type={showPassword ? "text" : "password"}
-                          placeholder={t("password")}
-                        />
-                      )}
-                      name="password"
-                    />
-                  </InputSlot>
-                  <InputSlot width={"$1/6"} onPress={handleState}>
-                    <InputIcon pr={10}>
-                      {showPassword ? (
-                        <EyeIcon color="grey" />
-                      ) : (
-                        <EyeOffIcon color="$grey" />
-                      )}
-                    </InputIcon>
-                  </InputSlot>
-                </Input>
-
-                <FormControlError>
-                  <FormControlErrorIcon as={AlertCircleIcon} />
-                  <FormControlErrorText>
-                    At least 6 characters are required.
-                  </FormControlErrorText>
-                </FormControlError>
-              </FormControl>
-            </Box>
-            <Button
-              size="md"
-              variant="solid"
-              action="primary"
-              isDisabled={false}
-              isFocusVisible={false}
-              m={10}
-              onPress={handleSubmit(handleLogin)}
-            >
+          {isLoading ? (
+            <React.Fragment>
+              <ActivityIndicator color="#fff" />
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
               <ButtonText>{t("Sign in")} </ButtonText>
               <ButtonIcon as={ChevronsRightIcon} />
-            </Button>
-          </VStack>
-        </KeyboardAvoidingView>
-        <OAuthButton />
-        <HStack justifyContent="center" alignItems="center" mt={20}>
-          <Text>Don't have an account? </Text>
-          <Link onPress={() => navigation.navigate("Register")}>
-            <LinkText color="$primary600">{t("Sign up")}!</LinkText>
-          </Link>
-        </HStack>
-        <HStack gap={10}>
-          <Link>
-            <LinkText onPress={() => changeLanguage("en")} color="$primary600">
-              English
-            </LinkText>
-          </Link>
-          <Text>|</Text>
-          <Link>
-            <LinkText color="$primary600" onPress={() => changeLanguage("cs")}>
-              Česky
-            </LinkText>
-          </Link>
-        </HStack>
-      </View>
-    </SafeAreaView>
+            </React.Fragment>
+          )}
+        </Button>
+      </VStack>
+
+      <OAuthButton />
+      <HStack justifyContent="center" alignItems="center" mt={20}>
+        <Text>{t("Don't have an account?")}</Text>
+        <Link onPress={() => navigation.navigate("Register")}>
+          <LinkText color="$primary600">{t("Sign up")}!</LinkText>
+        </Link>
+      </HStack>
+      <HStack gap={10} mt={10}>
+        <Link>
+          <LinkText onPress={() => changeLanguage("en")} color="$primary600">
+            English
+          </LinkText>
+        </Link>
+        <Text>|</Text>
+        <Link>
+          <LinkText color="$primary600" onPress={() => changeLanguage("cs")}>
+            Česky
+          </LinkText>
+        </Link>
+      </HStack>
+    </KeyboardAvoidingView>
   );
 };
 
