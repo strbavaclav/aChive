@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import DateSlider from "components/custom/DateSlider";
 
 const MealPlannerScreen = () => {
   return (
     <View>
-      <Text>MealPlannerScreen</Text>
+      <DateSlider />
     </View>
   );
 };

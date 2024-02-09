@@ -15,6 +15,7 @@ import CustomDrawer from "components/navigation/CustomDrawer";
 import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 import AboutScreen from "screens/core/about/AboutScreen";
 import ShoppingListScreen from "screens/modules/shopping/ShoppingListScreen";
+import CookBookScreen from "screens/modules/cookbook/CookBookScreen";
 
 type Props = { children: ReactNode };
 
@@ -30,6 +31,7 @@ export type MainDrawerParams = {
   Settings: undefined;
   About: undefined;
   Shopping: undefined;
+  Cookbook: undefined;
 };
 
 const MainTab = createBottomTabNavigator<MainTabsParams>();
@@ -129,6 +131,11 @@ export const MainDrawerNavigator = () => {
         <MainDrawer.Screen
           name={"Shopping"}
           component={ShoppingListScreen}
+          options={{ headerTitle: "" }}
+        />
+        <MainDrawer.Screen
+          name={"Cookbook"}
+          component={CookBookScreen}
           options={{ headerTitle: "" }}
         />
       </MainDrawer.Navigator>
