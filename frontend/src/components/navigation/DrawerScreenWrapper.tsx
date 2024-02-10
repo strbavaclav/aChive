@@ -14,11 +14,13 @@ type Props = {
   children: ReactNode;
   isBack?: boolean;
   isNotification?: boolean;
+  screenTitle?: string;
 };
 const DrawerScreenWrapper: React.FC<Props> = ({
   children,
   isBack,
   isNotification,
+  screenTitle,
 }) => {
   const statusBarHeight = Constants.statusBarHeight;
   const progress = useDrawerProgress();
@@ -65,8 +67,13 @@ const DrawerScreenWrapper: React.FC<Props> = ({
           <Ionicons name={"menu"} size={26} color={"#10b981"} />
         </TouchableOpacity>
         <Box style={{ flex: 1, justifyContent: "center" }}>
-          <Text textAlign="center" bold size="lg" color="#10b981">
-            aChive
+          <Text
+            textAlign="center"
+            bold={screenTitle ? false : true}
+            size="lg"
+            color="#10b981"
+          >
+            {screenTitle ? screenTitle : "aChive"}
           </Text>
         </Box>
 

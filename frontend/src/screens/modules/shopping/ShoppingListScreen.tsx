@@ -4,7 +4,7 @@ import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 
 const ShoppingListScreen = () => {
   return (
-    <DrawerScreenWrapper isBack>
+    <DrawerScreenWrapper isBack screenTitle="Shopping list">
       <View>
         <Text>ShoppingListScreen</Text>
       </View>
