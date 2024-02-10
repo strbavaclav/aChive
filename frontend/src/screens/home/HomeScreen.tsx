@@ -1,10 +1,18 @@
-import { Box, HStack, Text, VStack, ScrollView } from "@gluestack-ui/themed";
+import {
+  Box,
+  HStack,
+  Text,
+  VStack,
+  ScrollView,
+  Avatar,
+} from "@gluestack-ui/themed";
+import DashboardTile from "components/custom/DashboardTile";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 
 const HomeScreen = () => {
   return (
-    <ScrollView flex={1} padding={6} backgroundColor="white">
+    <ScrollView flex={1} padding={6} backgroundColor="#fafafa">
       <VStack>
         <HStack marginVertical={5}>
           <Text bold size="lg">
@@ -31,12 +39,21 @@ const HomeScreen = () => {
               alignItems: "center",
             }}
           >
-            <Text style={{ color: "white" }} bold size="xl">
-              Hi Vaclav!
-            </Text>
+            <HStack
+              flex={1}
+              width={"100%"}
+              justifyContent="space-around"
+              alignItems="center"
+            >
+              <Avatar />
+              <Text style={{ color: "white" }} bold size="xl">
+                Hi Vaclav! Profile Tile
+              </Text>
+            </HStack>
           </Box>
         </TouchableOpacity>
         <HStack flex={1} gap={5}>
+          <DashboardTile />
           <Box
             flex={1}
             backgroundColor="#10b981"
@@ -49,22 +66,7 @@ const HomeScreen = () => {
             }}
           >
             <TouchableOpacity>
-              <Text style={{ color: "white" }}>TILE</Text>
-            </TouchableOpacity>
-          </Box>
-          <Box
-            flex={1}
-            backgroundColor="#10b981"
-            style={{
-              marginVertical: 3,
-              borderRadius: 8,
-              height: 100,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity>
-              <Text style={{ color: "white" }}>TILE</Text>
+              <Text style={{ color: "white" }}>Stress TILE</Text>
             </TouchableOpacity>
           </Box>
         </HStack>
@@ -80,7 +82,7 @@ const HomeScreen = () => {
           }}
         >
           <TouchableOpacity>
-            <Text style={{ color: "white" }}>TILE</Text>
+            <Text style={{ color: "white" }}>Eating statisticTILE</Text>
           </TouchableOpacity>
         </Box>
       </VStack>

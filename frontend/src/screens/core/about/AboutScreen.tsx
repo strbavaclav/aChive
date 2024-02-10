@@ -4,7 +4,7 @@ import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 
 const AboutScreen = () => {
   return (
-    <DrawerScreenWrapper isBack>
+    <DrawerScreenWrapper isBack screenTitle="About app">
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text style={{ textAlign: "center" }}>
           This is the About screen. I will handle the all info about the app,

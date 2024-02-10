@@ -16,6 +16,9 @@ import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 import AboutScreen from "screens/core/about/AboutScreen";
 import ShoppingListScreen from "screens/modules/shopping/ShoppingListScreen";
 import CookBookScreen from "screens/modules/cookbook/CookBookScreen";
+import ReliefScreen from "screens/modules/relief/ReliefScreen";
+import SettingsScreen from "screens/core/settings/SettingsScreent";
+import { useNavigationState } from "@react-navigation/native";
 
 type Props = { children: ReactNode };
 
@@ -32,6 +35,7 @@ export type MainDrawerParams = {
   About: undefined;
   Shopping: undefined;
   Cookbook: undefined;
+  StressRelief: undefined;
 };
 
 const MainTab = createBottomTabNavigator<MainTabsParams>();
@@ -136,6 +140,16 @@ export const MainDrawerNavigator = () => {
         <MainDrawer.Screen
           name={"Cookbook"}
           component={CookBookScreen}
+          options={{ headerTitle: "" }}
+        />
+        <MainDrawer.Screen
+          name={"StressRelief"}
+          component={ReliefScreen}
+          options={{ headerTitle: "" }}
+        />
+        <MainDrawer.Screen
+          name={"Settings"}
+          component={SettingsScreen}
           options={{ headerTitle: "" }}
         />
       </MainDrawer.Navigator>

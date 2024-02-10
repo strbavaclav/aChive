@@ -106,8 +106,13 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
           <CustomDrawerItem
             label={"Stress relief"}
             icon={"battery-full-outline"}
+            navigate={() => navigation.navigate("StressRelief")}
           />
-          <CustomDrawerItem label={"Settings"} icon={"settings"} />
+          <CustomDrawerItem
+            label={"Settings"}
+            icon={"settings"}
+            navigate={() => navigation.navigate("Settings")}
+          />
           <CustomDrawerItem
             label={"About"}
             icon={"information-circle"}

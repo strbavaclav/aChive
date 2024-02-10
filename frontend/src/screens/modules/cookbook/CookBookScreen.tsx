@@ -6,7 +6,7 @@ import { Meals } from "data/mock/meals";
 
 const CookBookScreen = () => {
   return (
-    <DrawerScreenWrapper isBack>
+    <DrawerScreenWrapper isBack screenTitle="Recipes">
       <View>
         <MealCarousel data={Meals} />
       </View>
