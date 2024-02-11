@@ -18,12 +18,9 @@ import ShoppingListScreen from "screens/modules/shopping/ShoppingListScreen";
 import CookBookScreen from "screens/modules/cookbook/CookBookScreen";
 import ReliefScreen from "screens/modules/relief/ReliefScreen";
 import SettingsScreen from "screens/core/settings/SettingsScreent";
-import {
-  NavigationState,
-  useNavigation,
-  useNavigationState,
-} from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import NotificationScreen from "screens/core/notification/NotificationScreen";
+import { PlannerStackNavigator } from "navigation/planner";
 
 type Props = { children: ReactNode };
 
@@ -121,7 +118,7 @@ export const MainTabNavigator = () => {
         screenOptions={TabScreenOptions}
       >
         <MainTab.Screen name="Home" component={HomeScreen} />
-        <MainTab.Screen name="Planner" component={MealPlannerScreen} />
+        <MainTab.Screen name="Planner" component={PlannerStackNavigator} />
         <MainTab.Screen name="Education" component={EducationScreen} />
         <MainTab.Screen name="Profile" component={ProfileScreen} />
       </MainTab.Navigator>

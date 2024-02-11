@@ -28,19 +28,20 @@ import MealPlanCard from "components/custom/MealPlanCard";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const mealPlannedMocks = [
-  { mealName: "Breakfast", mealTime: "7:30-9:00" },
-  { mealName: "Lunch", mealTime: "12:00-13:00" },
-  { mealName: "Snack", mealTime: "15:00-15:30" },
-  { mealName: "Dinner", mealTime: "18:00-20:00" },
+  { mealName: "Breakfast", mealTime: "7:30-9:00", mealSize: "M", logged: true },
+  { mealName: "Lunch", mealTime: "12:00-13:00", mealSize: "L", logged: true },
+  { mealName: "Snack", mealTime: "15:00-15:30", mealSize: "S" },
+  { mealName: "Dinner", mealTime: "18:00-20:00", mealSize: "M" },
 ];
 
 const MealPlannerScreen = () => {
   const [showModal, setShowModal] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(new Date());
   const ref = useRef(null);
 
   return (
     <View flex={1} gap={2}>
-      <DateSlider />
+      <DateSlider onDaySelect={setSelectedDay} daySelected={selectedDay} />
       <Heading size="md" color="#10b981" ml={5}>
         Your daily plan
       </Heading>
@@ -50,6 +51,8 @@ const MealPlannerScreen = () => {
             key={i}
             mealName={plannedMeal.mealName}
             mealTime={plannedMeal.mealTime}
+            mealSize={plannedMeal.mealSize}
+            logged={plannedMeal.logged}
             onLogMeal={() => setShowModal(true)}
             buttonRef={ref}
           />
@@ -75,12 +78,12 @@ const MealPlannerScreen = () => {
         <VStack w={"80%"} justifyContent="center" alignItems="center">
           <Heading>Daily progress</Heading>
           <HStack justifyContent="center" alignItems="center" gap={10}>
-            <Progress value={46} h={8}>
+            <Progress value={(2 / mealPlannedMocks.length) * 100} h={8}>
               <ProgressFilledTrack h={8} />
             </Progress>
             <Icon as={CheckCircleIcon} size="xl" />
           </HStack>
-          <Text size="md">0 of {mealPlannedMocks.length} meals</Text>
+          <Text size="md">2 of {mealPlannedMocks.length} meals</Text>
         </VStack>
       </Box>
       <Modal

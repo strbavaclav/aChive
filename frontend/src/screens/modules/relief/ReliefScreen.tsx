@@ -23,12 +23,13 @@ import { FormTextArea } from "components/form/FormTextArea";
 
 const ReliefScreen = () => {
   const [sliderValue, setSliderValue] = React.useState(0);
+  const [selectedDay, setSelectedDay] = React.useState(new Date());
   const handleChange = (value: number) => {
     setSliderValue(value);
   };
   return (
     <DrawerScreenWrapper isBack screenTitle="Stress relief">
-      <DateSlider />
+      <DateSlider onDaySelect={setSelectedDay} daySelected={selectedDay} />
       <View flex={1} w={"100%"} alignItems="center">
         <VStack w={"80%"} space="lg" pt={10} alignItems="center">
           <Heading size="sm">How was your day?</Heading>

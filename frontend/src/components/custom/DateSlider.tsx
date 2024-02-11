@@ -6,13 +6,16 @@ import {
   isToday,
   subDays,
 } from "date-fns";
-import React, { FC } from "react";
+import React, { Dispatch, FC, SetStateAction } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import PagerView from "react-native-pager-view";
 
-type Props = {};
+type Props = {
+  onDaySelect: Dispatch<SetStateAction<Date>>;
+  daySelected: Date;
+};
 
-const DateSlider: FC<Props> = (props) => {
+const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
   const dates = eachWeekOfInterval(
     {
       start: subDays(new Date(), 14),
@@ -49,6 +52,7 @@ const DateSlider: FC<Props> = (props) => {
               {week.map((day, i) => {
                 const txt = format(day, "EEEEE");
                 const isTodayDate = isToday(day);
+                //console.log(day);
 
                 return (
                   <TouchableOpacity
@@ -56,9 +60,13 @@ const DateSlider: FC<Props> = (props) => {
                     style={{
                       alignItems: "center",
                       flex: 1,
-                      backgroundColor: isTodayDate ? "#f2f2f2" : "white",
+                      backgroundColor:
+                        daySelected.getDate() === day.getDate()
+                          ? "#f2f2f2"
+                          : "white",
                       borderRadius: 8,
                     }}
+                    onPress={() => onDaySelect(day)}
                   >
                     <Text
                       style={{
