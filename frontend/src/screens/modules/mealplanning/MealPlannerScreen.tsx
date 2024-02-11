@@ -36,11 +36,12 @@ const mealPlannedMocks = [
 
 const MealPlannerScreen = () => {
   const [showModal, setShowModal] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(new Date());
   const ref = useRef(null);
 
   return (
     <View flex={1} gap={2}>
-      <DateSlider />
+      <DateSlider onDaySelect={setSelectedDay} daySelected={selectedDay} />
       <Heading size="md" color="#10b981" ml={5}>
         Your daily plan
       </Heading>
