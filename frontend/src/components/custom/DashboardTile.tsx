@@ -22,7 +22,7 @@ const DashboardTile: FC<Props> = ({}) => {
           alignItems: "center",
         }}
       >
-        <Text style={{ color: "#10b981" }}>TILE</Text>
+        <Text style={{ color: "#10b981" }}>Streak TILE</Text>
       </Box>
     </TouchableOpacity>
   );

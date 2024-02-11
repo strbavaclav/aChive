@@ -34,19 +34,19 @@ const MealCarouselCard: FC<Props> = ({ width, item, index, x }) => {
   return (
     <TouchableOpacity
       style={{
-        backgroundColor: "transparent",
         width: width,
-        shadowColor: "black",
-        shadowOffset: { width: 1, height: 1 },
-        shadowOpacity: 1,
-        shadowRadius: 5,
       }}
     >
       <Animated.View style={[styles.imageContainer, style]}>
         <ImageBackground source={{ uri: item.image }} style={styles.image}>
           <LinearGradient
-            colors={[`rgba(0,0,0,0.9)`, "rgba(0,0,0,0.2)", "transparent"]}
-            locations={[0.0, 0.3, 1]}
+            colors={[
+              `rgba(0,0,0,0.9)`,
+              "rgba(0,0,0,0.2)",
+              "transparent",
+              `rgba(0,0,0,0.6)`,
+            ]}
+            locations={[0.0, 0.3, 0.6, 1]}
             style={{ flex: 1, borderRadius: 10, height: "50%" }}
           >
             <View

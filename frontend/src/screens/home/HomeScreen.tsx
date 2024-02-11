@@ -15,17 +15,17 @@ import { LineChart, ContributionGraph } from "react-native-chart-kit";
 import Carousel from "react-native-reanimated-carousel";
 
 const commitsData = [
-  { date: "2017-01-02", count: 1 },
-  { date: "2017-01-03", count: 2 },
-  { date: "2017-01-04", count: 3 },
-  { date: "2017-01-05", count: 4 },
-  { date: "2017-01-06", count: 5 },
-  { date: "2017-01-30", count: 2 },
-  { date: "2017-01-31", count: 3 },
-  { date: "2017-03-01", count: 2 },
-  { date: "2017-04-02", count: 4 },
-  { date: "2017-03-05", count: 2 },
-  { date: "2017-02-30", count: 4 },
+  { date: "2024-01-02", count: 1 },
+  { date: "2024-01-03", count: 2 },
+  { date: "2024-01-04", count: 3 },
+  { date: "2024-01-05", count: 4 },
+  { date: "2024-01-06", count: 5 },
+  { date: "2024-01-30", count: 2 },
+  { date: "2024-01-31", count: 3 },
+  { date: "2024-01-01", count: 2 },
+  { date: "2024-02-02", count: 4 },
+  { date: "2024-01-05", count: 2 },
+  { date: "2024-02-30", count: 4 },
 ];
 const handleToolTip: any = {};
 
@@ -44,7 +44,7 @@ const HomeScreen = () => {
 
   return (
     <ScrollView flex={1} padding={6}>
-      <VStack>
+      <VStack flex={1}>
         <HStack marginVertical={5}>
           <Text bold size="lg">
             Today -
@@ -103,106 +103,95 @@ const HomeScreen = () => {
         </HStack>
         <Heading color="#10b981">Your progress</Heading>
 
-        <Box
-          flex={1}
+        <HStack
           backgroundColor="white"
           style={{
             marginVertical: 3,
             borderRadius: 8,
-            height: 300,
             justifyContent: "center",
             alignItems: "center",
             shadowColor: "black",
             shadowOffset: { width: 5, height: 5 },
             shadowOpacity: 0.2,
             shadowRadius: 5,
+            overflow: "hidden",
           }}
         >
-          <View style={{ flex: 1, overflow: "hidden" }}>
-            <Carousel
-              loop
-              width={width - 10}
-              pagingEnabled={true}
-              height={width / 2}
-              data={[1, 2]}
-              renderItem={({ item }) => {
-                if (item === 1) {
-                  return (
-                    <View>
-                      <LineChart
-                        data={{
-                          labels: [
-                            "January",
-                            "February",
-                            "March",
-                            "April",
-                            "May",
-                            "June",
-                          ],
-                          datasets: [
-                            {
-                              data: [
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                                Math.random() * 100,
-                              ],
-                            },
-                          ],
-                        }}
-                        width={Dimensions.get("window").width}
-                        height={180}
-                        yAxisLabel="$"
-                        yAxisSuffix="k"
-                        yAxisInterval={1}
-                        chartConfig={{
-                          backgroundColor: "white",
-                          backgroundGradientFrom: "white",
-                          backgroundGradientTo: "white",
-                          decimalPlaces: 2,
-                          color: (opacity = 1) =>
-                            `rgba(16, 185, 129, ${opacity})`,
-                          labelColor: (opacity = 1) =>
-                            `rgba(16, 185, 129, ${opacity})`,
-                          style: {
-                            borderRadius: 16,
+          <Carousel
+            loop
+            width={width - 10}
+            pagingEnabled={true}
+            data={[1, 2]}
+            renderItem={({ item }) => {
+              if (item === 1) {
+                return (
+                  <View>
+                    <LineChart
+                      data={{
+                        labels: [
+                          "31.1.",
+                          "1.2.",
+                          "2.2.",
+                          "3.2.",
+                          "4.2",
+                          "5.2.",
+                          "5.2.",
+                        ],
+                        datasets: [
+                          {
+                            data: [5, 4, 1, 0, 4, 5, 5],
                           },
-                          propsForDots: {
-                            r: "6",
-                            strokeWidth: "2",
-                            stroke: "#10b981",
-                          },
-                        }}
-                        bezier
-                        style={{
-                          marginVertical: 8,
-                          borderRadius: 16,
-                        }}
-                      />
-                    </View>
-                  );
-                } else if (item === 2) {
-                  // Return ContributionGraph for the second item
-                  return (
-                    <ContributionGraph
-                      values={commitsData}
-                      endDate={new Date("2017-04-01")}
-                      numDays={105}
+                        ],
+                      }}
                       width={Dimensions.get("window").width}
-                      height={200}
-                      chartConfig={chartConfig}
-                      tooltipDataAttrs={(value) => handleToolTip}
+                      height={300}
+                      yAxisSuffix=" meals"
+                      yAxisInterval={1}
+                      chartConfig={{
+                        backgroundColor: "white",
+                        backgroundGradientFrom: "white",
+                        backgroundGradientTo: "white",
+                        decimalPlaces: 0,
+                        color: (opacity = 1) =>
+                          `rgba(16, 185, 129, ${opacity})`,
+                        labelColor: (opacity = 1) =>
+                          `rgba(16, 185, 129, ${opacity})`,
+                        style: {
+                          borderRadius: 16,
+                        },
+                        propsForDots: {
+                          r: "6",
+                          strokeWidth: "2",
+                          stroke: "#10b981",
+                        },
+                      }}
+                      bezier
+                      style={{
+                        marginVertical: 8,
+                        borderRadius: 16,
+                      }}
                     />
-                  );
-                } else {
-                  return <Text>No data </Text>;
-                }
-              }}
-            />
-          </View>
-        </Box>
+                  </View>
+                );
+              } else if (item === 2) {
+                return (
+                  <ContributionGraph
+                    values={commitsData}
+                    endDate={new Date()}
+                    numDays={105}
+                    width={Dimensions.get("window").width}
+                    height={200}
+                    chartConfig={chartConfig}
+                    tooltipDataAttrs={(value) => handleToolTip}
+                    onDayPress={({ date, count }) => console.log(date, count)}
+                  />
+                );
+              } else {
+                return <Text>No data </Text>;
+              }
+            }}
+          />
+        </HStack>
       </VStack>
     </ScrollView>
   );
