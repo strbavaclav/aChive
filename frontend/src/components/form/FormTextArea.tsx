@@ -22,7 +22,7 @@ export const FormTextArea: FC<Props> = ({ label, placeholder, helperText }) => {
         <FormControlLabelText>{label}</FormControlLabelText>
       </FormControlLabel>
       <Textarea>
-        <TextareaInput placeholder={placeholder} />
+        <TextareaInput role="note" placeholder={placeholder} />
       </Textarea>
       <FormControlHelper>
         <FormControlHelperText>{helperText}</FormControlHelperText>

@@ -34,7 +34,7 @@ const ReliefScreen = () => {
           <Heading size="sm">How was your day?</Heading>
           <Slider
             minValue={0}
-            maxValue={5}
+            maxValue={10}
             step={1}
             sliderTrackHeight={5}
             size="md"

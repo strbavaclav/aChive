@@ -5,14 +5,45 @@ import {
   VStack,
   ScrollView,
   Avatar,
+  Heading,
+  View,
 } from "@gluestack-ui/themed";
 import DashboardTile from "components/custom/DashboardTile";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { Dimensions, TouchableOpacity } from "react-native";
+import { LineChart, ContributionGraph } from "react-native-chart-kit";
+import Carousel from "react-native-reanimated-carousel";
 
+const commitsData = [
+  { date: "2017-01-02", count: 1 },
+  { date: "2017-01-03", count: 2 },
+  { date: "2017-01-04", count: 3 },
+  { date: "2017-01-05", count: 4 },
+  { date: "2017-01-06", count: 5 },
+  { date: "2017-01-30", count: 2 },
+  { date: "2017-01-31", count: 3 },
+  { date: "2017-03-01", count: 2 },
+  { date: "2017-04-02", count: 4 },
+  { date: "2017-03-05", count: 2 },
+  { date: "2017-02-30", count: 4 },
+];
+const handleToolTip: any = {};
+
+const chartConfig = {
+  backgroundGradientFrom: "white",
+  backgroundGradientFromOpacity: 0,
+  backgroundGradientTo: "white",
+  backgroundGradientToOpacity: 0.5,
+  color: (opacity = 1) => `rgba(16, 185, 129, ${opacity})`,
+  strokeWidth: 2,
+  barPercentage: 0.5,
+  useShadowColorFromDataset: false,
+};
 const HomeScreen = () => {
+  const width = Dimensions.get("window").width;
+
   return (
-    <ScrollView flex={1} padding={6} backgroundColor="#fafafa">
+    <ScrollView flex={1} padding={6}>
       <VStack>
         <HStack marginVertical={5}>
           <Text bold size="lg">
@@ -28,7 +59,7 @@ const HomeScreen = () => {
           </Text>
         </HStack>
 
-        <TouchableOpacity>
+        <TouchableOpacity style={{ flex: 1 }}>
           <Box
             backgroundColor="#10b981"
             style={{
@@ -47,43 +78,130 @@ const HomeScreen = () => {
             >
               <Avatar />
               <Text style={{ color: "white" }} bold size="xl">
-                Hi Vaclav! Profile Tile
+                Hi Vaclav!
               </Text>
             </HStack>
           </Box>
         </TouchableOpacity>
         <HStack flex={1} gap={5}>
           <DashboardTile />
-          <Box
-            flex={1}
-            backgroundColor="#10b981"
-            style={{
-              marginVertical: 3,
-              borderRadius: 8,
-              height: 100,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <TouchableOpacity>
+          <TouchableOpacity style={{ flex: 1 }}>
+            <Box
+              flex={1}
+              backgroundColor="#10b981"
+              style={{
+                marginVertical: 3,
+                borderRadius: 8,
+                height: 100,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
               <Text style={{ color: "white" }}>Stress TILE</Text>
-            </TouchableOpacity>
-          </Box>
+            </Box>
+          </TouchableOpacity>
         </HStack>
+        <Heading color="#10b981">Your progress</Heading>
+
         <Box
           flex={1}
-          backgroundColor="#10b981"
+          backgroundColor="white"
           style={{
             marginVertical: 3,
             borderRadius: 8,
             height: 300,
             justifyContent: "center",
             alignItems: "center",
+            shadowColor: "black",
+            shadowOffset: { width: 5, height: 5 },
+            shadowOpacity: 0.2,
+            shadowRadius: 5,
           }}
         >
-          <TouchableOpacity>
-            <Text style={{ color: "white" }}>Eating statisticTILE</Text>
-          </TouchableOpacity>
+          <View style={{ flex: 1, overflow: "hidden" }}>
+            <Carousel
+              loop
+              width={width - 10}
+              pagingEnabled={true}
+              height={width / 2}
+              data={[1, 2]}
+              renderItem={({ item }) => {
+                if (item === 1) {
+                  return (
+                    <View>
+                      <LineChart
+                        data={{
+                          labels: [
+                            "January",
+                            "February",
+                            "March",
+                            "April",
+                            "May",
+                            "June",
+                          ],
+                          datasets: [
+                            {
+                              data: [
+                                Math.random() * 100,
+                                Math.random() * 100,
+                                Math.random() * 100,
+                                Math.random() * 100,
+                                Math.random() * 100,
+                                Math.random() * 100,
+                              ],
+                            },
+                          ],
+                        }}
+                        width={Dimensions.get("window").width}
+                        height={180}
+                        yAxisLabel="$"
+                        yAxisSuffix="k"
+                        yAxisInterval={1}
+                        chartConfig={{
+                          backgroundColor: "white",
+                          backgroundGradientFrom: "white",
+                          backgroundGradientTo: "white",
+                          decimalPlaces: 2,
+                          color: (opacity = 1) =>
+                            `rgba(16, 185, 129, ${opacity})`,
+                          labelColor: (opacity = 1) =>
+                            `rgba(16, 185, 129, ${opacity})`,
+                          style: {
+                            borderRadius: 16,
+                          },
+                          propsForDots: {
+                            r: "6",
+                            strokeWidth: "2",
+                            stroke: "#10b981",
+                          },
+                        }}
+                        bezier
+                        style={{
+                          marginVertical: 8,
+                          borderRadius: 16,
+                        }}
+                      />
+                    </View>
+                  );
+                } else if (item === 2) {
+                  // Return ContributionGraph for the second item
+                  return (
+                    <ContributionGraph
+                      values={commitsData}
+                      endDate={new Date("2017-04-01")}
+                      numDays={105}
+                      width={Dimensions.get("window").width}
+                      height={200}
+                      chartConfig={chartConfig}
+                      tooltipDataAttrs={(value) => handleToolTip}
+                    />
+                  );
+                } else {
+                  return <Text>No data </Text>;
+                }
+              }}
+            />
+          </View>
         </Box>
       </VStack>
     </ScrollView>

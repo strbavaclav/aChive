@@ -34,6 +34,7 @@ const MealCarouselCard: FC<Props> = ({ width, item, index, x }) => {
   return (
     <TouchableOpacity
       style={{
+        backgroundColor: "transparent",
         width: width,
         shadowColor: "black",
         shadowOffset: { width: 1, height: 1 },

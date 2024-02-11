@@ -2,23 +2,16 @@
   "expo": {
     "name": "aChive",
     "slug": "achive",
-    "version": "1.0.0",
+    "version": "0.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "config":{
-        "usesNonExemptEncryption":false
-      }
+      "bundleIdentifier": "com.achive.achive"
     },
     "android": {
       "adaptiveIcon": {

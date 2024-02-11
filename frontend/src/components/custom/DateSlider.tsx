@@ -28,48 +28,57 @@ const DateSlider: FC<Props> = (props) => {
   return (
     <View
       style={{
-        height: 60,
+        height: 50,
         borderTopColor: "#dadedf",
         borderTopWidth: 1,
+        backgroundColor: "white",
       }}
     >
       <PagerView style={{ flex: 1, backgroundColor: "white" }} initialPage={2}>
         {dates.map((week, i) => {
           return (
-            <View key={i}>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  marginVertical: 5,
-                }}
-              >
-                {week.map((day, i) => {
-                  const txt = format(day, "EEEEE");
-                  const isTodayDate = isToday(day); // Check if the date is today
+            <View
+              key={i}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around",
+                margin: 5,
+                gap: 1,
+              }}
+            >
+              {week.map((day, i) => {
+                const txt = format(day, "EEEEE");
+                const isTodayDate = isToday(day);
 
-                  return (
-                    <TouchableOpacity key={i} style={{ alignItems: "center" }}>
-                      <Text
-                        style={{
-                          color: isTodayDate ? "#10b981" : undefined, // Highlight today's date with a different color
-                          fontWeight: isTodayDate ? "bold" : "normal", // Make today's date bold
-                          marginBottom: 5,
-                        }}
-                      >
-                        {txt}
-                      </Text>
-                      <Text
-                        style={{
-                          color: isTodayDate ? "#10b981" : "grey",
-                        }}
-                      >
-                        {day.getDate()}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
+                return (
+                  <TouchableOpacity
+                    key={i}
+                    style={{
+                      alignItems: "center",
+                      flex: 1,
+                      backgroundColor: isTodayDate ? "#f2f2f2" : "white",
+                      borderRadius: 8,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        color: isTodayDate ? "#10b981" : undefined,
+                        fontWeight: isTodayDate ? "bold" : "normal",
+                        marginBottom: 5,
+                      }}
+                    >
+                      {txt}
+                    </Text>
+                    <Text
+                      style={{
+                        color: isTodayDate ? "#10b981" : "grey",
+                      }}
+                    >
+                      {day.getDate()}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
           );
         })}

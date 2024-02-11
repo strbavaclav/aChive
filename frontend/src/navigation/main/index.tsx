@@ -9,7 +9,7 @@ import MealPlannerScreen from "screens/modules/mealplanning/MealPlannerScreen";
 import EducationScreen from "screens/modules/education/EducationScreen";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import CustomDrawer from "components/navigation/CustomDrawer";
 import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
@@ -18,7 +18,12 @@ import ShoppingListScreen from "screens/modules/shopping/ShoppingListScreen";
 import CookBookScreen from "screens/modules/cookbook/CookBookScreen";
 import ReliefScreen from "screens/modules/relief/ReliefScreen";
 import SettingsScreen from "screens/core/settings/SettingsScreent";
-import { useNavigationState } from "@react-navigation/native";
+import {
+  NavigationState,
+  useNavigation,
+  useNavigationState,
+} from "@react-navigation/native";
+import NotificationScreen from "screens/core/notification/NotificationScreen";
 
 type Props = { children: ReactNode };
 
@@ -36,6 +41,7 @@ export type MainDrawerParams = {
   Shopping: undefined;
   Cookbook: undefined;
   StressRelief: undefined;
+  Notifications: undefined;
 };
 
 const MainTab = createBottomTabNavigator<MainTabsParams>();
@@ -87,8 +93,29 @@ const TabScreenOptions = ({
 });
 
 export const MainTabNavigator = () => {
+  const navigation = useNavigation();
+
+  const state = navigation.getState();
+  const route = state?.routes[state.index] ?? {};
+  const currentScreen = route.state?.index
+    ? route.state?.routes[route.state.index]?.name
+    : route.name;
+
+  const screenTitle =
+    currentScreen === "Planner"
+      ? "Meal planner"
+      : currentScreen === "Education"
+        ? "Eating hacks"
+        : currentScreen === "Profile"
+          ? "My Profile"
+          : undefined;
+
   return (
-    <DrawerScreenWrapper isNotification>
+    <DrawerScreenWrapper
+      isNotification={currentScreen === "Profile" ? false : true}
+      isSettings={currentScreen === "Profile" ? true : false}
+      screenTitle={screenTitle}
+    >
       <MainTab.Navigator
         initialRouteName="Home"
         screenOptions={TabScreenOptions}
@@ -150,6 +177,11 @@ export const MainDrawerNavigator = () => {
         <MainDrawer.Screen
           name={"Settings"}
           component={SettingsScreen}
+          options={{ headerTitle: "" }}
+        />
+        <MainDrawer.Screen
+          name={"Notifications"}
+          component={NotificationScreen}
           options={{ headerTitle: "" }}
         />
       </MainDrawer.Navigator>
