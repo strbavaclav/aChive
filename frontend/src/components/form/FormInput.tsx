@@ -2,8 +2,6 @@ import {
   EyeIcon,
   EyeOffIcon,
   FormControl,
-  FormControlError,
-  FormControlErrorText,
   FormControlHelper,
   FormControlHelperText,
   FormControlLabel,
@@ -16,6 +14,7 @@ import {
 import { t } from "i18next";
 import React, { ReactNode, FC, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { Keyboard, TextInput } from "react-native";
 
 type Props = {
   name: string;
@@ -29,7 +28,7 @@ type Props = {
   secret?: boolean;
 };
 
-export const FormInput: FC<Props> = (props: Props) => {
+export const FormInput: FC<Props> = (props) => {
   const {
     name,
     placeholder,
@@ -70,9 +69,8 @@ export const FormInput: FC<Props> = (props: Props) => {
               <Input size="md" width={"100%"} isInvalid={!!error}>
                 <InputField
                   id={name}
-                  ref={ref}
                   placeholder={placeholder}
-                  onBlur={onBlur}
+                  onBlur={() => Keyboard.dismiss()}
                   onChangeText={(value) => onChange(value)}
                   value={value}
                   type={!showContent && secret ? "password" : "text"}
@@ -81,13 +79,11 @@ export const FormInput: FC<Props> = (props: Props) => {
                 />
                 {secret && (
                   <InputSlot width={"$1/6"} onPress={handleShowContent}>
-                    <InputIcon size="md">
-                      {showContent ? (
-                        <EyeOffIcon color="grey" />
-                      ) : (
-                        <EyeIcon color="$grey" />
-                      )}
-                    </InputIcon>
+                    <InputIcon
+                      as={showContent ? EyeOffIcon : EyeIcon}
+                      color={"grey"}
+                      mr={3}
+                    ></InputIcon>
                   </InputSlot>
                 )}
               </Input>

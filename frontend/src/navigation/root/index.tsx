@@ -6,6 +6,7 @@ import { MainDrawerNavigator } from "navigation/main";
 export type RootStackParams = {
   AuthNavigator: undefined;
   MainNavigator: undefined;
+  OnboardingNavigator: undefined;
 };
 
 const RootNavigator = createNativeStackNavigator<RootStackParams>();

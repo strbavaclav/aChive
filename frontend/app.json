@@ -11,7 +11,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.achive.achive"
+      "bundleIdentifier": "com.achive.achive",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
