@@ -23,15 +23,22 @@ import {
   ButtonText,
   Button,
   ClockIcon,
+  ButtonIcon,
+  AddIcon,
 } from "@gluestack-ui/themed";
 import MealPlanCard from "components/custom/MealPlanCard";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
 const mealPlannedMocks = [
-  { mealName: "Breakfast", mealTime: "7:30-9:00", mealSize: "M", logged: true },
-  { mealName: "Lunch", mealTime: "12:00-13:00", mealSize: "L", logged: true },
-  { mealName: "Snack", mealTime: "15:00-15:30", mealSize: "S" },
-  { mealName: "Dinner", mealTime: "18:00-20:00", mealSize: "M" },
+  {
+    mealName: "Breakfast",
+    mealTime: "7:30 - 9:00",
+    mealSize: "M",
+    logged: true,
+  },
+  { mealName: "Lunch", mealTime: "12:00 - 13:00", mealSize: "L", logged: true },
+  { mealName: "Snack", mealTime: "15:00 - 15:30", mealSize: "S" },
+  { mealName: "Dinner", mealTime: "18:00 - 20:00", mealSize: "M" },
 ];
 
 const MealPlannerScreen = () => {
@@ -45,7 +52,7 @@ const MealPlannerScreen = () => {
       <Heading size="md" color="#10b981" ml={5}>
         Your daily plan
       </Heading>
-      <ScrollView flex={1} h={"70%"}>
+      <ScrollView>
         {mealPlannedMocks.map((plannedMeal, i) => (
           <MealPlanCard
             key={i}
@@ -57,7 +64,14 @@ const MealPlannerScreen = () => {
             buttonRef={ref}
           />
         ))}
+        <HStack justifyContent="center" mt={4}>
+          <Button size="sm" justifyContent="center" alignItems="center" gap={2}>
+            <ButtonIcon as={AddIcon} size="sm" />
+            <ButtonText>Add extra meal</ButtonText>
+          </Button>
+        </HStack>
       </ScrollView>
+
       <Box
         position="absolute"
         bottom={0}

@@ -18,7 +18,14 @@ import OAuthButton from "components/auth/OAuthButton";
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Image, Platform, SafeAreaView } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  Keyboard,
+  Platform,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { AuthStackParams } from "navigation/auth";
 import i18next from "services/i18next";
 import {
@@ -79,76 +86,93 @@ const LoginScreen = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParams>>();
   return (
-    <KeyboardAvoidingView
-      behavior="padding"
-      keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
-      alignItems="center"
-      flex={1}
-      pt={40}
-    >
-      <StatusBar style="auto" />
-      <Image
-        source={require("../../../assets/images/login.png")}
-        style={{ width: "100%", height: 250 }}
-        resizeMode="contain"
-      />
-      <Heading>
-        {t("sign in to")} <Heading color="$primary500">aChive</Heading>
-      </Heading>
-      <VStack
-        width={"80%"}
-        justifyContent="center"
+    <SafeAreaView style={{ flex: 1 }}>
+      <KeyboardAvoidingView
+        behavior="padding"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
         alignItems="center"
-        gap={1}
-        m={10}
+        flex={1}
       >
-        <FormProvider {...formContext}>
-          <FormInput name="email" placeholder={t("your@mail.cz")} />
-          <FormInput name="password" placeholder={t("password")} secret />
-        </FormProvider>
-        <Button
-          width={200}
-          size="md"
-          variant="solid"
-          action="primary"
-          isDisabled={false}
-          m={10}
-          onPress={onPress}
-        >
-          {isLoading ? (
-            <React.Fragment>
-              <ActivityIndicator color="#fff" />
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <ButtonText>{t("Sign in")} </ButtonText>
-              <ButtonIcon as={ChevronsRightIcon} />
-            </React.Fragment>
-          )}
-        </Button>
-      </VStack>
+        <StatusBar style="auto" />
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+          <VStack
+            width={"80%"}
+            justifyContent="center"
+            alignItems="center"
+            gap={1}
+            m={10}
+          >
+            <Image
+              source={require("../../../assets/images/login.png")}
+              style={{ width: "100%", height: 300 }}
+              resizeMode="contain"
+            />
+            <Heading>
+              {t("sign in to")} <Heading color="$primary500">aChive</Heading>
+            </Heading>
+            <VStack
+              width={"80%"}
+              justifyContent="center"
+              alignItems="center"
+              gap={1}
+              m={10}
+            >
+              <FormProvider {...formContext}>
+                <FormInput name="email" placeholder={t("your@mail.cz")} />
+                <FormInput name="password" placeholder={t("password")} secret />
+              </FormProvider>
+              <Button
+                width={200}
+                size="md"
+                variant="solid"
+                action="primary"
+                isDisabled={false}
+                m={10}
+                onPress={onPress}
+              >
+                {isLoading ? (
+                  <React.Fragment>
+                    <ActivityIndicator color="#fff" />
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <ButtonText>{t("Sign in")} </ButtonText>
+                    <ButtonIcon as={ChevronsRightIcon} />
+                  </React.Fragment>
+                )}
+              </Button>
+            </VStack>
 
-      <OAuthButton />
-      <HStack justifyContent="center" alignItems="center" mt={20}>
-        <Text>{t("Don't have an account?")}</Text>
-        <Link onPress={() => navigation.navigate("Register")}>
-          <LinkText color="$primary600">{t("Sign up")}!</LinkText>
-        </Link>
-      </HStack>
-      <HStack gap={10} mt={10}>
-        <Link>
-          <LinkText onPress={() => changeLanguage("en")} color="$primary600">
-            English
-          </LinkText>
-        </Link>
-        <Text>|</Text>
-        <Link>
-          <LinkText color="$primary600" onPress={() => changeLanguage("cs")}>
-            Česky
-          </LinkText>
-        </Link>
-      </HStack>
-    </KeyboardAvoidingView>
+            <OAuthButton />
+            <HStack justifyContent="center" alignItems="center" mt={20}>
+              <Text>{t("Don't have an account?")}</Text>
+              <Link onPress={() => navigation.navigate("Register")}>
+                <LinkText color="$primary600">{t("Sign up")}!</LinkText>
+              </Link>
+            </HStack>
+            <HStack gap={10} mt={10}>
+              <Link>
+                <LinkText
+                  onPress={() => changeLanguage("en")}
+                  color="$primary600"
+                >
+                  English
+                </LinkText>
+              </Link>
+              <Text>|</Text>
+              <Link>
+                <LinkText
+                  color="$primary600"
+                  onPress={() => changeLanguage("cs")}
+                >
+                  Česky
+                </LinkText>
+              </Link>
+            </HStack>
+          </VStack>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 };
 

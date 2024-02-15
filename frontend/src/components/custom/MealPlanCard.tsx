@@ -63,8 +63,8 @@ const MealPlanCard: FC<Props> = ({
           <Text color="#10b981">{mealName}</Text>
 
           <HStack alignItems="center" gap={4}>
-            <Icon as={ClockIcon} size="md" />
-            <Text>{mealTime}</Text>
+            <Icon as={ClockIcon} size="xs" />
+            <Text size="xs">{mealTime}</Text>
           </HStack>
         </HStack>
         <Badge ml={10} action="muted" borderRadius="$md" size="md" w={"20%"}>
