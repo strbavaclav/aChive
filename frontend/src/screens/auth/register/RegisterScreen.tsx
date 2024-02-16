@@ -27,7 +27,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { AuthStackParams } from "navigation/auth";
-import { useSignUp } from "calls/auth/register/useSignUp";
 import {
   FormProvider,
   SubmitErrorHandler,
@@ -36,6 +35,7 @@ import {
 } from "react-hook-form";
 import { FormInput } from "components/form/FormInput";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "context/authContext";
 
 const image = require("../../../assets/images/register.png");
 
@@ -55,10 +55,9 @@ export const defaultValues: Partial<FormDataType> = {
 
 const RegisterScreen = () => {
   const { t } = useTranslation();
+  const { onSignUp } = useAuth();
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParams>>();
-
-  const { signUpMutation, signUpResult } = useSignUp();
 
   const formContext = useForm<FormDataType>({
     defaultValues,
@@ -68,12 +67,7 @@ const RegisterScreen = () => {
 
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
     try {
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 0,
-          routes: [{ name: "Onboarding" }],
-        })
-      );
+      await onSignUp!(values.email, values.password, values.passwordAgain);
     } catch (error) {
       console.log(error);
     }

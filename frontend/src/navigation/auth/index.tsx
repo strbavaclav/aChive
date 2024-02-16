@@ -36,10 +36,6 @@ export const AuthStackNavigator = () => {
         options={{ animation: "fade" }}
       />
       <AuthStack.Screen name="Register" component={RegisterScreen} />
-      <AuthStack.Screen
-        name="Onboarding"
-        component={OnboardingStackNavigator}
-      />
     </AuthStack.Navigator>
   );
 };

@@ -12,23 +12,25 @@ export const signUpResolver = async (
     _: unknown,
     { authData }: MutationSignUpArgs
 ): Promise<UserType> => {
-    const { email, username, password } = authData
+    const { email, password, passwordConfirm } = authData
     try {
         const existingUser = await User.findOne({
-            $or: [{ email }, { username }],
+            $or: [{ email }],
         })
         if (existingUser) {
-            throw new GraphQLError(
-                'User already exists with given email or username',
-                {
-                    extensions: { code: 'USER_EXISTS' },
-                }
-            )
+            throw new GraphQLError('User already exists with given email', {
+                extensions: { code: 'USER_EMAIL_EXISTS' },
+            })
         }
 
         const hashedPassword = await bcrypt.hash(password, 10)
 
-        const newUser = new User({ username, email, password: hashedPassword })
+        const newUser = new User({
+            email,
+            password: hashedPassword,
+        })
+
+        console.log(newUser)
 
         await newUser.save()
 

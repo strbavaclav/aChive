@@ -183,7 +183,7 @@ const HomeScreen = () => {
                     height={200}
                     chartConfig={chartConfig}
                     tooltipDataAttrs={(value) => handleToolTip}
-                    onDayPress={({ date, count }) => console.log(date, count)}
+                    //onDayPress={({ date, count }) => console.log(date, count)}
                   />
                 );
               } else {

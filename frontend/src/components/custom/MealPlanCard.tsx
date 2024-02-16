@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { PlannerStackParams } from "navigation/planner";
 import React, { FC } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 
 type Props = {
   mealName: string;
@@ -25,7 +25,6 @@ type Props = {
   mealSize: string;
   logged?: boolean;
   onLogMeal: () => void;
-  buttonRef: React.MutableRefObject<null>;
 };
 
 const MealPlanCard: FC<Props> = ({
@@ -34,7 +33,6 @@ const MealPlanCard: FC<Props> = ({
   mealSize,
   logged,
   onLogMeal,
-  buttonRef,
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<PlannerStackParams>>();

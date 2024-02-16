@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useAuth } from "context/authContext";
-import { AuthStackNavigator } from "navigation/auth";
+import { AuthStackNavigator, OnboardingStackNavigator } from "navigation/auth";
 import { MainDrawerNavigator } from "navigation/main";
 
 export type RootStackParams = {
@@ -20,10 +20,15 @@ export const RootStackNavigator = () => {
 
   return (
     <RootNavigator.Navigator screenOptions={screnOptions}>
-      {authState?.authenticated ? (
+      {authState?.authenticated && authState.onboarded ? (
         <RootNavigator.Screen
           name="MainNavigator"
           component={MainDrawerNavigator}
+        />
+      ) : authState?.authenticated && !authState.onboarded ? (
+        <RootNavigator.Screen
+          name="AuthNavigator"
+          component={OnboardingStackNavigator}
         />
       ) : (
         <RootNavigator.Screen

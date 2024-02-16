@@ -61,7 +61,6 @@ const MealPlannerScreen = () => {
             mealSize={plannedMeal.mealSize}
             logged={plannedMeal.logged}
             onLogMeal={() => setShowModal(true)}
-            buttonRef={ref}
           />
         ))}
         <HStack justifyContent="center" mt={4}>

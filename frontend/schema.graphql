@@ -19,12 +19,12 @@ input SignInInput {
 input SignUpInput {
   email: String!
   password: String!
-  username: String!
+  passwordConfirm: String!
 }
 
 type User {
   email: String!
   password: String!
   token: String
-  username: String!
+  username: String
 }

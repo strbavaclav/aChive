@@ -78,12 +78,12 @@ const OnboardingStep1Screen = () => {
               />
               <FormSelect
                 name="gender"
-                placeholder="Whats your gender?"
+                placeholder="What's your gender?"
                 options={["Male", "Female", "Other"]}
               />
               <VStack>
                 <HStack alignItems="center" mt={20}>
-                  <Text mb={8}>When you were born?</Text>
+                  <Text mb={8}>When were you born?</Text>
                   <DateTimePicker
                     value={new Date("1995-01-01")}
                     accentColor="#10b981"
@@ -92,12 +92,12 @@ const OnboardingStep1Screen = () => {
               </VStack>
               <VStack justifyContent="space-between">
                 <VStack mt={30}>
-                  <Text>What is your weight?</Text>
+                  <Text>What's your weight?</Text>
                   <Box mt={40} justifyContent="center" alignItems="center">
                     <RulerPicker
                       min={0}
-                      max={240}
-                      initialValue={50}
+                      max={190}
+                      initialValue={67}
                       step={0.1}
                       height={40}
                       width={Dimensions.get("window").width - 40}
@@ -112,7 +112,7 @@ const OnboardingStep1Screen = () => {
                       indicatorColor="#10b981"
                       onValueChange={(number) => console.log(number)}
                       onValueChangeEnd={(number) => console.log(number)}
-                      unit="Kg"
+                      unit="kg"
                     />
                   </Box>
                 </VStack>
@@ -122,8 +122,8 @@ const OnboardingStep1Screen = () => {
                     <RulerPicker
                       min={0}
                       max={240}
-                      initialValue={174}
-                      step={0.1}
+                      initialValue={175}
+                      step={0.5}
                       height={40}
                       width={Dimensions.get("window").width - 40}
                       valueTextStyle={{ fontSize: 15 }}

@@ -9,18 +9,22 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const UserModel_1 = __importDefault(require("../../../models/UserModel"));
 const signUpResolver = async (_, { authData }) => {
-    const { email, username, password } = authData;
+    const { email, password, passwordConfirm } = authData;
     try {
         const existingUser = await UserModel_1.default.findOne({
-            $or: [{ email }, { username }],
+            $or: [{ email }],
         });
         if (existingUser) {
-            throw new error_1.GraphQLError('User already exists with given email or username', {
-                extensions: { code: 'USER_EXISTS' },
+            throw new error_1.GraphQLError('User already exists with given email', {
+                extensions: { code: 'USER_EMAIL_EXISTS' },
             });
         }
         const hashedPassword = await bcrypt_1.default.hash(password, 10);
-        const newUser = new UserModel_1.default({ username, email, password: hashedPassword });
+        const newUser = new UserModel_1.default({
+            email,
+            password: hashedPassword,
+        });
+        console.log(newUser);
         await newUser.save();
         return newUser;
     }

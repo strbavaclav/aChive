@@ -52,14 +52,14 @@ export const FormSelect: FC<Props> = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({}) => (
+        render={({ field: { value } }) => (
           <FormControl>
             <FormControlLabel>
               <FormControlLabelText>{label}</FormControlLabelText>
             </FormControlLabel>
             <Select isFocusVisible>
               <SelectTrigger w={"100%"}>
-                <SelectInput placeholder={placeholder} />
+                <SelectInput placeholder={placeholder} value={value} />
                 <SelectIcon as={ChevronDownIcon} mr={"$3"} />
               </SelectTrigger>
               <SelectPortal>

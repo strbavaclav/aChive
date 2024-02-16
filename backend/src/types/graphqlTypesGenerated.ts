@@ -77,7 +77,7 @@ export type SignInInput = {
 export type SignUpInput = {
     email: Scalars['String']['input']
     password: Scalars['String']['input']
-    username: Scalars['String']['input']
+    passwordConfirm: Scalars['String']['input']
 }
 
 export type User = {
@@ -85,7 +85,7 @@ export type User = {
     email: Scalars['String']['output']
     password: Scalars['String']['output']
     token?: Maybe<Scalars['String']['output']>
-    username: Scalars['String']['output']
+    username?: Maybe<Scalars['String']['output']>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -272,7 +272,11 @@ export type UserResolvers<
     email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     password?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
-    username?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    username?: Resolver<
+        Maybe<ResolversTypes['String']>,
+        ParentType,
+        ContextType
+    >
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 

@@ -7,18 +7,22 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const userShema = new mongoose_1.default.Schema({
     username: {
         type: String,
-        required: [true, "Email is required"],
-        unique: true,
+        //unique: true,
     },
     email: {
         type: String,
-        required: [true, "Email is required"],
+        required: [true, 'Email is required'],
         unique: true,
     },
     password: {
         type: String,
-        required: [true, "Password is required"],
+        required: [true, 'Password is required'],
+    },
+    onboarded: {
+        type: Boolean,
+        required: [true, 'Onboarding status is required'],
+        default: false,
     },
 });
-const User = mongoose_1.default.model("User", userShema);
+const User = mongoose_1.default.model('User', userShema);
 exports.default = User;

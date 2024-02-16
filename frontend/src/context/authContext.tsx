@@ -1,5 +1,5 @@
 import { SIGN_IN_MUTATION } from "calls/auth/login/useSignIn";
-import { useSignUp } from "calls/auth/register/useSignUp";
+import { SIGN_UP_MUTATION } from "calls/auth/register/useSignUp";
 import React, {
   createContext,
   ReactElement,
@@ -13,7 +13,11 @@ import * as SecureStore from "expo-secure-store";
 import { client } from "gql/client";
 
 interface AuthContextProps {
-  authState?: { token: string | null; authenticated: boolean | null };
+  authState?: {
+    token: string | null;
+    authenticated: boolean | null;
+    onboarded: boolean;
+  };
   onSignUp?: (
     email: string,
     username: string,
@@ -39,24 +43,39 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
   const [authState, setAuthState] = useState<{
     token: string | null;
     authenticated: boolean | null;
-  }>({ token: null, authenticated: null });
+    onboarded: boolean;
+  }>({ token: null, authenticated: null, onboarded: false });
 
   useEffect(() => {
     const loadToken = async () => {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
       if (token) {
-        setAuthState({ token: token, authenticated: true });
+        setAuthState({ token: token, authenticated: true, onboarded: false });
       }
     };
     loadToken();
   }, []);
 
-  const signUp = async (email: string, username: string, password: string) => {
-    const { signUpMutation } = useSignUp();
+  const signUp = async (
+    email: string,
+    password: string,
+    passwordConfirm: string
+  ) => {
     try {
-      signUpMutation({
-        variables: { authData: { username, email, password } },
+      const result = await client.mutate({
+        mutation: SIGN_UP_MUTATION,
+        variables: { authData: { email, password, passwordConfirm } },
       });
+
+      const token = result.data?.signUp?.token;
+
+      await setAuthState({
+        token: token!,
+        authenticated: true,
+        onboarded: false,
+      });
+
+      await SecureStore.setItemAsync(TOKEN_KEY, String(token));
     } catch (error) {
       console.log(error);
     }
@@ -70,10 +89,12 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       });
 
       const token = result.data?.signIn?.token;
+      const onboarded = true;
 
       await setAuthState({
         token: token!,
         authenticated: true,
+        onboarded,
       });
 
       await SecureStore.setItemAsync(TOKEN_KEY, String(token));
@@ -85,7 +106,7 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
   const signOut = async () => {
     await SecureStore.deleteItemAsync(TOKEN_KEY);
 
-    setAuthState({ token: null, authenticated: false });
+    setAuthState({ token: null, authenticated: false, onboarded: false });
   };
 
   const value = {

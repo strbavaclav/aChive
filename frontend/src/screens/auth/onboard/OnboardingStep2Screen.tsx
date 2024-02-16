@@ -72,7 +72,7 @@ const OnboardingStep2Screen = () => {
               />
               <Text>
                 Stress in our life has a big effect on how we eat. In this step
-                we will need to determine how stressed you feel at the moment.
+                you will determine how stressed you feel at the moment.
               </Text>
               <Text>
                 On the scale 1 (extreme stress) - 10 (no stress at all) how much
@@ -116,7 +116,7 @@ const OnboardingStep2Screen = () => {
               <VStack mt={30} space="md">
                 <FormTextArea
                   label="Could you elaborate on it?"
-                  placeholder="I feel stressed out because of..."
+                  placeholder="I feel stressed because of..."
                 />
               </VStack>
             </VStack>

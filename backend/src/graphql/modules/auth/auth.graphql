@@ -10,16 +10,16 @@ type Mutation {
 }
 
 type User {
-  username: String!
+  username: String
   email: String!
   password: String!
   token: String
 }
 
 input SignUpInput {
- username: String!
  email: String!
  password:String!
+ passwordConfirm:String!
 }
 
 input SignInInput {

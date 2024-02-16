@@ -73,7 +73,7 @@ export type SignInInput = {
 export type SignUpInput = {
   email: Scalars["String"]["input"];
   password: Scalars["String"]["input"];
-  username: Scalars["String"]["input"];
+  passwordConfirm: Scalars["String"]["input"];
 };
 
 export type User = {
@@ -81,7 +81,7 @@ export type User = {
   email: Scalars["String"]["output"];
   password: Scalars["String"]["output"];
   token?: Maybe<Scalars["String"]["output"]>;
-  username: Scalars["String"]["output"];
+  username?: Maybe<Scalars["String"]["output"]>;
 };
 
 export type SignInMutationVariables = Exact<{
@@ -92,7 +92,7 @@ export type SignInMutation = {
   __typename?: "Mutation";
   signIn?: {
     __typename?: "User";
-    username: string;
+    username?: string | null;
     email: string;
     password: string;
     token?: string | null;
@@ -107,9 +107,9 @@ export type SignUpMutation = {
   __typename?: "Mutation";
   signUp?: {
     __typename?: "User";
-    username: string;
     email: string;
     password: string;
+    token?: string | null;
   } | null;
 };
 
@@ -209,9 +209,9 @@ export const SignUpDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "password" } },
+                { kind: "Field", name: { kind: "Name", value: "token" } },
               ],
             },
           },
