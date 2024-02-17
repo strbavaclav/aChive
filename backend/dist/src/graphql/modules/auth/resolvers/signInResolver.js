@@ -13,8 +13,9 @@ const signInResolver = async (_, { authData }) => {
     try {
         const user = await UserModel_1.default.findOne({ email });
         if (!user) {
-            throw new graphql_1.GraphQLError('User not found', {
+            throw new graphql_1.GraphQLError('User with this email doesnt exist!', {
                 extensions: {
+                    formInput: 'email',
                     code: 'USER_NOT_FOUND',
                     message: 'User with this email doesnt exist!',
                 },
@@ -24,18 +25,18 @@ const signInResolver = async (_, { authData }) => {
         if (!isPasswordValid) {
             throw new graphql_1.GraphQLError('Invalid password!', {
                 extensions: {
+                    formInput: 'password',
                     code: 'INVALID_PASSWORD',
                     message: 'Invalid password!',
                 },
             });
         }
-        const token = jsonwebtoken_1.default.sign({ user_id: user._id }, process.env.ACCESS_JWT_SECRET, { expiresIn: '30d' });
+        const token = jsonwebtoken_1.default.sign({ userId: user._id }, process.env.ACCESS_JWT_SECRET, { expiresIn: '30d' });
         return Object.assign(Object.assign({}, user.toObject()), { token });
     }
     catch (error) {
-        throw new graphql_1.GraphQLError('SIGN_IN_FAIL', {
-            extensions: { code: 'AUTH_FAILED' },
-        });
+        console.log(error);
+        throw error;
     }
 };
 exports.signInResolver = signInResolver;

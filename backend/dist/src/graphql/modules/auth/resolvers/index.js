@@ -17,4 +17,3 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./signUpResolver"), exports);
 __exportStar(require("./signInResolver"), exports);
 __exportStar(require("./onboardResolver"), exports);
-__exportStar(require("./verifyTokenResolver"), exports);

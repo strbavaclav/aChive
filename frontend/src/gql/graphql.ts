@@ -36,19 +36,17 @@ export type BodyDataInput = {
 
 export type BodyInfo = {
   __typename?: "BodyInfo";
-  height?: Maybe<Scalars["Float"]["output"]>;
-  weight?: Maybe<Scalars["Float"]["output"]>;
+  height: Scalars["Float"]["output"];
+  weight: Scalars["Float"]["output"];
 };
 
 export type Mutation = {
   __typename?: "Mutation";
   _empty?: Maybe<Scalars["String"]["output"]>;
   addStressRecord: StressRecords;
-  onboard: OnboardedUser;
+  onboard: User;
   signIn: User;
-  signOut: User;
   signUp: User;
-  verifyToken: Scalars["Boolean"]["output"];
 };
 
 export type Mutation_EmptyArgs = {
@@ -67,17 +65,8 @@ export type MutationSignInArgs = {
   authData: SignInInput;
 };
 
-export type MutationSignOutArgs = {
-  email: Scalars["String"]["input"];
-  password: Scalars["String"]["input"];
-};
-
 export type MutationSignUpArgs = {
   authData: SignUpInput;
-};
-
-export type MutationVerifyTokenArgs = {
-  token: Scalars["String"]["input"];
 };
 
 export type OnboardData = {
@@ -92,27 +81,26 @@ export type OnboardData = {
   username: Scalars["String"]["input"];
 };
 
-export type OnboardedUser = {
-  __typename?: "OnboardedUser";
-  body: BodyInfo;
-  bornDate: Scalars["String"]["output"];
-  eatHabitGoal: Scalars["String"]["output"];
-  email: Scalars["String"]["output"];
-  firstName: Scalars["String"]["output"];
-  gender: Scalars["String"]["output"];
-  lastName: Scalars["String"]["output"];
-  onboarded: Scalars["Boolean"]["output"];
-  password: Scalars["String"]["output"];
-  plan?: Maybe<Array<PlannedMeal>>;
-  token?: Maybe<Scalars["String"]["output"]>;
-  username: Scalars["String"]["output"];
+export type PlannedMeal = {
+  __typename?: "PlannedMeal";
+  endTime: Scalars["String"]["output"];
+  mealName: Scalars["String"]["output"];
+  mealSize: Scalars["String"]["output"];
+  startTime: Scalars["String"]["output"];
+};
+
+export type PlannedMealInput = {
+  endTime: Scalars["String"]["input"];
+  mealName: Scalars["String"]["input"];
+  mealSize: Scalars["String"]["input"];
+  startTime: Scalars["String"]["input"];
 };
 
 export type Query = {
   __typename?: "Query";
   _empty?: Maybe<Scalars["String"]["output"]>;
-  getAllUsers?: Maybe<Array<Maybe<User>>>;
   getUser?: Maybe<User>;
+  getUserData: User;
 };
 
 export type QueryGetUserArgs = {
@@ -130,37 +118,8 @@ export type SignUpInput = {
   passwordConfirm: Scalars["String"]["input"];
 };
 
-export type StressRecords = {
-  __typename?: "StressRecords";
-  stressRecords?: Maybe<Array<StressRecordData>>;
-  userEmail: Scalars["String"]["output"];
-};
-
-export type User = {
-  __typename?: "User";
-  email: Scalars["String"]["output"];
-  onboarded: Scalars["Boolean"]["output"];
-  password: Scalars["String"]["output"];
-  token?: Maybe<Scalars["String"]["output"]>;
-};
-
-export type PlannedMeal = {
-  __typename?: "plannedMeal";
-  endTime: Scalars["String"]["output"];
-  mealName: Scalars["String"]["output"];
-  mealSize: Scalars["String"]["output"];
-  startTime: Scalars["String"]["output"];
-};
-
-export type PlannedMealInput = {
-  endTime: Scalars["String"]["input"];
-  mealName: Scalars["String"]["input"];
-  mealSize: Scalars["String"]["input"];
-  startTime: Scalars["String"]["input"];
-};
-
 export type StressRecordData = {
-  __typename?: "stressRecordData";
+  __typename?: "StressRecordData";
   note?: Maybe<Scalars["String"]["output"]>;
   timestamp: Scalars["String"]["output"];
   value: Scalars["Int"]["output"];
@@ -173,6 +132,28 @@ export type StressRecordDataInput = {
   value: Scalars["Int"]["input"];
 };
 
+export type StressRecords = {
+  __typename?: "StressRecords";
+  stressRecords?: Maybe<Array<StressRecordData>>;
+  userEmail: Scalars["String"]["output"];
+};
+
+export type User = {
+  __typename?: "User";
+  body?: Maybe<BodyInfo>;
+  bornDate?: Maybe<Scalars["String"]["output"]>;
+  eatHabitGoal?: Maybe<Scalars["String"]["output"]>;
+  email: Scalars["String"]["output"];
+  firstName?: Maybe<Scalars["String"]["output"]>;
+  gender?: Maybe<Scalars["String"]["output"]>;
+  lastName?: Maybe<Scalars["String"]["output"]>;
+  onboarded: Scalars["Boolean"]["output"];
+  password: Scalars["String"]["output"];
+  plan?: Maybe<Array<PlannedMeal>>;
+  token?: Maybe<Scalars["String"]["output"]>;
+  username?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type SignInMutationVariables = Exact<{
   authData: SignInInput;
 }>;
@@ -182,9 +163,22 @@ export type SignInMutation = {
   signIn: {
     __typename?: "User";
     email: string;
-    password: string;
     token?: string | null;
     onboarded: boolean;
+    username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    gender?: string | null;
+    bornDate?: string | null;
+    eatHabitGoal?: string | null;
+    body?: { __typename?: "BodyInfo"; height: number; weight: number } | null;
+    plan?: Array<{
+      __typename?: "PlannedMeal";
+      mealName: string;
+      mealSize: string;
+      startTime: string;
+      endTime: string;
+    }> | null;
   };
 };
 
@@ -195,24 +189,18 @@ export type OnboardMutationVariables = Exact<{
 export type OnboardMutation = {
   __typename?: "Mutation";
   onboard: {
-    __typename?: "OnboardedUser";
+    __typename?: "User";
     email: string;
-    password: string;
-    token?: string | null;
     onboarded: boolean;
-    username: string;
-    firstName: string;
-    lastName: string;
-    gender: string;
-    bornDate: string;
-    eatHabitGoal: string;
-    body: {
-      __typename?: "BodyInfo";
-      height?: number | null;
-      weight?: number | null;
-    };
+    username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    gender?: string | null;
+    bornDate?: string | null;
+    eatHabitGoal?: string | null;
+    body?: { __typename?: "BodyInfo"; height: number; weight: number } | null;
     plan?: Array<{
-      __typename?: "plannedMeal";
+      __typename?: "PlannedMeal";
       mealName: string;
       mealSize: string;
       startTime: string;
@@ -230,18 +218,48 @@ export type SignUpMutation = {
   signUp: {
     __typename?: "User";
     email: string;
-    password: string;
     token?: string | null;
+    onboarded: boolean;
+    username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    gender?: string | null;
+    bornDate?: string | null;
+    eatHabitGoal?: string | null;
+    body?: { __typename?: "BodyInfo"; height: number; weight: number } | null;
+    plan?: Array<{
+      __typename?: "PlannedMeal";
+      mealName: string;
+      mealSize: string;
+      startTime: string;
+      endTime: string;
+    }> | null;
   };
 };
 
-export type VerifyTokenMutationVariables = Exact<{
-  token: Scalars["String"]["input"];
-}>;
+export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
 
-export type VerifyTokenMutation = {
-  __typename?: "Mutation";
-  verifyToken: boolean;
+export type GetUserDataQuery = {
+  __typename?: "Query";
+  getUserData: {
+    __typename?: "User";
+    email: string;
+    onboarded: boolean;
+    username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    gender?: string | null;
+    bornDate?: string | null;
+    eatHabitGoal?: string | null;
+    body?: { __typename?: "BodyInfo"; height: number; weight: number } | null;
+    plan?: Array<{
+      __typename?: "PlannedMeal";
+      mealName: string;
+      mealSize: string;
+      startTime: string;
+      endTime: string;
+    }> | null;
+  };
 };
 
 export const SignInDocument = {
@@ -287,9 +305,59 @@ export const SignInDocument = {
               kind: "SelectionSet",
               selections: [
                 { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "password" } },
                 { kind: "Field", name: { kind: "Name", value: "token" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "username" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "gender" } },
+                { kind: "Field", name: { kind: "Name", value: "bornDate" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "body" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "height" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "weight" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "eatHabitGoal" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "plan" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealSize" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "startTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -341,8 +409,6 @@ export const OnboardDocument = {
               kind: "SelectionSet",
               selections: [
                 { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "password" } },
-                { kind: "Field", name: { kind: "Name", value: "token" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
                 { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
@@ -446,8 +512,59 @@ export const SignUpDocument = {
               kind: "SelectionSet",
               selections: [
                 { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "password" } },
                 { kind: "Field", name: { kind: "Name", value: "token" } },
+                { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "username" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "gender" } },
+                { kind: "Field", name: { kind: "Name", value: "bornDate" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "body" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "height" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "weight" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "eatHabitGoal" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "plan" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealSize" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "startTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -456,48 +573,80 @@ export const SignUpDocument = {
     },
   ],
 } as unknown as DocumentNode<SignUpMutation, SignUpMutationVariables>;
-export const VerifyTokenDocument = {
+export const GetUserDataDocument = {
   kind: "Document",
   definitions: [
     {
       kind: "OperationDefinition",
-      operation: "mutation",
-      name: { kind: "Name", value: "VerifyToken" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: {
-            kind: "Variable",
-            name: { kind: "Name", value: "token" },
-          },
-          type: {
-            kind: "NonNullType",
-            type: {
-              kind: "NamedType",
-              name: { kind: "Name", value: "String" },
-            },
-          },
-        },
-      ],
+      operation: "query",
+      name: { kind: "Name", value: "GetUserData" },
       selectionSet: {
         kind: "SelectionSet",
         selections: [
           {
             kind: "Field",
-            name: { kind: "Name", value: "verifyToken" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "token" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "token" },
+            name: { kind: "Name", value: "getUserData" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "username" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "gender" } },
+                { kind: "Field", name: { kind: "Name", value: "bornDate" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "body" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "height" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "weight" },
+                      },
+                    ],
+                  },
                 },
-              },
-            ],
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "eatHabitGoal" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "plan" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealSize" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "startTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
           },
         ],
       },
     },
   ],
-} as unknown as DocumentNode<VerifyTokenMutation, VerifyTokenMutationVariables>;
+} as unknown as DocumentNode<GetUserDataQuery, GetUserDataQueryVariables>;

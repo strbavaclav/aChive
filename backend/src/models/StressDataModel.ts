@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 
-const stressSchema = new mongoose.Schema({
+const stressDataSchema = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -9,6 +9,6 @@ const stressSchema = new mongoose.Schema({
     stressJournal: [{ timestamp: Date, value: Number, note: String }],
 })
 
-const Stress = mongoose.model('Stress', stressSchema)
+const StressData = mongoose.model('StressData', stressDataSchema)
 
-export default Stress
+export default StressData

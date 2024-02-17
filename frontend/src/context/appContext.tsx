@@ -1,3 +1,4 @@
+import { User } from "gql/graphql";
 import React, {
   createContext,
   Dispatch,
@@ -8,25 +9,36 @@ import React, {
   useState,
 } from "react";
 
-type AppContextType = {
-  data: { [key: string]: any } | null;
-  setData: Dispatch<SetStateAction<{ [key: string]: any } | null>>;
-};
+interface AppState {
+  userData?: User;
+}
 
-const AppContext = createContext<AppContextType | undefined>(undefined);
+interface AppContextProps {
+  appState: AppState;
+  setAppState: Dispatch<SetStateAction<AppState>>;
+}
 
-function useAuth(): AppContextType {
+const AppContext = createContext<AppContextProps | undefined>(undefined);
+
+export const useApp = (): AppContextProps => {
   const context = useContext(AppContext);
   if (!context) {
     throw new Error("useApp must be used within an AppProvider");
   }
   return context;
-}
-
-const AppProvider = (props: { children: ReactNode }): ReactElement => {
-  const [data, setData] = useState<{ [key: string]: any } | null>(null);
-
-  return <AppContext.Provider {...props} value={{ data, setData }} />;
 };
 
-export { AppProvider, useAuth };
+export const AppProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): ReactElement => {
+  const [appState, setAppState] = useState<AppState>({});
+
+  const value = {
+    appState,
+    setAppState,
+  };
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+};

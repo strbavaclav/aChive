@@ -1,10 +1,9 @@
 import { gql } from "gql/gql";
 
-export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
-  mutation SignIn($authData: SignInInput!) {
-    signIn(authData: $authData) {
+export const GET_USER_DATA_QUERY = gql(/* GraphQL */ `
+  query GetUserData {
+    getUserData {
       email
-      token
       onboarded
       username
       firstName

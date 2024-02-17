@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
-const stressSchema = new mongoose_1.default.Schema({
+const stressDataSchema = new mongoose_1.default.Schema({
     _id: {
         type: mongoose_1.default.Schema.Types.ObjectId,
         ref: 'User',
@@ -12,5 +12,5 @@ const stressSchema = new mongoose_1.default.Schema({
     },
     stressJournal: [{ timestamp: Date, value: Number, note: String }],
 });
-const Stress = mongoose_1.default.model('Stress', stressSchema);
-exports.default = Stress;
+const StressData = mongoose_1.default.model('StressData', stressDataSchema);
+exports.default = StressData;

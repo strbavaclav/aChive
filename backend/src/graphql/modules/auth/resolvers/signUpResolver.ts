@@ -5,6 +5,8 @@ import {
     User as UserType,
 } from '../../../../types/graphqlTypesGenerated'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { createToken } from '../../../../libs/jwt'
 
 export const signUpResolver = async (
     _: unknown,
@@ -50,11 +52,14 @@ export const signUpResolver = async (
         const newUser = new User({
             email,
             password: hashedPassword,
+            onboarded: false,
         })
+
+        const token = createToken({ userId: newUser._id })
 
         await newUser.save()
 
-        return newUser
+        return { ...newUser.toObject(), token }
     } catch (error) {
         console.log(error)
         throw error

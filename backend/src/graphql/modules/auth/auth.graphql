@@ -5,11 +5,8 @@ type Query {
 type Mutation {
   signUp(authData:SignUpInput!): User!
   signIn(authData: SignInInput!): User!
-  signOut(email: String!,password:String!): User!
 
-  verifyToken(token:String!): Boolean!
-
-  onboard(onboardData:OnboardData!): OnboardedUser!
+  onboard(onboardData:OnboardData!): User!
 }
 
 type User {
@@ -17,6 +14,20 @@ type User {
   password: String!
   token: String
   onboarded: Boolean!
+
+  username:String
+  firstName:String
+  lastName:String
+  gender:String
+  bornDate:String
+  body: BodyInfo
+  eatHabitGoal:String
+  plan:[PlannedMeal!] 
+}
+
+type BodyInfo {
+  height: Float!
+  weight: Float!
 }
 
 type PlannedMeal {
@@ -24,27 +35,6 @@ type PlannedMeal {
   mealSize:String!
   startTime:String!
   endTime:String!
-}
-
-type OnboardedUser {
-  email: String!
-  password: String!
-  token: String
-  onboarded: Boolean!
-
-  username:String!
-  firstName:String!
-  lastName:String!
-  gender:String!
-  bornDate:String!
-  body: BodyInfo!
-  eatHabitGoal:String!
-  plan:[PlannedMeal!] 
-}
-
-type BodyInfo {
-  height: Float
-  weight: Float
 }
 
 input SignUpInput {

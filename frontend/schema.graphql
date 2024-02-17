@@ -4,18 +4,16 @@ input BodyDataInput {
 }
 
 type BodyInfo {
-  height: Float
-  weight: Float
+  height: Float!
+  weight: Float!
 }
 
 type Mutation {
   _empty(nothing: String): String
-  addStressRecord(stressRecordData: stressRecordDataInput!): StressRecords!
-  onboard(onboardData: OnboardData!): OnboardedUser!
+  addStressRecord(stressRecordData: StressRecordDataInput!): StressRecords!
+  onboard(onboardData: OnboardData!): User!
   signIn(authData: SignInInput!): User!
-  signOut(email: String!, password: String!): User!
   signUp(authData: SignUpInput!): User!
-  verifyToken(token: String!): Boolean!
 }
 
 input OnboardData {
@@ -26,29 +24,28 @@ input OnboardData {
   firstName: String!
   gender: String!
   lastName: String!
-  plan: [plannedMealInput!]
+  plan: [PlannedMealInput!]
   username: String!
 }
 
-type OnboardedUser {
-  body: BodyInfo!
-  bornDate: String!
-  eatHabitGoal: String!
-  email: String!
-  firstName: String!
-  gender: String!
-  lastName: String!
-  onboarded: Boolean!
-  password: String!
-  plan: [plannedMeal!]
-  token: String
-  username: String!
+type PlannedMeal {
+  endTime: String!
+  mealName: String!
+  mealSize: String!
+  startTime: String!
+}
+
+input PlannedMealInput {
+  endTime: String!
+  mealName: String!
+  mealSize: String!
+  startTime: String!
 }
 
 type Query {
   _empty: String
-  getAllUsers: [User]
   getUser(id: ID!): User
+  getUserData: User!
 }
 
 input SignInInput {
@@ -62,41 +59,35 @@ input SignUpInput {
   passwordConfirm: String!
 }
 
+type StressRecordData {
+  note: String
+  timestamp: String!
+  value: Int!
+}
+
+input StressRecordDataInput {
+  note: String
+  timestamp: String!
+  userEmail: String!
+  value: Int!
+}
+
 type StressRecords {
-  stressRecords: [stressRecordData!]
+  stressRecords: [StressRecordData!]
   userEmail: String!
 }
 
 type User {
+  body: BodyInfo
+  bornDate: String
+  eatHabitGoal: String
   email: String!
+  firstName: String
+  gender: String
+  lastName: String
   onboarded: Boolean!
   password: String!
+  plan: [PlannedMeal!]
   token: String
-}
-
-type plannedMeal {
-  endTime: String!
-  mealName: String!
-  mealSize: String!
-  startTime: String!
-}
-
-input plannedMealInput {
-  endTime: String!
-  mealName: String!
-  mealSize: String!
-  startTime: String!
-}
-
-type stressRecordData {
-  note: String
-  timestamp: String!
-  value: Int!
-}
-
-input stressRecordDataInput {
-  note: String
-  timestamp: String!
-  userEmail: String!
-  value: Int!
+  username: String
 }

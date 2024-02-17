@@ -2,9 +2,10 @@ import {
     onboardResolver,
     signInResolver,
     signUpResolver,
-    verifyTokenResolver,
 } from './modules/auth/resolvers'
 import { type Resolvers } from '../types/graphqlTypesGenerated'
+import { addStressRecordResolver } from './modules/stress/resolvers/addStressRecordResolver'
+import { getUserDataResolver } from './modules/user/resolvers/getUserDataResolver'
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -12,7 +13,14 @@ const resolvers: Resolvers = {
         signUp: signUpResolver,
         signIn: signInResolver,
         onboard: onboardResolver,
-        verifyToken: verifyTokenResolver,
+
+        //stress
+        addStressRecord: addStressRecordResolver,
+    },
+
+    Query: {
+        //user
+        getUserData: getUserDataResolver,
     },
 }
 

@@ -5,8 +5,6 @@ export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
   mutation Onboard($onboardData: OnboardData!) {
     onboard(onboardData: $onboardData) {
       email
-      password
-      token
       onboarded
       username
       firstName

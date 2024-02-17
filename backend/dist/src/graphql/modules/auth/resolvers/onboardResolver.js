@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.onboardResolver = void 0;
 const graphql_1 = require("graphql");
 const UserModel_1 = __importDefault(require("../../../../models/UserModel"));
-const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const onboardResolver = async (_, { onboardData }) => {
     const { email } = onboardData;
     try {
@@ -17,10 +16,9 @@ const onboardResolver = async (_, { onboardData }) => {
             });
         }
         Object.assign(user, onboardData);
-        const token = jsonwebtoken_1.default.sign({ user_id: user._id }, process.env.ACCESS_JWT_SECRET, { expiresIn: '30d' });
         user.onboarded = true;
         const onboardedUser = await user.save();
-        return Object.assign(Object.assign({}, onboardedUser.toObject()), { token });
+        return onboardedUser.toObject();
     }
     catch (error) {
         console.log(error);

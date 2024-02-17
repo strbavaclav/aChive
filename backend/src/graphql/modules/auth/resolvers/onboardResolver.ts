@@ -2,14 +2,13 @@ import { GraphQLError } from 'graphql'
 import User from '../../../../models/UserModel'
 import {
     MutationOnboardArgs,
-    OnboardedUser,
+    User as UserType,
 } from '../../../../types/graphqlTypesGenerated'
-import jwt from 'jsonwebtoken'
 
 export const onboardResolver = async (
     _: unknown,
     { onboardData }: MutationOnboardArgs
-): Promise<OnboardedUser> => {
+): Promise<UserType> => {
     const { email } = onboardData
 
     try {
@@ -21,15 +20,9 @@ export const onboardResolver = async (
         }
         Object.assign(user, onboardData)
 
-        const token = jwt.sign(
-            { user_id: user._id },
-            process.env.ACCESS_JWT_SECRET!!,
-            { expiresIn: '30d' }
-        )
-
         user.onboarded = true
         const onboardedUser = await user.save()
-        return { ...onboardedUser.toObject(), token }
+        return onboardedUser.toObject()
     } catch (error) {
         console.log(error)
         throw new GraphQLError('ONBOARD_FAIL', {

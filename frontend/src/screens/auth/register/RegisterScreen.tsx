@@ -133,6 +133,7 @@ const RegisterScreen = () => {
               />
             </FormProvider>
             <Button
+              width={200}
               size="md"
               variant="solid"
               action="primary"

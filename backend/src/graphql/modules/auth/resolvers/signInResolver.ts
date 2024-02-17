@@ -37,7 +37,7 @@ export const signInResolver = async (
         }
 
         const token = jwt.sign(
-            { user_id: user._id },
+            { userId: user._id },
             process.env.ACCESS_JWT_SECRET!!,
             { expiresIn: '30d' }
         )

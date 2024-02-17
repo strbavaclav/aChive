@@ -12,35 +12,29 @@ import React, {
 import * as SecureStore from "expo-secure-store";
 
 import { client } from "gql/client";
-import { VERIFY_TOKEN_MUTATION } from "calls/auth/verifyToken/useVerifyToken";
-import { GraphQLError } from "graphql";
-import { ApolloError } from "@apollo/client";
+import { useApp } from "./appContext";
+import { GET_USER_DATA_QUERY } from "calls/user/useGetUserData";
+import { User } from "gql/graphql";
+
+interface AuthState {
+  token?: string | null;
+  authenticated: boolean;
+  onboarded?: boolean;
+}
 
 interface AuthContextProps {
-  authState?: {
-    token: string | null;
-    authenticated: boolean | null;
-    onboarded: boolean;
-  };
-  onSignUp?: (
+  authState: AuthState;
+  setAuthState: React.Dispatch<React.SetStateAction<AuthState>>;
+  onSignUp: (
     email: string,
     username: string,
     password: string
-  ) => Promise<any>;
-  onSignIn?: (email: string, password: string) => Promise<any>;
-  onSignOut?: () => Promise<any>;
-  setAuthState?: Dispatch<
-    React.SetStateAction<{
-      token: string | null;
-      authenticated: boolean | null;
-      onboarded: boolean;
-    }>
-  >;
+  ) => Promise<void>;
+  onSignIn: (email: string, password: string) => Promise<void>;
+  onSignOut: () => Promise<void>;
 }
 
-const TOKEN_KEY = "jwt";
-
-const AuthContext = createContext<AuthContextProps>({});
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
@@ -50,37 +44,43 @@ export const useAuth = (): AuthContextProps => {
   return context;
 };
 
-export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
-  const [authState, setAuthState] = useState<{
-    token: string | null;
-    authenticated: boolean | null;
-    onboarded: boolean;
-  }>({ token: null, authenticated: null, onboarded: false });
+export const AuthProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): ReactElement => {
+  const [authState, setAuthState] = useState<AuthState>({
+    token: null,
+    authenticated: false,
+    onboarded: false,
+  });
+  const { setAppState } = useApp();
 
   useEffect(() => {
-    const loadToken = async () => {
-      const token = await SecureStore.getItemAsync(TOKEN_KEY);
-      try {
-        const result = await client.mutate({
-          mutation: VERIFY_TOKEN_MUTATION,
-          variables: { token: token ?? "" },
-        });
-        if (result) {
+    const initializeAuth = async () => {
+      const token = await SecureStore.getItemAsync("jwt");
+      if (token) {
+        try {
+          const { data } = await client.query({ query: GET_USER_DATA_QUERY });
+          setAppState((prevState) => ({
+            ...prevState,
+            userData: { ...data.getUserData, password: "", token: "" },
+          }));
           setAuthState({
-            ...authState,
-            token: token,
+            token,
             authenticated: true,
+            onboarded: data.getUserData.onboarded,
           });
+        } catch (error) {
+          console.error(error);
+          await SecureStore.deleteItemAsync("jwt");
+          setAuthState({ token: null, authenticated: false, onboarded: false });
         }
-      } catch (e) {
-        console.log(e);
-        await SecureStore.deleteItemAsync(TOKEN_KEY);
-
-        setAuthState({ token: null, authenticated: false, onboarded: false });
       }
     };
-    loadToken();
-  }, []);
+
+    initializeAuth();
+  }, [setAppState]);
 
   const signUp = async (
     email: string,
@@ -93,15 +93,17 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
         variables: { authData: { email, password, passwordConfirm } },
       });
 
-      const token = result.data?.signUp?.token;
+      const newUser = result.data?.signUp;
 
-      await setAuthState({
-        token: token!,
-        authenticated: true,
-        onboarded: false,
-      });
+      if (newUser) {
+        await setAuthState({
+          token: newUser?.token,
+          authenticated: true,
+          onboarded: newUser?.onboarded,
+        });
 
-      await SecureStore.setItemAsync(TOKEN_KEY, String(token));
+        await SecureStore.setItemAsync("jwt", String(newUser?.token));
+      }
     } catch (error) {
       throw error;
     }
@@ -117,33 +119,36 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       const token = result.data?.signIn?.token;
       const onboarded = result.data?.signIn.onboarded;
 
+      await setAppState!((prevState) => ({
+        ...prevState!,
+        userData: result.data?.signIn as User,
+      }));
+
       await setAuthState({
         token: token!,
         authenticated: true,
-        onboarded: onboarded ?? false,
+        onboarded: onboarded,
       });
 
-      await SecureStore.setItemAsync(TOKEN_KEY, String(token));
+      await SecureStore.setItemAsync("jwt", String(token));
     } catch (error) {
       throw error;
     }
   };
 
   const signOut = async () => {
-    await SecureStore.deleteItemAsync(TOKEN_KEY);
+    await SecureStore.deleteItemAsync("jwt");
 
     setAuthState({ token: null, authenticated: false, onboarded: false });
   };
 
   const value = {
+    authState,
+    setAuthState,
     onSignUp: signUp,
     onSignIn: signIn,
     onSignOut: signOut,
-    authState,
-    setAuthState,
   };
 
-  return (
-    <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

@@ -24,11 +24,8 @@ import { ButtonText } from "@gluestack-ui/themed";
 import { ButtonIcon } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { OnboardingStackParams } from "navigation/auth";
 import { ChevronRightIcon } from "@gluestack-ui/themed";
 import { ChevronLeftIcon } from "@gluestack-ui/themed";
-import { MainDrawerParams } from "navigation/main";
-import { DrawerNavigationProp } from "@react-navigation/drawer";
 import MealSetupListItem from "components/custom/MealSetupListItem/MealSetupListItem";
 import { z } from "zod";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -40,6 +37,8 @@ import { FormInput } from "components/form/FormInput";
 import { FormSelect } from "components/form/FormSelect";
 import { useOnboard } from "calls/auth/onboard/useOnboard";
 import { useAuth } from "context/authContext";
+import { useApp } from "context/appContext";
+import { OnboardingStackParams } from "navigation/onboarding";
 
 export const validationSchema = z.object({
   mealName: z.string().min(1),
@@ -56,12 +55,13 @@ type SelectedMealType = {
 type FormDataType = z.infer<typeof validationSchema>;
 
 const OnboardingStep3Screen = () => {
-  const navigation = useNavigation<DrawerNavigationProp<MainDrawerParams>>();
   const onboardingNavigation =
     useNavigation<NativeStackNavigationProp<OnboardingStackParams>>();
 
   const { onboardMutation } = useOnboard();
-  const { setAuthState, authState } = useAuth();
+  const { setAuthState } = useAuth();
+  const { appState } = useApp();
+
   const [showModal, setShowModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState<
     SelectedMealType | undefined
@@ -125,7 +125,7 @@ const OnboardingStep3Screen = () => {
       await onboardMutation({
         variables: {
           onboardData: {
-            email: "test@test.cz",
+            email: appState?.userData?.email!,
             firstName: "alfred",
             lastName: "las",
             username: "petr",
