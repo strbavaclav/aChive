@@ -1,13 +1,9 @@
 import {
-  AddIcon,
   Box,
   Button,
   ButtonIcon,
   ButtonText,
   ChevronRightIcon,
-  Fab,
-  FabIcon,
-  FabLabel,
   HStack,
   Heading,
   KeyboardAvoidingView,

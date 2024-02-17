@@ -11,7 +11,7 @@ import {
   Heading,
   VStack,
 } from "@gluestack-ui/themed";
-import { CommonActions, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import OAuthButton from "components/auth/OAuthButton";
 import { StatusBar } from "expo-status-bar";
@@ -36,13 +36,14 @@ import {
 import { FormInput } from "components/form/FormInput";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "context/authContext";
+import { ApolloError } from "@apollo/client";
 
 const image = require("../../../assets/images/register.png");
 
 export const validationSchema = z.object({
   email: z.string().email("Incorect Email!").min(5),
   password: z.string().min(1, "Password must be filled!"),
-  passwordAgain: z.string().min(1, "Password must be filled!"),
+  passwordConfirm: z.string().min(1, "Password must be filled!"),
 });
 
 type FormDataType = z.infer<typeof validationSchema>;
@@ -50,7 +51,7 @@ type FormDataType = z.infer<typeof validationSchema>;
 export const defaultValues: Partial<FormDataType> = {
   email: "test@test.cz",
   password: "Abeceda123",
-  passwordAgain: "Abeceda123",
+  passwordConfirm: "Abeceda123",
 };
 
 const RegisterScreen = () => {
@@ -67,9 +68,19 @@ const RegisterScreen = () => {
 
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
     try {
-      await onSignUp!(values.email, values.password, values.passwordAgain);
+      await onSignUp!(values.email, values.password, values.passwordConfirm);
     } catch (error) {
-      console.log(error);
+      const apolloError = error as ApolloError;
+
+      if (apolloError.graphQLErrors && apolloError.graphQLErrors.length > 0) {
+        const gqlError = apolloError.graphQLErrors[0];
+        const formInput = String(gqlError.extensions?.formInput) as "email";
+        const message = String(gqlError.extensions?.message);
+
+        formContext.setError(formInput, { message });
+      }
+    } finally {
+      //setIsLoading(false);
     }
   };
 
@@ -116,7 +127,7 @@ const RegisterScreen = () => {
                 secret
               />
               <FormInput
-                name="passwordAgain"
+                name="passwordConfirm"
                 placeholder={t("retype a password")}
                 secret
               />

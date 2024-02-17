@@ -2,6 +2,7 @@ import { SIGN_IN_MUTATION } from "calls/auth/login/useSignIn";
 import { SIGN_UP_MUTATION } from "calls/auth/register/useSignUp";
 import React, {
   createContext,
+  Dispatch,
   ReactElement,
   ReactNode,
   useContext,
@@ -11,6 +12,9 @@ import React, {
 import * as SecureStore from "expo-secure-store";
 
 import { client } from "gql/client";
+import { VERIFY_TOKEN_MUTATION } from "calls/auth/verifyToken/useVerifyToken";
+import { GraphQLError } from "graphql";
+import { ApolloError } from "@apollo/client";
 
 interface AuthContextProps {
   authState?: {
@@ -25,6 +29,13 @@ interface AuthContextProps {
   ) => Promise<any>;
   onSignIn?: (email: string, password: string) => Promise<any>;
   onSignOut?: () => Promise<any>;
+  setAuthState?: Dispatch<
+    React.SetStateAction<{
+      token: string | null;
+      authenticated: boolean | null;
+      onboarded: boolean;
+    }>
+  >;
 }
 
 const TOKEN_KEY = "jwt";
@@ -49,8 +60,23 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
   useEffect(() => {
     const loadToken = async () => {
       const token = await SecureStore.getItemAsync(TOKEN_KEY);
-      if (token) {
-        setAuthState({ token: token, authenticated: true, onboarded: false });
+      try {
+        const result = await client.mutate({
+          mutation: VERIFY_TOKEN_MUTATION,
+          variables: { token: token ?? "" },
+        });
+        if (result) {
+          setAuthState({
+            ...authState,
+            token: token,
+            authenticated: true,
+          });
+        }
+      } catch (e) {
+        console.log(e);
+        await SecureStore.deleteItemAsync(TOKEN_KEY);
+
+        setAuthState({ token: null, authenticated: false, onboarded: false });
       }
     };
     loadToken();
@@ -77,7 +103,7 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
 
       await SecureStore.setItemAsync(TOKEN_KEY, String(token));
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -89,17 +115,17 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       });
 
       const token = result.data?.signIn?.token;
-      const onboarded = true;
+      const onboarded = result.data?.signIn.onboarded;
 
       await setAuthState({
         token: token!,
         authenticated: true,
-        onboarded,
+        onboarded: onboarded ?? false,
       });
 
       await SecureStore.setItemAsync(TOKEN_KEY, String(token));
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -114,6 +140,7 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
     onSignIn: signIn,
     onSignOut: signOut,
     authState,
+    setAuthState,
   };
 
   return (

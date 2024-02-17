@@ -1,10 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const authResolver_1 = require("./modules/auth/authResolver");
+const resolvers_1 = require("./modules/auth/resolvers");
 const resolvers = {
     Mutation: {
-        signUp: authResolver_1.signUpResolver,
-        signIn: authResolver_1.signInResolver,
+        //auth
+        signUp: resolvers_1.signUpResolver,
+        signIn: resolvers_1.signInResolver,
+        onboard: resolvers_1.onboardResolver,
+        verifyToken: resolvers_1.verifyTokenResolver,
     },
 };
 exports.default = resolvers;

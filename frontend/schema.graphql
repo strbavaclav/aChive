@@ -1,8 +1,48 @@
+input BodyDataInput {
+  height: Float
+  weight: Float
+}
+
+type BodyInfo {
+  height: Float
+  weight: Float
+}
+
 type Mutation {
   _empty(nothing: String): String
-  signIn(authData: SignInInput!): User
-  signOut(email: String!, password: String!): User
-  signUp(authData: SignUpInput!): User
+  addStressRecord(stressRecordData: stressRecordDataInput!): StressRecords!
+  onboard(onboardData: OnboardData!): OnboardedUser!
+  signIn(authData: SignInInput!): User!
+  signOut(email: String!, password: String!): User!
+  signUp(authData: SignUpInput!): User!
+  verifyToken(token: String!): Boolean!
+}
+
+input OnboardData {
+  body: BodyDataInput!
+  bornDate: String!
+  eatHabitGoal: String!
+  email: String!
+  firstName: String!
+  gender: String!
+  lastName: String!
+  plan: [plannedMealInput!]
+  username: String!
+}
+
+type OnboardedUser {
+  body: BodyInfo!
+  bornDate: String!
+  eatHabitGoal: String!
+  email: String!
+  firstName: String!
+  gender: String!
+  lastName: String!
+  onboarded: Boolean!
+  password: String!
+  plan: [plannedMeal!]
+  token: String
+  username: String!
 }
 
 type Query {
@@ -22,9 +62,41 @@ input SignUpInput {
   passwordConfirm: String!
 }
 
+type StressRecords {
+  stressRecords: [stressRecordData!]
+  userEmail: String!
+}
+
 type User {
   email: String!
+  onboarded: Boolean!
   password: String!
   token: String
-  username: String
+}
+
+type plannedMeal {
+  endTime: String!
+  mealName: String!
+  mealSize: String!
+  startTime: String!
+}
+
+input plannedMealInput {
+  endTime: String!
+  mealName: String!
+  mealSize: String!
+  startTime: String!
+}
+
+type stressRecordData {
+  note: String
+  timestamp: String!
+  value: Int!
+}
+
+input stressRecordDataInput {
+  note: String
+  timestamp: String!
+  userEmail: String!
+  value: Int!
 }

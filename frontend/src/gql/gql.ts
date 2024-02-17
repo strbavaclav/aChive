@@ -13,10 +13,14 @@ import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-  "\n  mutation SignIn($authData: SignInInput!) {\n    signIn(authData: $authData) {\n      username\n      email\n      password\n      token\n    }\n  }\n":
+  "\n  mutation SignIn($authData: SignInInput!) {\n    signIn(authData: $authData) {\n      email\n      password\n      token\n      onboarded\n    }\n  }\n":
     types.SignInDocument,
+  "\n  mutation Onboard($onboardData: OnboardData!) {\n    onboard(onboardData: $onboardData) {\n      email\n      password\n      token\n      onboarded\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n    }\n  }\n":
+    types.OnboardDocument,
   "\n  mutation SignUp($authData: SignUpInput!) {\n    signUp(authData: $authData) {\n      email\n      password\n      token\n    }\n  }\n":
     types.SignUpDocument,
+  "\n  mutation VerifyToken($token: String!) {\n    verifyToken(token: $token)\n  }\n":
+    types.VerifyTokenDocument,
 };
 
 /**
@@ -37,14 +41,26 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n  mutation SignIn($authData: SignInInput!) {\n    signIn(authData: $authData) {\n      username\n      email\n      password\n      token\n    }\n  }\n",
-): (typeof documents)["\n  mutation SignIn($authData: SignInInput!) {\n    signIn(authData: $authData) {\n      username\n      email\n      password\n      token\n    }\n  }\n"];
+  source: "\n  mutation SignIn($authData: SignInInput!) {\n    signIn(authData: $authData) {\n      email\n      password\n      token\n      onboarded\n    }\n  }\n",
+): (typeof documents)["\n  mutation SignIn($authData: SignInInput!) {\n    signIn(authData: $authData) {\n      email\n      password\n      token\n      onboarded\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  mutation Onboard($onboardData: OnboardData!) {\n    onboard(onboardData: $onboardData) {\n      email\n      password\n      token\n      onboarded\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n    }\n  }\n",
+): (typeof documents)["\n  mutation Onboard($onboardData: OnboardData!) {\n    onboard(onboardData: $onboardData) {\n      email\n      password\n      token\n      onboarded\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
   source: "\n  mutation SignUp($authData: SignUpInput!) {\n    signUp(authData: $authData) {\n      email\n      password\n      token\n    }\n  }\n",
 ): (typeof documents)["\n  mutation SignUp($authData: SignUpInput!) {\n    signUp(authData: $authData) {\n      email\n      password\n      token\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  mutation VerifyToken($token: String!) {\n    verifyToken(token: $token)\n  }\n",
+): (typeof documents)["\n  mutation VerifyToken($token: String!) {\n    verifyToken(token: $token)\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

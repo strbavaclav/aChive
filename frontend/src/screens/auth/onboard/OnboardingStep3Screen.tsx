@@ -38,6 +38,8 @@ import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput } from "components/form/FormInput";
 import { FormSelect } from "components/form/FormSelect";
+import { useOnboard } from "calls/auth/onboard/useOnboard";
+import { useAuth } from "context/authContext";
 
 export const validationSchema = z.object({
   mealName: z.string().min(1),
@@ -58,6 +60,8 @@ const OnboardingStep3Screen = () => {
   const onboardingNavigation =
     useNavigation<NativeStackNavigationProp<OnboardingStackParams>>();
 
+  const { onboardMutation } = useOnboard();
+  const { setAuthState, authState } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState<
     SelectedMealType | undefined
@@ -114,6 +118,48 @@ const OnboardingStep3Screen = () => {
   const onAddMealHandler = () => {
     setSelectedMeal(undefined);
     setShowModal(true);
+  };
+
+  const onboardHandler = async () => {
+    try {
+      await onboardMutation({
+        variables: {
+          onboardData: {
+            email: "test@test.cz",
+            firstName: "alfred",
+            lastName: "las",
+            username: "petr",
+            gender: "male",
+            bornDate: "2015-03-25",
+            body: {
+              height: 176.5,
+              weight: 76.4,
+            },
+            eatHabitGoal: "eat more",
+            plan: [
+              {
+                mealName: "breakfast",
+                mealSize: "S",
+                startTime: "2024-02-16T07:30:00Z",
+                endTime: "2024-02-16T07:30:00Z",
+              },
+              {
+                mealName: "lunch",
+                mealSize: "L",
+                startTime: "2024-02-16T07:30:00Z",
+                endTime: "2024-02-16T07:30:00Z",
+              },
+            ],
+          },
+        },
+      });
+      setAuthState!((prevState) => ({
+        ...prevState!,
+        onboarded: true,
+      }));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   return (
@@ -250,7 +296,7 @@ const OnboardingStep3Screen = () => {
               <ButtonIcon as={ChevronLeftIcon} />
               <ButtonText>Back</ButtonText>
             </Button>
-            <Button w={"30%"} onPress={() => navigation.navigate("Main")}>
+            <Button w={"30%"} onPress={onboardHandler}>
               <ButtonText>Start</ButtonText>
               <ButtonIcon as={ChevronRightIcon} />
             </Button>
