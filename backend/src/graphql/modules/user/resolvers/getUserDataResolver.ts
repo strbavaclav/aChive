@@ -13,7 +13,11 @@ export const getUserDataResolver = async (
     }
     try {
         const user = await User.findOne({ _id: authUser.userId })
-        return { ...(user?.toObject() as UserType) }
+        if (user) {
+            return { ...(user?.toObject() as UserType) }
+        } else {
+            throw new GraphQLError('user not exist')
+        }
     } catch (error) {
         console.log(error)
         throw error

@@ -2,7 +2,6 @@ import { SIGN_IN_MUTATION } from "calls/auth/login/useSignIn";
 import { SIGN_UP_MUTATION } from "calls/auth/register/useSignUp";
 import React, {
   createContext,
-  Dispatch,
   ReactElement,
   ReactNode,
   useContext,
@@ -15,6 +14,13 @@ import { client } from "gql/client";
 import { useApp } from "./appContext";
 import { GET_USER_DATA_QUERY } from "calls/user/useGetUserData";
 import { User } from "gql/graphql";
+import {
+  Toast,
+  ToastDescription,
+  ToastTitle,
+  useToast,
+  VStack,
+} from "@gluestack-ui/themed";
 
 interface AuthState {
   token?: string | null;
@@ -55,16 +61,20 @@ export const AuthProvider = ({
     onboarded: false,
   });
   const { setAppState } = useApp();
+  const toast = useToast();
 
   useEffect(() => {
     const initializeAuth = async () => {
       const token = await SecureStore.getItemAsync("jwt");
+
       if (token) {
         try {
-          const { data } = await client.query({ query: GET_USER_DATA_QUERY });
+          const response = await client.query({ query: GET_USER_DATA_QUERY });
+
+          const { data } = response;
           setAppState((prevState) => ({
             ...prevState,
-            userData: { ...data.getUserData, password: "", token: "" },
+            userData: { ...(data.getUserData as User) },
           }));
           setAuthState({
             token,
@@ -72,7 +82,23 @@ export const AuthProvider = ({
             onboarded: data.getUserData.onboarded,
           });
         } catch (error) {
-          console.error(error);
+          toast.show({
+            placement: "top",
+            render: ({ id }) => {
+              const toastId = "toast-" + id;
+              return (
+                <Toast nativeID={toastId} action="error" variant="accent">
+                  <VStack space="xs">
+                    <ToastTitle>Oops... Your session expired!</ToastTitle>
+                    <ToastDescription>
+                      Please sign in to get back to your progress.
+                    </ToastDescription>
+                  </VStack>
+                </Toast>
+              );
+            },
+          });
+          console.log(error);
           await SecureStore.deleteItemAsync("jwt");
           setAuthState({ token: null, authenticated: false, onboarded: false });
         }

@@ -2,7 +2,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken'
 
 export const createToken = (content: string | object): string => {
     return jwt.sign(content, process.env.ACCESS_JWT_SECRET!!, {
-        expiresIn: '30d',
+        expiresIn: '1y',
     })
 }
 

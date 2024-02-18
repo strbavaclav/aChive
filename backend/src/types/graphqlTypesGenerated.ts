@@ -104,7 +104,7 @@ export type Query = {
     __typename?: 'Query'
     _empty?: Maybe<Scalars['String']['output']>
     getUser?: Maybe<User>
-    getUserData: User
+    getUserData?: Maybe<User>
 }
 
 export type QueryGetUserArgs = {
@@ -374,7 +374,11 @@ export type QueryResolvers<
         ContextType,
         RequireFields<QueryGetUserArgs, 'id'>
     >
-    getUserData?: Resolver<ResolversTypes['User'], ParentType, ContextType>
+    getUserData?: Resolver<
+        Maybe<ResolversTypes['User']>,
+        ParentType,
+        ContextType
+    >
 }
 
 export type StressRecordDataResolvers<
