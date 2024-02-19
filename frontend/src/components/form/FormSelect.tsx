@@ -9,7 +9,6 @@ import {
   FormControlHelperText,
   FormControlLabel,
   FormControlLabelText,
-  Icon,
   Select,
   SelectBackdrop,
   SelectContent,
@@ -20,6 +19,7 @@ import {
   SelectItem,
   SelectPortal,
   SelectTrigger,
+  Text,
 } from "@gluestack-ui/themed";
 import { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -52,14 +52,25 @@ export const FormSelect: FC<Props> = (props) => {
       <Controller
         control={control}
         name={name}
-        render={({ field: { value } }) => (
+        render={({ field: { value, onChange }, fieldState: { error } }) => (
           <FormControl>
             <FormControlLabel>
               <FormControlLabelText>{label}</FormControlLabelText>
             </FormControlLabel>
-            <Select isFocusVisible>
+            <Select
+              mb={0}
+              pb={0}
+              isFocusVisible
+              onValueChange={(value) => onChange(value)}
+              isInvalid={!!error}
+            >
               <SelectTrigger w={"100%"}>
-                <SelectInput placeholder={placeholder} value={value} />
+                <SelectInput
+                  id={name}
+                  placeholder={placeholder}
+                  value={value}
+                  {...rest}
+                />
                 <SelectIcon as={ChevronDownIcon} mr={"$3"} />
               </SelectTrigger>
               <SelectPortal>
@@ -81,10 +92,14 @@ export const FormSelect: FC<Props> = (props) => {
             <FormControlHelper>
               <FormControlHelperText>{helperLabel}</FormControlHelperText>
             </FormControlHelper>
-            <FormControlError>
-              <FormControlErrorIcon as={AlertCircleIcon} />
-              <FormControlErrorText>{errorLabel}</FormControlErrorText>
-            </FormControlError>
+            {!!error && (
+              <FormControlHelper id={`${name}_helperText`}>
+                <FormControlHelperText color="#cc0000">
+                  {" "}
+                  {error.message}
+                </FormControlHelperText>
+              </FormControlHelper>
+            )}
           </FormControl>
         )}
       />

@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { DrawerNavigationHelpers } from "@react-navigation/drawer/lib/typescript/src/types";
+import { useApp } from "context/appContext";
 import { useAuth } from "context/authContext";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -39,6 +40,7 @@ const CustomDrawerItem: React.FC<CustomDrawerItemProps> = ({
 };
 const CustomDrawer: React.FC<Props> = ({ navigation }) => {
   const { onSignOut } = useAuth();
+  const { appState } = useApp();
 
   return (
     <View
@@ -81,7 +83,7 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={{ marginLeft: 10 }}>
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
-              Jerry Strba
+              {appState.userData?.firstName + " " + appState.userData?.lastName}
             </Text>
             <Text style={{ color: "white" }}>View your profile</Text>
           </View>

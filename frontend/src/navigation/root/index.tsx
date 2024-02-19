@@ -21,6 +21,11 @@ export const RootStackNavigator = () => {
 
   return (
     <RootNavigator.Navigator screenOptions={screnOptions}>
+      {/* <RootNavigator.Screen
+        name="OnboardingNavigator"
+        component={OnboardingStackNavigator}
+      /> */}
+
       {authState?.authenticated && authState.onboarded ? (
         <RootNavigator.Screen
           name="MainNavigator"

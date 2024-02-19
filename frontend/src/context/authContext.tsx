@@ -11,9 +11,8 @@ import React, {
 import * as SecureStore from "expo-secure-store";
 
 import { client } from "gql/client";
-import { useApp } from "./appContext";
+import { useApp, UserType } from "./appContext";
 import { GET_USER_DATA_QUERY } from "calls/user/useGetUserData";
-import { User } from "gql/graphql";
 import {
   Toast,
   ToastDescription,
@@ -74,7 +73,7 @@ export const AuthProvider = ({
           const { data } = response;
           setAppState((prevState) => ({
             ...prevState,
-            userData: { ...(data.getUserData as User) },
+            userData: { ...(data.getUserData as UserType) },
           }));
           setAuthState({
             token,
@@ -128,6 +127,11 @@ export const AuthProvider = ({
           onboarded: newUser?.onboarded,
         });
 
+        setAppState((prevState) => ({
+          ...prevState,
+          userData: { ...prevState.userData, email },
+        }));
+
         await SecureStore.setItemAsync("jwt", String(newUser?.token));
       }
     } catch (error) {
@@ -147,7 +151,7 @@ export const AuthProvider = ({
 
       await setAppState!((prevState) => ({
         ...prevState!,
-        userData: result.data?.signIn as User,
+        userData: result.data?.signIn as UserType,
       }));
 
       await setAuthState({

@@ -22,6 +22,7 @@ type Props = {
   children: ReactNode;
   buttonTitle: string;
   onClose?: () => void;
+  onSubmit?: () => void;
 };
 
 const AppModal: FC<Props> = ({
@@ -30,6 +31,7 @@ const AppModal: FC<Props> = ({
   title,
   children,
   buttonTitle,
+  onSubmit,
 }) => {
   return (
     <Modal isOpen={open} onClose={onClose}>
@@ -43,7 +45,7 @@ const AppModal: FC<Props> = ({
         </ModalHeader>
         <ModalBody>{children}</ModalBody>
         <ModalFooter>
-          <Button size="sm" borderWidth="$0">
+          <Button size="sm" borderWidth="$0" onPress={onSubmit}>
             <ButtonText>{buttonTitle}</ButtonText>
           </Button>
         </ModalFooter>

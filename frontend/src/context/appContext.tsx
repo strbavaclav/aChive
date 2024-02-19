@@ -1,4 +1,3 @@
-import { User } from "gql/graphql";
 import React, {
   createContext,
   Dispatch,
@@ -9,8 +8,47 @@ import React, {
   useState,
 } from "react";
 
+type OnboardDataType = {
+  body?: { height?: number; weight?: number };
+  bornDate?: Date;
+  eatHabitGoal?: string;
+  email?: string;
+  firstName?: string;
+  gender?: string;
+  lastName?: string;
+  plan?: PlannedMealType[];
+  username?: string;
+  stressRecordValue?: number;
+  stressRecordNote?: string;
+};
+
+export type UserType = {
+  body?: BodyInfoType;
+  bornDate?: string;
+  eatHabitGoal?: string;
+  email: string;
+  firstName?: string;
+  gender?: string;
+  lastName?: string;
+  plan?: PlannedMealType[];
+  username?: string;
+};
+
+export type PlannedMealType = {
+  mealName?: string;
+  mealSize?: string;
+  startTime?: Date;
+  endTime?: Date;
+};
+
+type BodyInfoType = {
+  height?: number;
+  weight?: number;
+};
+
 interface AppState {
-  userData?: User;
+  userData?: UserType;
+  onboardData?: OnboardDataType;
 }
 
 interface AppContextProps {

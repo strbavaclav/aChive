@@ -54,9 +54,17 @@ const userShema = new mongoose.Schema({
         type: String,
         require: [requiredIfOnboarded],
     },
-    plan: [
-        { mealName: String, mealSize: String, startTime: Date, endTime: Date },
-    ],
+    plan: {
+        type: [
+            {
+                mealName: String,
+                mealSize: String,
+                startTime: Date,
+                endTime: Date,
+            },
+        ],
+        required: [requiredIfOnboarded, 'Plan is required if onboarded'],
+    },
 })
 
 const User = mongoose.model('User', userShema)

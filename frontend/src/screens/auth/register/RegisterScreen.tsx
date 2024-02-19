@@ -15,8 +15,9 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import OAuthButton from "components/auth/OAuthButton";
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState } from "react";
 import {
+  ActivityIndicator,
   Image,
   Keyboard,
   Platform,
@@ -60,6 +61,8 @@ const RegisterScreen = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParams>>();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const formContext = useForm<FormDataType>({
     defaultValues,
     reValidateMode: "onChange",
@@ -67,6 +70,7 @@ const RegisterScreen = () => {
   });
 
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
+    setIsLoading(true);
     try {
       await onSignUp!(values.email, values.password, values.passwordConfirm);
     } catch (error) {
@@ -80,7 +84,7 @@ const RegisterScreen = () => {
         formContext.setError(formInput, { message });
       }
     } finally {
-      //setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -142,8 +146,16 @@ const RegisterScreen = () => {
               m={10}
               onPress={onPress}
             >
-              <ButtonText>Sign up </ButtonText>
-              <ButtonIcon as={ChevronsRightIcon} />
+              {isLoading ? (
+                <React.Fragment>
+                  <ActivityIndicator color="#fff" />
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <ButtonText>Sign up </ButtonText>
+                  <ButtonIcon as={ChevronsRightIcon} />
+                </React.Fragment>
+              )}
             </Button>
             <OAuthButton />
             <HStack justifyContent="center" alignItems="center" mt={20}>

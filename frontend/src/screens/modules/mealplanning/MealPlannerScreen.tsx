@@ -28,23 +28,29 @@ import {
 } from "@gluestack-ui/themed";
 import MealPlanCard from "components/custom/MealPlanCard";
 import DateTimePicker from "@react-native-community/datetimepicker";
-
-const mealPlannedMocks = [
-  {
-    mealName: "Breakfast",
-    mealTime: "7:30 - 9:00",
-    mealSize: "M",
-    logged: true,
-  },
-  { mealName: "Lunch", mealTime: "12:00 - 13:00", mealSize: "L", logged: true },
-  { mealName: "Snack", mealTime: "15:00 - 15:30", mealSize: "S" },
-  { mealName: "Dinner", mealTime: "18:00 - 20:00", mealSize: "M" },
-];
+import { useApp } from "context/appContext";
 
 const MealPlannerScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedDay, setSelectedDay] = useState(new Date());
   const ref = useRef(null);
+  const { appState } = useApp();
+
+  const formatTime = (timestamp: Date) => {
+    // Ensure the timestamp is a number. If it's a string, try converting it.
+    const numericTimestamp = Number(timestamp);
+
+    // Check if the timestamp is valid
+    if (isNaN(numericTimestamp)) {
+      return "Invalid Time"; // Or handle the error as appropriate
+    }
+
+    const date = new Date(numericTimestamp);
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
+    return `${hours}:${formattedMinutes}`;
+  };
 
   return (
     <View flex={1} gap={2}>
@@ -53,16 +59,18 @@ const MealPlannerScreen = () => {
         Your daily plan
       </Heading>
       <ScrollView>
-        {mealPlannedMocks.map((plannedMeal, i) => (
-          <MealPlanCard
-            key={i}
-            mealName={plannedMeal.mealName}
-            mealTime={plannedMeal.mealTime}
-            mealSize={plannedMeal.mealSize}
-            logged={plannedMeal.logged}
-            onLogMeal={() => setShowModal(true)}
-          />
-        ))}
+        {appState.userData &&
+          appState.userData.plan &&
+          appState.userData?.plan.map((plannedMeal, i) => (
+            <MealPlanCard
+              key={i}
+              mealName={plannedMeal.mealName!}
+              mealTime={`${formatTime(plannedMeal.startTime!)} - ${formatTime(plannedMeal.endTime!)}`}
+              mealSize={plannedMeal.mealSize!}
+              logged={false}
+              onLogMeal={() => setShowModal(true)}
+            />
+          ))}
         <HStack justifyContent="center" mt={4}>
           <Button size="sm" justifyContent="center" alignItems="center" gap={2}>
             <ButtonIcon as={AddIcon} size="sm" />
@@ -91,12 +99,25 @@ const MealPlannerScreen = () => {
         <VStack w={"80%"} justifyContent="center" alignItems="center">
           <Heading>Daily progress</Heading>
           <HStack justifyContent="center" alignItems="center" gap={10}>
-            <Progress value={(2 / mealPlannedMocks.length) * 100} h={8}>
+            <Progress
+              value={
+                appState.userData && appState.userData.plan
+                  ? (1 / appState.userData.plan.length) * 100
+                  : 0
+              }
+              h={8}
+            >
               <ProgressFilledTrack h={8} />
             </Progress>
             <Icon as={CheckCircleIcon} size="xl" />
           </HStack>
-          <Text size="md">2 of {mealPlannedMocks.length} meals</Text>
+          <Text size="md">
+            1 of{" "}
+            {appState.userData && appState.userData.plan
+              ? appState.userData.plan.length
+              : 0}{" "}
+            meals
+          </Text>
         </VStack>
       </Box>
       <Modal
