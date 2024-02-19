@@ -1,29 +1,74 @@
 type Query {
   getUser(id: ID!): User
-  getAllUsers: [User]
 }
 
 type Mutation {
-  signUp(authData:SignUpInput!): User
-  signIn(authData: SignInInput!): User
-  signOut(email: String!,password:String!): User
+  signUp(authData:SignUpInput!): User!
+  signIn(authData: SignInInput!): User!
+
+  onboard(onboardData:OnboardData!): User!
 }
 
 type User {
-  username: String!
   email: String!
   password: String!
   token: String
+  onboarded: Boolean!
+
+  username:String
+  firstName:String
+  lastName:String
+  gender:String
+  bornDate:String
+  body: BodyInfo
+  eatHabitGoal:String
+  plan:[PlannedMeal!] 
+}
+
+type BodyInfo {
+  height: Float!
+  weight: Float!
+}
+
+type PlannedMeal {
+  mealName:String!
+  mealSize:String!
+  startTime:String!
+  endTime:String!
 }
 
 input SignUpInput {
- username: String!
  email: String!
  password:String!
+ passwordConfirm:String!
 }
 
 input SignInInput {
   email: String!
   password: String!
+}
+
+input OnboardData {
+  email:String!
+  firstName:String!
+  lastName:String!
+  username:String!
+  gender:String!
+  bornDate:String!
+  body: BodyDataInput!
+  eatHabitGoal:String!
+  plan: [PlannedMealInput!]
+}
+
+input BodyDataInput {
+  height: Float
+  weight: Float
+}
+
+input PlannedMealInput {
+  mealName:String!
+  mealSize:String!
+  startTime:String!
+  endTime:String!
 }
 

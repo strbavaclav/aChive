@@ -13,13 +13,13 @@ export default function App() {
   return (
     <GluestackUIProvider config={config}>
       <ApolloProvider client={client}>
-        <AuthProvider>
-          <NavigationContainer>
-            <AppProvider>
+        <AppProvider>
+          <AuthProvider>
+            <NavigationContainer>
               <RootStackNavigator />
-            </AppProvider>
-          </NavigationContainer>
-        </AuthProvider>
+            </NavigationContainer>
+          </AuthProvider>
+        </AppProvider>
       </ApolloProvider>
     </GluestackUIProvider>
   );

@@ -1,6 +1,9 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Box, HStack, Text } from "@gluestack-ui/themed";
-import { useDrawerProgress } from "@react-navigation/drawer";
+import {
+  DrawerNavigationProp,
+  useDrawerProgress,
+} from "@react-navigation/drawer";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 import React, { ReactNode } from "react";
 import { TouchableOpacity } from "react-native";
@@ -9,23 +12,27 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { MainDrawerParams } from "navigation/main";
 
 type Props = {
   children: ReactNode;
   isBack?: boolean;
   isNotification?: boolean;
+  isSettings?: boolean;
   screenTitle?: string;
 };
 const DrawerScreenWrapper: React.FC<Props> = ({
   children,
   isBack,
   isNotification,
+  isSettings,
   screenTitle,
 }) => {
   const statusBarHeight = Constants.statusBarHeight;
   const progress = useDrawerProgress();
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<DrawerNavigationProp<MainDrawerParams>>();
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -94,12 +101,19 @@ const DrawerScreenWrapper: React.FC<Props> = ({
             </TouchableOpacity>
           )}
           {isNotification && (
-            <TouchableOpacity onPress={() => console.log("open something")}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate("Notifications")}
+            >
               <Ionicons
                 name={"notifications-outline"}
                 size={24}
                 color={"#10b981"}
               />
+            </TouchableOpacity>
+          )}
+          {isSettings && (
+            <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+              <Ionicons name={"settings"} size={24} color={"#10b981"} />
             </TouchableOpacity>
           )}
         </Box>

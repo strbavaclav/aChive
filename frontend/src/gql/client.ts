@@ -7,10 +7,7 @@ import {
 } from "@apollo/client";
 import * as SecureStore from "expo-secure-store";
 
-const getToken = async () => {
-  const token = await SecureStore.getItemAsync("jwt");
-  return await SecureStore.getItemAsync("jwt");
-};
+const getToken = () => SecureStore.getItemAsync("jwt");
 
 const authLink = new ApolloLink((operation, forward) => {
   return new Observable((observer) => {

@@ -14,6 +14,7 @@ const drainHttpServer_1 = require("@apollo/server/plugin/drainHttpServer");
 const express4_1 = require("@apollo/server/express4");
 const rootTypeDefs_1 = __importDefault(require("./graphql/rootTypeDefs"));
 const rootResolver_1 = __importDefault(require("./graphql/rootResolver"));
+const jwt_1 = require("./libs/jwt");
 const init = async () => {
     const app = (0, express_1.default)();
     const httpServer = http_1.default.createServer(app);
@@ -24,6 +25,13 @@ const init = async () => {
     });
     await server.start();
     mongoose_1.default.connect(process.env.MONGODB_URI);
+    const customContext = async ({ req, }) => {
+        const authToken = req.headers.authorization || '';
+        const authUser = (0, jwt_1.parseAndVerifyJWT)(authToken);
+        return {
+            authUser,
+        };
+    };
     async function run() {
         try {
             await database_config_1.client.connect();
@@ -35,9 +43,7 @@ const init = async () => {
         }
     }
     run().catch(console.dir);
-    app.use('/graphql', (0, cors_1.default)(), express_1.default.json(), (0, express4_1.expressMiddleware)(server, {
-        context: async ({ req }) => ({ token: req.headers.token }),
-    }));
+    app.use('/graphql', (0, cors_1.default)(), express_1.default.json(), (0, express4_1.expressMiddleware)(server, { context: customContext }));
     app.use((req, res) => {
         res.status(404).json('404 - endpoint do not exits!');
     });

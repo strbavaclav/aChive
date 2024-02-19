@@ -7,6 +7,9 @@ const SettingsScreen = () => {
     <DrawerScreenWrapper isBack screenTitle="App settings">
       <View>
         <Text>SettingsScreen</Text>
+        <Text>language</Text>
+        <Text>dark mode</Text>
+        <Text>Acknowledgments - what the SW use</Text>
       </View>
     </DrawerScreenWrapper>
   );

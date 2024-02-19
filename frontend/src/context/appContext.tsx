@@ -8,25 +8,75 @@ import React, {
   useState,
 } from "react";
 
-type AppContextType = {
-  data: { [key: string]: any } | null;
-  setData: Dispatch<SetStateAction<{ [key: string]: any } | null>>;
+type OnboardDataType = {
+  body?: { height?: number; weight?: number };
+  bornDate?: Date;
+  eatHabitGoal?: string;
+  email?: string;
+  firstName?: string;
+  gender?: string;
+  lastName?: string;
+  plan?: PlannedMealType[];
+  username?: string;
+  stressRecordValue?: number;
+  stressRecordNote?: string;
 };
 
-const AppContext = createContext<AppContextType | undefined>(undefined);
+export type UserType = {
+  body?: BodyInfoType;
+  bornDate?: string;
+  eatHabitGoal?: string;
+  email: string;
+  firstName?: string;
+  gender?: string;
+  lastName?: string;
+  plan?: PlannedMealType[];
+  username?: string;
+};
 
-function useAuth(): AppContextType {
+export type PlannedMealType = {
+  mealName?: string;
+  mealSize?: string;
+  startTime?: Date;
+  endTime?: Date;
+};
+
+type BodyInfoType = {
+  height?: number;
+  weight?: number;
+};
+
+interface AppState {
+  userData?: UserType;
+  onboardData?: OnboardDataType;
+}
+
+interface AppContextProps {
+  appState: AppState;
+  setAppState: Dispatch<SetStateAction<AppState>>;
+}
+
+const AppContext = createContext<AppContextProps | undefined>(undefined);
+
+export const useApp = (): AppContextProps => {
   const context = useContext(AppContext);
   if (!context) {
     throw new Error("useApp must be used within an AppProvider");
   }
   return context;
-}
-
-const AppProvider = (props: { children: ReactNode }): ReactElement => {
-  const [data, setData] = useState<{ [key: string]: any } | null>(null);
-
-  return <AppContext.Provider {...props} value={{ data, setData }} />;
 };
 
-export { AppProvider, useAuth };
+export const AppProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): ReactElement => {
+  const [appState, setAppState] = useState<AppState>({});
+
+  const value = {
+    appState,
+    setAppState,
+  };
+
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+};
