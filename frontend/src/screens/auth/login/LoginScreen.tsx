@@ -38,6 +38,7 @@ import { useAuth } from "context/authContext";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormInput } from "components/form/FormInput";
+import { ApolloError } from "@apollo/client";
 
 export const validationSchema = z.object({
   email: z.string().email("Incorect Email!").min(5),
@@ -47,7 +48,7 @@ export const validationSchema = z.object({
 type FormDataType = z.infer<typeof validationSchema>;
 
 export const defaultValues: Partial<FormDataType> = {
-  email: "test@be.com",
+  email: "test@test.cz",
   password: "Abeceda123",
 };
 
@@ -72,7 +73,15 @@ const LoginScreen = () => {
     try {
       await onSignIn!(values.email, values.password);
     } catch (error) {
-      console.log(error);
+      const apolloError = error as ApolloError;
+
+      if (apolloError.graphQLErrors && apolloError.graphQLErrors.length > 0) {
+        const gqlError = apolloError.graphQLErrors[0];
+        const formInput = String(gqlError.extensions?.formInput) as "email";
+        const message = String(gqlError.extensions?.message);
+
+        formContext.setError(formInput, { message });
+      }
     } finally {
       setIsLoading(false);
     }
@@ -110,38 +119,31 @@ const LoginScreen = () => {
             <Heading>
               {t("sign in to")} <Heading color="$primary500">aChive</Heading>
             </Heading>
-            <VStack
-              width={"80%"}
-              justifyContent="center"
-              alignItems="center"
-              gap={1}
+
+            <FormProvider {...formContext}>
+              <FormInput name="email" placeholder={t("your@mail.cz")} />
+              <FormInput name="password" placeholder={t("password")} secret />
+            </FormProvider>
+            <Button
+              width={200}
+              size="md"
+              variant="solid"
+              action="primary"
+              isDisabled={false}
               m={10}
+              onPress={onPress}
             >
-              <FormProvider {...formContext}>
-                <FormInput name="email" placeholder={t("your@mail.cz")} />
-                <FormInput name="password" placeholder={t("password")} secret />
-              </FormProvider>
-              <Button
-                width={200}
-                size="md"
-                variant="solid"
-                action="primary"
-                isDisabled={false}
-                m={10}
-                onPress={onPress}
-              >
-                {isLoading ? (
-                  <React.Fragment>
-                    <ActivityIndicator color="#fff" />
-                  </React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    <ButtonText>{t("Sign in")} </ButtonText>
-                    <ButtonIcon as={ChevronsRightIcon} />
-                  </React.Fragment>
-                )}
-              </Button>
-            </VStack>
+              {isLoading ? (
+                <React.Fragment>
+                  <ActivityIndicator color="#fff" />
+                </React.Fragment>
+              ) : (
+                <React.Fragment>
+                  <ButtonText>{t("Sign in")} </ButtonText>
+                  <ButtonIcon as={ChevronsRightIcon} />
+                </React.Fragment>
+              )}
+            </Button>
 
             <OAuthButton />
             <HStack justifyContent="center" alignItems="center" mt={20}>

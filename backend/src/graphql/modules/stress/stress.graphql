@@ -1,0 +1,23 @@
+
+type Mutation {
+  addStressRecord(stressRecordData: StressRecordDataInput!):StressRecords!
+}
+
+type StressRecords {
+    userEmail:String!
+    stressRecords:[StressRecordData!]
+}
+
+type StressRecordData {
+  timestamp: String!
+  value: Int!
+  note: String
+}
+
+input StressRecordDataInput {
+  userEmail: String!  
+  timestamp: String!
+  value: Int!
+  note: String
+}
+

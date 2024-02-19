@@ -1,13 +1,9 @@
 import {
-  AddIcon,
   Box,
   Button,
   ButtonIcon,
   ButtonText,
   ChevronRightIcon,
-  Fab,
-  FabIcon,
-  FabLabel,
   HStack,
   Heading,
   KeyboardAvoidingView,
@@ -19,19 +15,29 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FormInput } from "components/form/FormInput";
 import { FormSelect } from "components/form/FormSelect";
-import { OnboardingStackParams } from "navigation/auth";
 import React from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { Dimensions, SafeAreaView } from "react-native";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import {
+  FormProvider,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
+import { SafeAreaView } from "react-native";
 
 import { z } from "zod";
-import { RulerPicker } from "react-native-ruler-picker";
+import { OnboardingStackParams } from "navigation/onboarding";
+import { FormDateTimePicker } from "components/form/FormDateTimePicker";
+import { FormRulerPicker } from "components/form/FormRulerPicker";
+import { useApp } from "context/appContext";
 
 export const validationSchema = z.object({
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
-  userName: z.string().min(1),
+  firstName: z.string().min(2, "First name is required!"),
+  lastName: z.string().min(2, "Last name is required!"),
+  username: z.string().min(5, "Username is too short"),
+  gender: z.string().min(1, "Gender must be selected"),
+  bornDate: z.date(),
+  height: z.number(),
+  weight: z.number(),
 });
 
 type FormDataType = z.infer<typeof validationSchema>;
@@ -39,18 +45,47 @@ type FormDataType = z.infer<typeof validationSchema>;
 export const defaultValues: Partial<FormDataType> = {
   firstName: "",
   lastName: "",
-  userName: "",
+  username: "",
+  gender: "",
+  bornDate: new Date(),
+  height: 175,
+  weight: 65,
 };
 
 const OnboardingStep1Screen = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<OnboardingStackParams>>();
 
+  const { setAppState } = useApp();
+
   const formContext = useForm<FormDataType>({
     defaultValues,
     reValidateMode: "onChange",
     resolver: zodResolver(validationSchema),
   });
+
+  const onSubmit: SubmitHandler<FormDataType> = async (values) => {
+    const { firstName, lastName, username, gender, bornDate, height, weight } =
+      values;
+    setAppState((prevState) => ({
+      ...prevState,
+      onboardData: {
+        ...prevState.onboardData,
+        firstName,
+        lastName,
+        username,
+        gender,
+        bornDate,
+        body: { weight, height },
+      },
+    }));
+    navigation.navigate("Step2");
+  };
+
+  const onError: SubmitErrorHandler<FormDataType> = (errors, e) =>
+    console.log(errors);
+
+  const onPress = formContext.handleSubmit(onSubmit, onError);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -73,7 +108,7 @@ const OnboardingStep1Screen = () => {
               />
               <FormInput name="lastName" placeholder="And your last name?" />
               <FormInput
-                name="userName"
+                name="username"
                 placeholder="How should we call you?"
               />
               <FormSelect
@@ -84,67 +119,32 @@ const OnboardingStep1Screen = () => {
               <VStack>
                 <HStack alignItems="center" mt={20}>
                   <Text mb={8}>When were you born?</Text>
-                  <DateTimePicker
-                    value={new Date("1995-01-01")}
-                    accentColor="#10b981"
-                  />
+                  <FormDateTimePicker name="bornDate" />
                 </HStack>
               </VStack>
               <VStack justifyContent="space-between">
-                <VStack mt={30}>
-                  <Text>What's your weight?</Text>
-                  <Box mt={40} justifyContent="center" alignItems="center">
-                    <RulerPicker
-                      min={0}
-                      max={190}
-                      initialValue={67}
-                      step={0.1}
-                      height={40}
-                      width={Dimensions.get("window").width - 40}
-                      valueTextStyle={{ fontSize: 15 }}
-                      unitTextStyle={{ fontSize: 15 }}
-                      indicatorHeight={40}
-                      fractionDigits={1}
-                      shortStepHeight={10}
-                      longStepHeight={30}
-                      stepWidth={4}
-                      decelerationRate={"normal"}
-                      indicatorColor="#10b981"
-                      onValueChange={(number) => console.log(number)}
-                      onValueChangeEnd={(number) => console.log(number)}
-                      unit="kg"
-                    />
-                  </Box>
-                </VStack>
-                <VStack mt={30}>
-                  <Text>What's your height?</Text>
-                  <Box mt={40} justifyContent="center" alignItems="center">
-                    <RulerPicker
-                      min={0}
-                      max={240}
-                      initialValue={175}
-                      step={0.5}
-                      height={40}
-                      width={Dimensions.get("window").width - 40}
-                      valueTextStyle={{ fontSize: 15 }}
-                      unitTextStyle={{ fontSize: 15 }}
-                      indicatorHeight={40}
-                      fractionDigits={1}
-                      shortStepHeight={10}
-                      longStepHeight={30}
-                      stepWidth={4}
-                      decelerationRate={"normal"}
-                      indicatorColor="#10b981"
-                      onValueChange={(number) => console.log(number)}
-                      onValueChangeEnd={(number) => console.log(number)}
-                      unit="cm"
-                    />
-                  </Box>
-                </VStack>
+                <FormRulerPicker
+                  name="weight"
+                  label="What's your weight?"
+                  initialValue={65}
+                  max={190}
+                  min={0}
+                  step={0.1}
+                  unit="kg"
+                />
+                <FormRulerPicker
+                  name="height"
+                  label="What's your height?"
+                  initialValue={175}
+                  max={240}
+                  min={0}
+                  step={0.5}
+                  unit="cm"
+                />
               </VStack>
             </VStack>
           </FormProvider>
-          <Button w={"60%"} onPress={() => navigation.navigate("Step2")}>
+          <Button w={"60%"} onPress={onPress}>
             <ButtonText>Next step</ButtonText>
             <ButtonIcon as={ChevronRightIcon} />
           </Button>

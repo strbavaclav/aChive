@@ -9,6 +9,7 @@ import {
   View,
 } from "@gluestack-ui/themed";
 import DashboardTile from "components/custom/DashboardTile";
+import { useApp } from "context/appContext";
 import React from "react";
 import { Dimensions, TouchableOpacity } from "react-native";
 import { LineChart, ContributionGraph } from "react-native-chart-kit";
@@ -41,6 +42,7 @@ const chartConfig = {
 };
 const HomeScreen = () => {
   const width = Dimensions.get("window").width;
+  const { appState } = useApp();
 
   return (
     <ScrollView flex={1} padding={6}>
@@ -78,7 +80,7 @@ const HomeScreen = () => {
             >
               <Avatar />
               <Text style={{ color: "white" }} bold size="xl">
-                Hi Vaclav!
+                Hi {appState?.userData?.username}!
               </Text>
             </HStack>
           </Box>

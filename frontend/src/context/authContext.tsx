@@ -11,25 +11,35 @@ import React, {
 import * as SecureStore from "expo-secure-store";
 
 import { client } from "gql/client";
+import { useApp, UserType } from "./appContext";
+import { GET_USER_DATA_QUERY } from "calls/user/useGetUserData";
+import {
+  Toast,
+  ToastDescription,
+  ToastTitle,
+  useToast,
+  VStack,
+} from "@gluestack-ui/themed";
+
+interface AuthState {
+  token?: string | null;
+  authenticated: boolean;
+  onboarded?: boolean;
+}
 
 interface AuthContextProps {
-  authState?: {
-    token: string | null;
-    authenticated: boolean | null;
-    onboarded: boolean;
-  };
-  onSignUp?: (
+  authState: AuthState;
+  setAuthState: React.Dispatch<React.SetStateAction<AuthState>>;
+  onSignUp: (
     email: string,
     username: string,
     password: string
-  ) => Promise<any>;
-  onSignIn?: (email: string, password: string) => Promise<any>;
-  onSignOut?: () => Promise<any>;
+  ) => Promise<void>;
+  onSignIn: (email: string, password: string) => Promise<void>;
+  onSignOut: () => Promise<void>;
 }
 
-const TOKEN_KEY = "jwt";
-
-const AuthContext = createContext<AuthContextProps>({});
+const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const useAuth = (): AuthContextProps => {
   const context = useContext(AuthContext);
@@ -39,22 +49,63 @@ export const useAuth = (): AuthContextProps => {
   return context;
 };
 
-export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
-  const [authState, setAuthState] = useState<{
-    token: string | null;
-    authenticated: boolean | null;
-    onboarded: boolean;
-  }>({ token: null, authenticated: null, onboarded: false });
+export const AuthProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}): ReactElement => {
+  const [authState, setAuthState] = useState<AuthState>({
+    token: null,
+    authenticated: false,
+    onboarded: false,
+  });
+  const { setAppState } = useApp();
+  const toast = useToast();
 
   useEffect(() => {
-    const loadToken = async () => {
-      const token = await SecureStore.getItemAsync(TOKEN_KEY);
+    const initializeAuth = async () => {
+      const token = await SecureStore.getItemAsync("jwt");
+
       if (token) {
-        setAuthState({ token: token, authenticated: true, onboarded: false });
+        try {
+          const response = await client.query({ query: GET_USER_DATA_QUERY });
+
+          const { data } = response;
+          setAppState((prevState) => ({
+            ...prevState,
+            userData: { ...(data.getUserData as UserType) },
+          }));
+          setAuthState({
+            token,
+            authenticated: true,
+            onboarded: data.getUserData.onboarded,
+          });
+        } catch (error) {
+          toast.show({
+            placement: "top",
+            render: ({ id }) => {
+              const toastId = "toast-" + id;
+              return (
+                <Toast nativeID={toastId} action="error" variant="accent">
+                  <VStack space="xs">
+                    <ToastTitle>Oops... Your session expired!</ToastTitle>
+                    <ToastDescription>
+                      Please sign in to get back to your progress.
+                    </ToastDescription>
+                  </VStack>
+                </Toast>
+              );
+            },
+          });
+          console.log(error);
+          await SecureStore.deleteItemAsync("jwt");
+          setAuthState({ token: null, authenticated: false, onboarded: false });
+        }
       }
     };
-    loadToken();
-  }, []);
+
+    initializeAuth();
+  }, [setAppState]);
 
   const signUp = async (
     email: string,
@@ -67,17 +118,24 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
         variables: { authData: { email, password, passwordConfirm } },
       });
 
-      const token = result.data?.signUp?.token;
+      const newUser = result.data?.signUp;
 
-      await setAuthState({
-        token: token!,
-        authenticated: true,
-        onboarded: false,
-      });
+      if (newUser) {
+        await setAuthState({
+          token: newUser?.token,
+          authenticated: true,
+          onboarded: newUser?.onboarded,
+        });
 
-      await SecureStore.setItemAsync(TOKEN_KEY, String(token));
+        setAppState((prevState) => ({
+          ...prevState,
+          userData: { ...prevState.userData, email },
+        }));
+
+        await SecureStore.setItemAsync("jwt", String(newUser?.token));
+      }
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
@@ -89,34 +147,38 @@ export const AuthProvider = (props: { children: ReactNode }): ReactElement => {
       });
 
       const token = result.data?.signIn?.token;
-      const onboarded = true;
+      const onboarded = result.data?.signIn.onboarded;
+
+      await setAppState!((prevState) => ({
+        ...prevState!,
+        userData: result.data?.signIn as UserType,
+      }));
 
       await setAuthState({
         token: token!,
         authenticated: true,
-        onboarded,
+        onboarded: onboarded,
       });
 
-      await SecureStore.setItemAsync(TOKEN_KEY, String(token));
+      await SecureStore.setItemAsync("jwt", String(token));
     } catch (error) {
-      console.log(error);
+      throw error;
     }
   };
 
   const signOut = async () => {
-    await SecureStore.deleteItemAsync(TOKEN_KEY);
+    await SecureStore.deleteItemAsync("jwt");
 
     setAuthState({ token: null, authenticated: false, onboarded: false });
   };
 
   const value = {
+    authState,
+    setAuthState,
     onSignUp: signUp,
     onSignIn: signIn,
     onSignOut: signOut,
-    authState,
   };
 
-  return (
-    <AuthContext.Provider value={value}>{props.children}</AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

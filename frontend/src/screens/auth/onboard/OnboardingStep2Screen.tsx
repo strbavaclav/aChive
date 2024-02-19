@@ -4,16 +4,9 @@ import {
   ButtonText,
   ChevronLeftIcon,
   ChevronRightIcon,
-  FavouriteIcon,
   HStack,
   Heading,
-  Icon,
   KeyboardAvoidingView,
-  Progress,
-  Slider,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderTrack,
   Text,
   VStack,
 } from "@gluestack-ui/themed";
@@ -21,35 +14,65 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { FormSelect } from "components/form/FormSelect";
+import { FormSlider } from "components/form/FormSlider";
 import { FormTextArea } from "components/form/FormTextArea";
-import { OnboardingStackParams } from "navigation/auth";
-import React, { useState } from "react";
-import { FormProvider, useForm } from "react-hook-form";
-import { SafeAreaView, View } from "react-native";
+import { useApp } from "context/appContext";
+import { OnboardingStackParams } from "navigation/onboarding";
+import React from "react";
+import {
+  FormProvider,
+  SubmitErrorHandler,
+  SubmitHandler,
+  useForm,
+} from "react-hook-form";
+import { SafeAreaView } from "react-native";
 import { z } from "zod";
 
 export const validationSchema = z.object({
-  email: z.string().email("Incorect Email!").min(5),
-  password: z.string().min(1, "Password must be filled!"),
+  eatHabitGoal: z.string().min(1, "Goal must be selected!"),
+  stressRecordValue: z.number(),
+  stressRecordNote: z.string(),
 });
 
 type FormDataType = z.infer<typeof validationSchema>;
 
 export const defaultValues: Partial<FormDataType> = {
-  email: "test@be.com",
-  password: "Abeceda123",
+  eatHabitGoal: "",
+  stressRecordValue: 5,
+  stressRecordNote: "",
 };
 
 const OnboardingStep2Screen = () => {
-  const [stress, setStress] = useState(5);
   const navigation =
     useNavigation<NativeStackNavigationProp<OnboardingStackParams>>();
+
+  const { setAppState } = useApp();
 
   const formContext = useForm<FormDataType>({
     defaultValues,
     reValidateMode: "onChange",
     resolver: zodResolver(validationSchema),
   });
+
+  const onSubmit: SubmitHandler<FormDataType> = async (values) => {
+    const { eatHabitGoal, stressRecordValue, stressRecordNote } = values;
+    setAppState((prevState) => ({
+      ...prevState,
+      onboardData: {
+        ...prevState.onboardData,
+        eatHabitGoal,
+        stressRecordValue,
+        stressRecordNote,
+      },
+    }));
+    navigation.navigate("Step3");
+  };
+
+  const onError: SubmitErrorHandler<FormDataType> = (errors, e) =>
+    console.log(errors);
+
+  const onPress = formContext.handleSubmit(onSubmit, onError);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView alignItems="center" flex={1}>
@@ -66,7 +89,7 @@ const OnboardingStep2Screen = () => {
             <VStack w={"100%"} space="lg" mt={20}>
               <Text>First we need to lay out your eating habit goal!</Text>
               <FormSelect
-                name="goal"
+                name="eatHabitGoal"
                 options={["Eat more", "Eat less", "Be consistent"]}
                 placeholder="I would like to..."
               />
@@ -78,43 +101,12 @@ const OnboardingStep2Screen = () => {
                 On the scale 1 (extreme stress) - 10 (no stress at all) how much
                 stress are we facing together?
               </Text>
-              <Text size="xs">
-                Slide the knob to select the level of stress
-              </Text>
-              <HStack w={"100%"} justifyContent="center" alignItems="center">
-                <Slider
-                  w={"85%"}
-                  mt={20}
-                  minValue={0}
-                  maxValue={10}
-                  step={1}
-                  sliderTrackHeight={5}
-                  size="md"
-                  value={stress}
-                  onChange={(value) => {
-                    setStress(value);
-                  }}
-                >
-                  <SliderTrack>
-                    <SliderFilledTrack />
-                  </SliderTrack>
-                  <SliderThumb
-                    alignItems="center"
-                    justifyContent="center"
-                    width={30}
-                    height={25}
-                  >
-                    <Icon as={FavouriteIcon} color="white" size="md" />
-                  </SliderThumb>
-                </Slider>
-              </HStack>
-              <HStack w={"100%"} justifyContent="space-between">
-                <Text>Stressful</Text>
-                <Text bold>{stress}</Text>
-                <Text>Peaceful</Text>
-              </HStack>
+
+              <FormSlider name="stressRecordValue" label={""} />
+
               <VStack mt={30} space="md">
                 <FormTextArea
+                  name="stressRecordNote"
                   label="Could you elaborate on it?"
                   placeholder="I feel stressed because of..."
                 />
@@ -132,7 +124,7 @@ const OnboardingStep2Screen = () => {
             <ButtonIcon as={ChevronLeftIcon} />
             <ButtonText>Back</ButtonText>
           </Button>
-          <Button w={"30%"} onPress={() => navigation.navigate("Step3")}>
+          <Button w={"30%"} onPress={onPress}>
             <ButtonText>Next step</ButtonText>
             <ButtonIcon as={ChevronRightIcon} />
           </Button>

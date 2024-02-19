@@ -6,18 +6,23 @@ import 'dotenv/config'
 import { client } from './database/database.config'
 import mongoose from 'mongoose'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
-import { expressMiddleware } from '@apollo/server/express4'
+import {
+    ExpressContextFunctionArgument,
+    expressMiddleware,
+} from '@apollo/server/express4'
 import schemaDefinition from './graphql/rootTypeDefs'
 import rootResolver from './graphql/rootResolver'
+import { parseAndVerifyJWT } from './libs/jwt'
+import { JwtPayload } from 'jsonwebtoken'
 
-interface MyContext {
-    token?: String
+export interface CustomContext {
+    authUser: JwtPayload | null
 }
 
 const init = async () => {
     const app = express()
     const httpServer = http.createServer(app)
-    const server = new ApolloServer<MyContext>({
+    const server = new ApolloServer<CustomContext>({
         typeDefs: [schemaDefinition],
         resolvers: rootResolver,
         plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
@@ -26,6 +31,17 @@ const init = async () => {
     await server.start()
 
     mongoose.connect(process.env.MONGODB_URI!!)
+
+    const customContext = async ({
+        req,
+    }: ExpressContextFunctionArgument): Promise<CustomContext> => {
+        const authToken = req.headers.authorization || ''
+        const authUser = parseAndVerifyJWT(authToken)
+
+        return {
+            authUser,
+        }
+    }
 
     async function run() {
         try {
@@ -44,9 +60,7 @@ const init = async () => {
         '/graphql',
         cors<cors.CorsRequest>(),
         express.json(),
-        expressMiddleware(server, {
-            context: async ({ req }) => ({ token: req.headers.token }),
-        })
+        expressMiddleware(server, { context: customContext })
     )
 
     app.use((req, res) => {

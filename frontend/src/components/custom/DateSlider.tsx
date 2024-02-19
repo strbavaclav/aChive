@@ -52,7 +52,6 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
               {week.map((day, i) => {
                 const txt = format(day, "EEEEE");
                 const isTodayDate = isToday(day);
-                //console.log(day);
 
                 return (
                   <TouchableOpacity

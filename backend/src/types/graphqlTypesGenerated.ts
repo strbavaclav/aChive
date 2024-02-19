@@ -33,36 +33,78 @@ export type Scalars = {
     Float: { input: number; output: number }
 }
 
+export type BodyDataInput = {
+    height?: InputMaybe<Scalars['Float']['input']>
+    weight?: InputMaybe<Scalars['Float']['input']>
+}
+
+export type BodyInfo = {
+    __typename?: 'BodyInfo'
+    height: Scalars['Float']['output']
+    weight: Scalars['Float']['output']
+}
+
 export type Mutation = {
     __typename?: 'Mutation'
     _empty?: Maybe<Scalars['String']['output']>
-    signIn?: Maybe<User>
-    signOut?: Maybe<User>
-    signUp?: Maybe<User>
+    addStressRecord: StressRecords
+    onboard: User
+    signIn: User
+    signUp: User
 }
 
 export type Mutation_EmptyArgs = {
     nothing?: InputMaybe<Scalars['String']['input']>
 }
 
-export type MutationSignInArgs = {
-    authData: SignInInput
+export type MutationAddStressRecordArgs = {
+    stressRecordData: StressRecordDataInput
 }
 
-export type MutationSignOutArgs = {
-    email: Scalars['String']['input']
-    password: Scalars['String']['input']
+export type MutationOnboardArgs = {
+    onboardData: OnboardData
+}
+
+export type MutationSignInArgs = {
+    authData: SignInInput
 }
 
 export type MutationSignUpArgs = {
     authData: SignUpInput
 }
 
+export type OnboardData = {
+    body: BodyDataInput
+    bornDate: Scalars['String']['input']
+    eatHabitGoal: Scalars['String']['input']
+    email: Scalars['String']['input']
+    firstName: Scalars['String']['input']
+    gender: Scalars['String']['input']
+    lastName: Scalars['String']['input']
+    plan?: InputMaybe<Array<PlannedMealInput>>
+    username: Scalars['String']['input']
+}
+
+export type PlannedMeal = {
+    __typename?: 'PlannedMeal'
+    endTime: Scalars['String']['output']
+    mealName: Scalars['String']['output']
+    mealSize: Scalars['String']['output']
+    startTime: Scalars['String']['output']
+}
+
+export type PlannedMealInput = {
+    endTime: Scalars['String']['input']
+    mealName: Scalars['String']['input']
+    mealSize: Scalars['String']['input']
+    startTime: Scalars['String']['input']
+}
+
 export type Query = {
     __typename?: 'Query'
     _empty?: Maybe<Scalars['String']['output']>
-    getAllUsers?: Maybe<Array<Maybe<User>>>
     getUser?: Maybe<User>
+    getUserData?: Maybe<User>
 }
 
 export type QueryGetUserArgs = {
@@ -80,10 +122,38 @@ export type SignUpInput = {
     passwordConfirm: Scalars['String']['input']
 }
 
+export type StressRecordData = {
+    __typename?: 'StressRecordData'
+    note?: Maybe<Scalars['String']['output']>
+    timestamp: Scalars['String']['output']
+    value: Scalars['Int']['output']
+}
+
+export type StressRecordDataInput = {
+    note?: InputMaybe<Scalars['String']['input']>
+    timestamp: Scalars['String']['input']
+    userEmail: Scalars['String']['input']
+    value: Scalars['Int']['input']
+}
+
+export type StressRecords = {
+    __typename?: 'StressRecords'
+    stressRecords?: Maybe<Array<StressRecordData>>
+    userEmail: Scalars['String']['output']
+}
+
 export type User = {
     __typename?: 'User'
+    body?: Maybe<BodyInfo>
+    bornDate?: Maybe<Scalars['String']['output']>
+    eatHabitGoal?: Maybe<Scalars['String']['output']>
     email: Scalars['String']['output']
+    firstName?: Maybe<Scalars['String']['output']>
+    gender?: Maybe<Scalars['String']['output']>
+    lastName?: Maybe<Scalars['String']['output']>
+    onboarded: Scalars['Boolean']['output']
     password: Scalars['String']['output']
+    plan?: Maybe<Array<PlannedMeal>>
     token?: Maybe<Scalars['String']['output']>
     username?: Maybe<Scalars['String']['output']>
 }
@@ -195,26 +265,55 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+    BodyDataInput: BodyDataInput
+    BodyInfo: ResolverTypeWrapper<BodyInfo>
     Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>
+    Float: ResolverTypeWrapper<Scalars['Float']['output']>
     ID: ResolverTypeWrapper<Scalars['ID']['output']>
+    Int: ResolverTypeWrapper<Scalars['Int']['output']>
     Mutation: ResolverTypeWrapper<{}>
+    OnboardData: OnboardData
+    PlannedMeal: ResolverTypeWrapper<PlannedMeal>
+    PlannedMealInput: PlannedMealInput
     Query: ResolverTypeWrapper<{}>
     SignInInput: SignInInput
     SignUpInput: SignUpInput
+    StressRecordData: ResolverTypeWrapper<StressRecordData>
+    StressRecordDataInput: StressRecordDataInput
+    StressRecords: ResolverTypeWrapper<StressRecords>
     String: ResolverTypeWrapper<Scalars['String']['output']>
     User: ResolverTypeWrapper<User>
 }
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+    BodyDataInput: BodyDataInput
+    BodyInfo: BodyInfo
     Boolean: Scalars['Boolean']['output']
+    Float: Scalars['Float']['output']
     ID: Scalars['ID']['output']
+    Int: Scalars['Int']['output']
     Mutation: {}
+    OnboardData: OnboardData
+    PlannedMeal: PlannedMeal
+    PlannedMealInput: PlannedMealInput
     Query: {}
     SignInInput: SignInInput
     SignUpInput: SignUpInput
+    StressRecordData: StressRecordData
+    StressRecordDataInput: StressRecordDataInput
+    StressRecords: StressRecords
     String: Scalars['String']['output']
     User: User
+}
+
+export type BodyInfoResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['BodyInfo'] = ResolversParentTypes['BodyInfo']
+> = {
+    height?: Resolver<ResolversTypes['Float'], ParentType, ContextType>
+    weight?: Resolver<ResolversTypes['Float'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type MutationResolvers<
@@ -227,24 +326,41 @@ export type MutationResolvers<
         ContextType,
         Partial<Mutation_EmptyArgs>
     >
+    addStressRecord?: Resolver<
+        ResolversTypes['StressRecords'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationAddStressRecordArgs, 'stressRecordData'>
+    >
+    onboard?: Resolver<
+        ResolversTypes['User'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationOnboardArgs, 'onboardData'>
+    >
     signIn?: Resolver<
-        Maybe<ResolversTypes['User']>,
+        ResolversTypes['User'],
         ParentType,
         ContextType,
         RequireFields<MutationSignInArgs, 'authData'>
     >
-    signOut?: Resolver<
-        Maybe<ResolversTypes['User']>,
-        ParentType,
-        ContextType,
-        RequireFields<MutationSignOutArgs, 'email' | 'password'>
-    >
     signUp?: Resolver<
-        Maybe<ResolversTypes['User']>,
+        ResolversTypes['User'],
         ParentType,
         ContextType,
         RequireFields<MutationSignUpArgs, 'authData'>
     >
+}
+
+export type PlannedMealResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['PlannedMeal'] = ResolversParentTypes['PlannedMeal']
+> = {
+    endTime?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    mealName?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    mealSize?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    startTime?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type QueryResolvers<
@@ -252,25 +368,76 @@ export type QueryResolvers<
     ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
     _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
-    getAllUsers?: Resolver<
-        Maybe<Array<Maybe<ResolversTypes['User']>>>,
-        ParentType,
-        ContextType
-    >
     getUser?: Resolver<
         Maybe<ResolversTypes['User']>,
         ParentType,
         ContextType,
         RequireFields<QueryGetUserArgs, 'id'>
     >
+    getUserData?: Resolver<
+        Maybe<ResolversTypes['User']>,
+        ParentType,
+        ContextType
+    >
+}
+
+export type StressRecordDataResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['StressRecordData'] = ResolversParentTypes['StressRecordData']
+> = {
+    note?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+    timestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    value?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type StressRecordsResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['StressRecords'] = ResolversParentTypes['StressRecords']
+> = {
+    stressRecords?: Resolver<
+        Maybe<Array<ResolversTypes['StressRecordData']>>,
+        ParentType,
+        ContextType
+    >
+    userEmail?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type UserResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
 > = {
+    body?: Resolver<Maybe<ResolversTypes['BodyInfo']>, ParentType, ContextType>
+    bornDate?: Resolver<
+        Maybe<ResolversTypes['String']>,
+        ParentType,
+        ContextType
+    >
+    eatHabitGoal?: Resolver<
+        Maybe<ResolversTypes['String']>,
+        ParentType,
+        ContextType
+    >
     email?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    firstName?: Resolver<
+        Maybe<ResolversTypes['String']>,
+        ParentType,
+        ContextType
+    >
+    gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+    lastName?: Resolver<
+        Maybe<ResolversTypes['String']>,
+        ParentType,
+        ContextType
+    >
+    onboarded?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
     password?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    plan?: Resolver<
+        Maybe<Array<ResolversTypes['PlannedMeal']>>,
+        ParentType,
+        ContextType
+    >
     token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
     username?: Resolver<
         Maybe<ResolversTypes['String']>,
@@ -281,7 +448,11 @@ export type UserResolvers<
 }
 
 export type Resolvers<ContextType = any> = {
+    BodyInfo?: BodyInfoResolvers<ContextType>
     Mutation?: MutationResolvers<ContextType>
+    PlannedMeal?: PlannedMealResolvers<ContextType>
     Query?: QueryResolvers<ContextType>
+    StressRecordData?: StressRecordDataResolvers<ContextType>
+    StressRecords?: StressRecordsResolvers<ContextType>
     User?: UserResolvers<ContextType>
 }
