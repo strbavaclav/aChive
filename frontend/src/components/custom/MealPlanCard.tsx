@@ -45,6 +45,7 @@ const MealPlanCard: FC<Props> = ({
         backgroundColor="white"
         m={2}
         borderRadius={8}
+        justifyContent="space-between"
         style={{
           shadowColor: "black",
           shadowOffset: { width: 5, height: 5 },
@@ -52,53 +53,42 @@ const MealPlanCard: FC<Props> = ({
           shadowRadius: 5,
         }}
       >
-        <HStack
-          justifyContent="space-between"
-          alignItems="center"
-          mt={10}
-          ml={10}
-        >
-          <Text color="#10b981">{mealName}</Text>
+        <HStack justifyContent="space-between" alignItems="center" m={10}>
+          <Text bold color="#10b981">
+            {mealName}
+          </Text>
 
           <HStack alignItems="center" gap={4}>
             <Icon as={ClockIcon} size="xs" />
             <Text size="xs">{mealTime}</Text>
           </HStack>
         </HStack>
-        <Badge ml={10} action="muted" borderRadius="$md" size="md" w={"20%"}>
-          <BadgeIcon as={ChevronsUpDownIcon} />
-          <BadgeText>SIZE {mealSize}</BadgeText>
-        </Badge>
-        {logged ? (
-          <Icon
-            as={CheckIcon}
-            size="xl"
-            color="#10b981"
-            position="absolute"
-            bottom={5}
-            right={5}
-          />
-        ) : (
-          <Icon
-            as={CloseIcon}
-            size="xl"
-            // color="#10b981"
-            position="absolute"
-            bottom={5}
-            right={5}
-          />
-          // <Button
-          //   onPress={() => onLogMeal()}
-          //   size="xs"
-          //   position="absolute"
-          //   bottom={0}
-          //   right={0}
-          //   m={4}
-          //   ref={buttonRef}
-          // >
-          //   <Text color="white">LOG</Text>
-          // </Button>
-        )}
+        <HStack justifyContent="space-between" m={10}>
+          <HStack alignItems="center">
+            <Icon as={ChevronsUpDownIcon} size="sm" />
+            <Text size="xs">SIZE {mealSize}</Text>
+          </HStack>
+          {logged ? (
+            <Icon as={CheckIcon} size="xl" color="#10b981" />
+          ) : (
+            <Icon
+              as={CloseIcon}
+              size="xl"
+              // color="#10b981"
+            />
+            // <Button
+            //   onPress={() => onLogMeal()}
+            //   size="xs"
+            //   position="absolute"
+            //   bottom={0}
+            //   right={0}
+            //   m={4}
+            //   ref={buttonRef}
+            // >
+            //   <Text color="white">LOG</Text>
+            // </Button>
+          )}
+        </HStack>
       </View>
     </TouchableOpacity>
   );

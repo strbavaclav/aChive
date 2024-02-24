@@ -8,8 +8,17 @@ import { ApolloProvider } from "@apollo/client";
 import React from "react";
 import { RootStackNavigator } from "navigation/root";
 import { client } from "gql/client";
+import * as Notifications from "expo-notifications";
 
 export default function App() {
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+
   return (
     <GluestackUIProvider config={config}>
       <ApolloProvider client={client}>
