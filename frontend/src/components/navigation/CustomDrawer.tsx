@@ -48,6 +48,7 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
         flex: 1,
         paddingLeft: 10,
         paddingTop: 100,
+        overflow: "hidden",
       }}
     >
       <View style={{ alignItems: "flex-start", justifyContent: "center" }}>
@@ -95,21 +96,23 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
             navigate={() => navigation.navigate("Home")}
           />
           <CustomDrawerItem
-            label={"Recipes"}
-            icon={"bookmarks"}
-            navigate={() => navigation.navigate("Cookbook")}
+            label={"Stress relief"}
+            icon={"battery-full-outline"}
+            navigate={() => navigation.navigate("StressRelief")}
           />
           <CustomDrawerItem
             label={"Shopping list"}
             icon={"cart"}
             navigate={() => navigation.navigate("Shopping")}
           />
-          {/* <CustomDrawerItem label={"Supplies"} icon={"file-tray"} /> */}
           <CustomDrawerItem
-            label={"Stress relief"}
-            icon={"battery-full-outline"}
-            navigate={() => navigation.navigate("StressRelief")}
+            label={"Recipes"}
+            icon={"bookmarks"}
+            navigate={() => navigation.navigate("Cookbook")}
           />
+
+          {/* <CustomDrawerItem label={"Supplies"} icon={"file-tray"} /> */}
+
           <CustomDrawerItem
             label={"Settings"}
             icon={"settings"}

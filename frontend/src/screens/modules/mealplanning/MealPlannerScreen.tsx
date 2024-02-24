@@ -55,10 +55,11 @@ const MealPlannerScreen = () => {
   return (
     <View flex={1} gap={2}>
       <DateSlider onDaySelect={setSelectedDay} daySelected={selectedDay} />
-      <Heading size="md" color="#10b981" ml={5}>
-        Your daily plan
-      </Heading>
-      <ScrollView>
+
+      <ScrollView mt={5}>
+        <Heading size="md" color="#10b981" ml={5}>
+          Your daily plan
+        </Heading>
         {appState.userData &&
           appState.userData.plan &&
           appState.userData?.plan.map((plannedMeal, i) => (
@@ -72,7 +73,14 @@ const MealPlannerScreen = () => {
             />
           ))}
         <HStack justifyContent="center" mt={4}>
-          <Button size="sm" justifyContent="center" alignItems="center" gap={2}>
+          <Button
+            size="sm"
+            justifyContent="center"
+            alignItems="center"
+            gap={2}
+            mb={10}
+            mt={10}
+          >
             <ButtonIcon as={AddIcon} size="sm" />
             <ButtonText>Add extra meal</ButtonText>
           </Button>
@@ -80,8 +88,6 @@ const MealPlannerScreen = () => {
       </ScrollView>
 
       <Box
-        position="absolute"
-        bottom={0}
         w={"100%"}
         h={"12%"}
         alignItems="center"
@@ -97,7 +103,7 @@ const MealPlannerScreen = () => {
         }}
       >
         <VStack w={"80%"} justifyContent="center" alignItems="center">
-          <Heading>Daily progress</Heading>
+          <Heading size="sm">Daily progress</Heading>
           <HStack justifyContent="center" alignItems="center" gap={10}>
             <Progress
               value={
