@@ -78,7 +78,7 @@ export const AuthProvider = ({
           setAuthState({
             token,
             authenticated: true,
-            onboarded: data.getUserData.onboarded,
+            onboarded: data?.getUserData?.onboarded,
           });
         } catch (error) {
           toast.show({

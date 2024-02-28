@@ -1,13 +1,8 @@
 import {
-  Badge,
-  BadgeIcon,
-  BadgeText,
-  Button,
   CheckIcon,
   ChevronsUpDownIcon,
   ClockIcon,
   CloseIcon,
-  GlobeIcon,
   HStack,
   Icon,
   Text,
@@ -20,25 +15,39 @@ import React, { FC } from "react";
 import { TouchableOpacity } from "react-native";
 
 type Props = {
+  mealId: string;
   mealName: string;
   mealTime: string;
   mealSize: string;
   logged?: boolean;
-  onLogMeal: () => void;
+  selectedDate: string;
+
+  onPress?: () => void;
 };
 
-const MealPlanCard: FC<Props> = ({
+export const MealPlannerCard: FC<Props> = ({
+  mealId,
   mealName,
   mealTime,
   mealSize,
   logged,
-  onLogMeal,
+  selectedDate,
+
+  onPress,
 }) => {
   const navigation =
     useNavigation<NativeStackNavigationProp<PlannerStackParams>>();
 
   return (
-    <TouchableOpacity onPress={() => navigation.navigate("MealPlannerDetail")}>
+    <TouchableOpacity
+      // onPress={() =>
+      //   navigation.navigate("MealPlannerDetail", {
+      //     mealId,
+      //     selectedDate: selectedDate,
+      //   })
+      // }
+      onPress={onPress}
+    >
       <View
         flex={1}
         h={110}
@@ -71,11 +80,7 @@ const MealPlanCard: FC<Props> = ({
           {logged ? (
             <Icon as={CheckIcon} size="xl" color="#10b981" />
           ) : (
-            <Icon
-              as={CloseIcon}
-              size="xl"
-              // color="#10b981"
-            />
+            <Icon as={CloseIcon} size="xl" color="gray" />
             // <Button
             //   onPress={() => onLogMeal()}
             //   size="xs"
@@ -93,5 +98,3 @@ const MealPlanCard: FC<Props> = ({
     </TouchableOpacity>
   );
 };
-
-export default MealPlanCard;

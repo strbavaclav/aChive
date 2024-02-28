@@ -31,6 +31,7 @@ type Props = {
   placeholder?: string;
   errorLabel?: string;
   helperLabel?: string;
+  disabled?: boolean;
 };
 
 export const FormSelect: FC<Props> = (props) => {
@@ -41,6 +42,7 @@ export const FormSelect: FC<Props> = (props) => {
     placeholder,
     errorLabel,
     helperLabel,
+    disabled,
 
     ...rest
   } = props;
@@ -63,6 +65,7 @@ export const FormSelect: FC<Props> = (props) => {
               isFocusVisible
               onValueChange={(value) => onChange(value)}
               isInvalid={!!error}
+              isDisabled={disabled}
             >
               <SelectTrigger w={"100%"}>
                 <SelectInput

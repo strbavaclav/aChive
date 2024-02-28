@@ -44,9 +44,33 @@ export type BodyInfo = {
     weight: Scalars['Float']['output']
 }
 
+export type InputMealRecord = {
+    cooked: Scalars['Boolean']['input']
+    description?: InputMaybe<Scalars['String']['input']>
+    loggedDateTime: Scalars['String']['input']
+    mealId: Scalars['String']['input']
+    size: Scalars['String']['input']
+}
+
+export type MealRecord = {
+    __typename?: 'MealRecord'
+    cooked: Scalars['Boolean']['output']
+    description?: Maybe<Scalars['String']['output']>
+    loggedDateTime: Scalars['String']['output']
+    mealId: Scalars['String']['output']
+    size: Scalars['String']['output']
+}
+
+export type MealRecordData = {
+    __typename?: 'MealRecordData'
+    records: Array<MealRecord>
+    userId: Scalars['String']['output']
+}
+
 export type Mutation = {
     __typename?: 'Mutation'
     _empty?: Maybe<Scalars['String']['output']>
+    addMealRecord?: Maybe<MealRecordData>
     addStressRecord: StressRecords
     onboard: User
     signIn: User
@@ -55,6 +79,11 @@ export type Mutation = {
 
 export type Mutation_EmptyArgs = {
     nothing?: InputMaybe<Scalars['String']['input']>
+}
+
+export type MutationAddMealRecordArgs = {
+    mealRecord: InputMealRecord
+    userId: Scalars['String']['input']
 }
 
 export type MutationAddStressRecordArgs = {
@@ -87,6 +116,7 @@ export type OnboardData = {
 
 export type PlannedMeal = {
     __typename?: 'PlannedMeal'
+    _id: Scalars['String']['output']
     endTime: Scalars['String']['output']
     mealName: Scalars['String']['output']
     mealSize: Scalars['String']['output']
@@ -103,8 +133,14 @@ export type PlannedMealInput = {
 export type Query = {
     __typename?: 'Query'
     _empty?: Maybe<Scalars['String']['output']>
+    getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>
     getUser?: Maybe<User>
     getUserData?: Maybe<User>
+}
+
+export type QueryGetMealRecordsByDateArgs = {
+    date: Scalars['String']['input']
+    userId: Scalars['String']['input']
 }
 
 export type QueryGetUserArgs = {
@@ -144,6 +180,7 @@ export type StressRecords = {
 
 export type User = {
     __typename?: 'User'
+    _id: Scalars['String']['output']
     body?: Maybe<BodyInfo>
     bornDate?: Maybe<Scalars['String']['output']>
     eatHabitGoal?: Maybe<Scalars['String']['output']>
@@ -270,7 +307,10 @@ export type ResolversTypes = {
     Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>
     Float: ResolverTypeWrapper<Scalars['Float']['output']>
     ID: ResolverTypeWrapper<Scalars['ID']['output']>
+    InputMealRecord: InputMealRecord
     Int: ResolverTypeWrapper<Scalars['Int']['output']>
+    MealRecord: ResolverTypeWrapper<MealRecord>
+    MealRecordData: ResolverTypeWrapper<MealRecordData>
     Mutation: ResolverTypeWrapper<{}>
     OnboardData: OnboardData
     PlannedMeal: ResolverTypeWrapper<PlannedMeal>
@@ -292,7 +332,10 @@ export type ResolversParentTypes = {
     Boolean: Scalars['Boolean']['output']
     Float: Scalars['Float']['output']
     ID: Scalars['ID']['output']
+    InputMealRecord: InputMealRecord
     Int: Scalars['Int']['output']
+    MealRecord: MealRecord
+    MealRecordData: MealRecordData
     Mutation: {}
     OnboardData: OnboardData
     PlannedMeal: PlannedMeal
@@ -316,6 +359,35 @@ export type BodyInfoResolvers<
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
+export type MealRecordResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['MealRecord'] = ResolversParentTypes['MealRecord']
+> = {
+    cooked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+    description?: Resolver<
+        Maybe<ResolversTypes['String']>,
+        ParentType,
+        ContextType
+    >
+    loggedDateTime?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    mealId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    size?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type MealRecordDataResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['MealRecordData'] = ResolversParentTypes['MealRecordData']
+> = {
+    records?: Resolver<
+        Array<ResolversTypes['MealRecord']>,
+        ParentType,
+        ContextType
+    >
+    userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
 export type MutationResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
@@ -325,6 +397,12 @@ export type MutationResolvers<
         ParentType,
         ContextType,
         Partial<Mutation_EmptyArgs>
+    >
+    addMealRecord?: Resolver<
+        Maybe<ResolversTypes['MealRecordData']>,
+        ParentType,
+        ContextType,
+        RequireFields<MutationAddMealRecordArgs, 'mealRecord' | 'userId'>
     >
     addStressRecord?: Resolver<
         ResolversTypes['StressRecords'],
@@ -356,6 +434,7 @@ export type PlannedMealResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['PlannedMeal'] = ResolversParentTypes['PlannedMeal']
 > = {
+    _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     endTime?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     mealName?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     mealSize?: Resolver<ResolversTypes['String'], ParentType, ContextType>
@@ -368,6 +447,12 @@ export type QueryResolvers<
     ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
     _empty?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+    getMealRecordsByDate?: Resolver<
+        Maybe<Array<Maybe<ResolversTypes['MealRecord']>>>,
+        ParentType,
+        ContextType,
+        RequireFields<QueryGetMealRecordsByDateArgs, 'date' | 'userId'>
+    >
     getUser?: Resolver<
         Maybe<ResolversTypes['User']>,
         ParentType,
@@ -408,6 +493,7 @@ export type UserResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
 > = {
+    _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     body?: Resolver<Maybe<ResolversTypes['BodyInfo']>, ParentType, ContextType>
     bornDate?: Resolver<
         Maybe<ResolversTypes['String']>,
@@ -449,6 +535,8 @@ export type UserResolvers<
 
 export type Resolvers<ContextType = any> = {
     BodyInfo?: BodyInfoResolvers<ContextType>
+    MealRecord?: MealRecordResolvers<ContextType>
+    MealRecordData?: MealRecordDataResolvers<ContextType>
     Mutation?: MutationResolvers<ContextType>
     PlannedMeal?: PlannedMealResolvers<ContextType>
     Query?: QueryResolvers<ContextType>
