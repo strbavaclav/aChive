@@ -3,6 +3,7 @@ import { gql } from "gql/gql";
 export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
   mutation SignIn($authData: SignInInput!) {
     signIn(authData: $authData) {
+      _id
       email
       token
       onboarded
@@ -17,6 +18,7 @@ export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
       }
       eatHabitGoal
       plan {
+        _id
         mealName
         mealSize
         startTime

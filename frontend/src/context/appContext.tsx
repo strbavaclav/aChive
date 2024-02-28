@@ -23,6 +23,7 @@ type OnboardDataType = {
 };
 
 export type UserType = {
+  _id?: string;
   body?: BodyInfoType;
   bornDate?: string;
   eatHabitGoal?: string;
@@ -35,6 +36,7 @@ export type UserType = {
 };
 
 export type PlannedMealType = {
+  _id?: string;
   mealName?: string;
   mealSize?: string;
   startTime?: Date;

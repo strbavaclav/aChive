@@ -15,6 +15,7 @@ type Props = {
   placeholder?: string;
   helperText?: string;
   name: string;
+  disabled?: boolean;
 };
 
 export const FormTextArea: FC<Props> = ({
@@ -22,6 +23,7 @@ export const FormTextArea: FC<Props> = ({
   placeholder,
   helperText,
   name,
+  disabled,
 }) => {
   const { control } = useFormContext();
 
@@ -34,7 +36,7 @@ export const FormTextArea: FC<Props> = ({
           <FormControlLabel>
             <FormControlLabelText>{label}</FormControlLabelText>
           </FormControlLabel>
-          <Textarea>
+          <Textarea isDisabled={disabled}>
             <TextareaInput
               role="note"
               placeholder={placeholder}

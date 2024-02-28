@@ -5,10 +5,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthProvider } from "context/authContext";
 import { AppProvider } from "context/appContext";
 import { ApolloProvider } from "@apollo/client";
-import React from "react";
+import React, { useEffect } from "react";
 import { RootStackNavigator } from "navigation/root";
 import { client } from "gql/client";
 import * as Notifications from "expo-notifications";
+import { schedulePushNotification } from "services/notifications";
 
 export default function App() {
   Notifications.setNotificationHandler({
