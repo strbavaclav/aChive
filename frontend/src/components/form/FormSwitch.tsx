@@ -16,9 +16,10 @@ type Props = {
   placeholder?: string;
   helperText?: string;
   name: string;
+  disabled?: boolean;
 };
 
-export const FormSwitch: FC<Props> = ({ label, name }) => {
+export const FormSwitch: FC<Props> = ({ label, name, disabled }) => {
   const { control } = useFormContext();
 
   return (
@@ -35,6 +36,7 @@ export const FormSwitch: FC<Props> = ({ label, name }) => {
             size="md"
             value={value}
             onToggle={(value) => onChange(value)}
+            isDisabled={disabled}
           />
 
           {/* {!!error && (

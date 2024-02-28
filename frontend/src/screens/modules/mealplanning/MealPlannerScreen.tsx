@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import DateSlider from "components/custom/DateSlider";
 import {
   Heading,
@@ -31,7 +31,8 @@ const MealPlannerScreen = () => {
   const [showModal, setShowModal] = useState(false);
 
   const { appState } = useApp();
-  const { addMealRecordMutation } = useAddMealRecord();
+
+  console.log("DATE", selectedDay);
 
   const {
     loading: loadingRecords,
@@ -39,8 +40,15 @@ const MealPlannerScreen = () => {
     data: records,
     refetch: refetchRecords,
   } = useQuery(GET_MEAL_RECORDS_BY_DATE, {
-    variables: { userId: appState.userData?._id!, date: String(selectedDay) },
+    variables: {
+      userId: appState.userData?._id!,
+      date: selectedDay.toISOString(),
+    },
   });
+
+  useEffect(() => {
+    refetchRecords();
+  }, [selectedDay]);
 
   useFocusEffect(
     useCallback(() => {
