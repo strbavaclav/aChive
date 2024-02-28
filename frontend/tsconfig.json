@@ -22,7 +22,8 @@
       "screens/*": ["./screens/*"],
       "services/*": ["./services/*"],
       "styles/*": ["./styles/*"],
-      "types/*": ["./types/*"]
+      "types/*": ["./types/*"],
+      "utils/*": ["./utils/*"]
     }
   }
 }

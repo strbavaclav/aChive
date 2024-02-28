@@ -8,8 +8,30 @@ type BodyInfo {
   weight: Float!
 }
 
+input InputMealRecord {
+  cooked: Boolean!
+  description: String
+  loggedDateTime: String!
+  mealId: String!
+  size: String!
+}
+
+type MealRecord {
+  cooked: Boolean!
+  description: String
+  loggedDateTime: String!
+  mealId: String!
+  size: String!
+}
+
+type MealRecordData {
+  records: [MealRecord!]!
+  userId: String!
+}
+
 type Mutation {
   _empty(nothing: String): String
+  addMealRecord(mealRecord: InputMealRecord!, userId: String!): MealRecordData
   addStressRecord(stressRecordData: StressRecordDataInput!): StressRecords!
   onboard(onboardData: OnboardData!): User!
   signIn(authData: SignInInput!): User!
@@ -29,6 +51,7 @@ input OnboardData {
 }
 
 type PlannedMeal {
+  _id: String!
   endTime: String!
   mealName: String!
   mealSize: String!
@@ -44,8 +67,9 @@ input PlannedMealInput {
 
 type Query {
   _empty: String
+  getMealRecordsByDate(date: String!, userId: String!): [MealRecord]
   getUser(id: ID!): User
-  getUserData: User!
+  getUserData: User
 }
 
 input SignInInput {
@@ -78,6 +102,7 @@ type StressRecords {
 }
 
 type User {
+  _id: String!
   body: BodyInfo
   bornDate: String
   eatHabitGoal: String

@@ -4,6 +4,7 @@ import { gql } from "gql/gql";
 export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
   mutation Onboard($onboardData: OnboardData!) {
     onboard(onboardData: $onboardData) {
+      _id
       email
       onboarded
       username
@@ -17,6 +18,7 @@ export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
       }
       eatHabitGoal
       plan {
+        _id
         mealName
         mealSize
         startTime

@@ -28,7 +28,7 @@ export type MainTabsParams = {
   Home: undefined;
   Profile: undefined;
   Planner: undefined;
-  Education: undefined;
+  Insights: undefined;
 };
 
 export type MainDrawerParams = {
@@ -63,7 +63,7 @@ const TabScreenOptions = ({
     } else if (route.name === "Planner") {
       iconName = "access-time";
       iconColor = focused ? "#10b981" : "#555";
-    } else if (route.name === "Education") {
+    } else if (route.name === "Insights") {
       iconName = "library-books";
       iconColor = focused ? "#10b981" : "#555";
     } else {
@@ -101,7 +101,7 @@ export const MainTabNavigator = () => {
   const screenTitle =
     currentScreen === "Planner"
       ? "Meal planner"
-      : currentScreen === "Education"
+      : currentScreen === "Insights"
         ? "Eating hacks"
         : currentScreen === "Profile"
           ? "My Profile"
@@ -119,7 +119,7 @@ export const MainTabNavigator = () => {
       >
         <MainTab.Screen name="Home" component={HomeScreen} />
         <MainTab.Screen name="Planner" component={PlannerStackNavigator} />
-        <MainTab.Screen name="Education" component={EducationScreen} />
+        <MainTab.Screen name="Insights" component={EducationScreen} />
         <MainTab.Screen name="Profile" component={ProfileScreen} />
       </MainTab.Navigator>
     </DrawerScreenWrapper>
