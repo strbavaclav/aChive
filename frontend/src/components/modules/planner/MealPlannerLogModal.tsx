@@ -72,8 +72,8 @@ export const MealPlannerLogModal: FC<Props> = ({
   useEffect(() => {
     const defaultValues: Partial<FormDataType> = {
       size: recordedMeal ? recordedMeal.size : "",
-      description: recordedMeal ? (recordedMeal.description as string) : "",
-      cooked: false,
+      description: recordedMeal ? String(recordedMeal.description) : "",
+      cooked: recordedMeal ? recordedMeal.cooked : false,
       loggedTime: recordedMeal
         ? new Date(recordedMeal.loggedDateTime)
         : new Date(),
@@ -87,7 +87,6 @@ export const MealPlannerLogModal: FC<Props> = ({
 
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
     const { size, description, cooked, loggedTime } = values;
-    console.log(cooked);
     try {
       const selectedDate = new Date(selectedDay);
 
@@ -145,9 +144,14 @@ export const MealPlannerLogModal: FC<Props> = ({
                     name="loggedTime"
                     mode="time"
                     label="Time"
+                    disabled={recordedMeal ? true : false}
                   />
                 </HStack>
-                <FormSwitch name="cooked" label="I have cooked it!" />
+                <FormSwitch
+                  name="cooked"
+                  label="I have cooked it!"
+                  disabled={recordedMeal ? true : false}
+                />
               </HStack>
               <FormSelect
                 name="size"
@@ -159,7 +163,7 @@ export const MealPlannerLogModal: FC<Props> = ({
               <FormTextArea
                 name="description"
                 placeholder="Write description if u want?"
-                //disabled={recordedMeal ? true : false}
+                disabled={recordedMeal ? true : false}
               />
             </VStack>
           </FormProvider>

@@ -55,6 +55,7 @@ export const FormDateTimePicker: FC<Props> = (props) => {
               value={value}
               accentColor="#10b981"
               mode={mode}
+              disabled={disabled}
               {...rest}
             />
 

@@ -4,6 +4,7 @@ import {
   eachWeekOfInterval,
   format,
   isToday,
+  startOfDay,
   subDays,
 } from "date-fns";
 import React, { Dispatch, FC, SetStateAction } from "react";
@@ -14,6 +15,7 @@ type Props = {
   onDaySelect: Dispatch<SetStateAction<Date>>;
   daySelected: Date;
 };
+console.log(new Date());
 
 const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
   const dates = eachWeekOfInterval(
@@ -65,7 +67,23 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
                           : "white",
                       borderRadius: 8,
                     }}
-                    onPress={() => onDaySelect(day)}
+                    onPress={() => {
+                      // Extract year, month, and day from the selected day
+                      const year = day.getFullYear();
+                      const month = day.getMonth(); // Note: January is 0, February is 1, etc.
+                      const date = day.getDate();
+
+                      // Create a new date object at midnight in the local timezone
+                      const localMidnight = new Date(year, month, date);
+
+                      // Adjust for the timezone offset to get to UTC midnight
+                      const offset = localMidnight.getTimezoneOffset() * 60000; // Convert offset to milliseconds
+                      const utcMidnight = new Date(
+                        localMidnight.getTime() - offset
+                      );
+
+                      onDaySelect(utcMidnight);
+                    }}
                   >
                     <Text
                       style={{
