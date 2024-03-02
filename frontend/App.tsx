@@ -9,16 +9,22 @@ import React, { useEffect } from "react";
 import { RootStackNavigator } from "navigation/root";
 import { client } from "gql/client";
 import * as Notifications from "expo-notifications";
-import { schedulePushNotification } from "services/notifications";
+import {
+  registerForPushNotificationsAsync,
+  scheduleDailyStressRecord,
+} from "services/notifications";
 
 export default function App() {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
-      shouldPlaySound: false,
-      shouldSetBadge: false,
+      shouldPlaySound: true,
+      shouldSetBadge: true,
     }),
   });
+
+  registerForPushNotificationsAsync();
+  scheduleDailyStressRecord();
 
   return (
     <GluestackUIProvider config={config}>

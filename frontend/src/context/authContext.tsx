@@ -25,6 +25,7 @@ interface AuthState {
   token?: string | null;
   authenticated: boolean;
   onboarded?: boolean;
+  tokenLoading?: boolean;
 }
 
 interface AuthContextProps {
@@ -58,6 +59,7 @@ export const AuthProvider = ({
     token: null,
     authenticated: false,
     onboarded: false,
+    tokenLoading: true,
   });
   const { setAppState } = useApp();
   const toast = useToast();
@@ -67,6 +69,10 @@ export const AuthProvider = ({
       const token = await SecureStore.getItemAsync("jwt");
 
       if (token) {
+        setAuthState((prevState) => ({
+          ...prevState,
+          tokenLoading: true,
+        }));
         try {
           const response = await client.query({ query: GET_USER_DATA_QUERY });
 
@@ -75,10 +81,12 @@ export const AuthProvider = ({
             ...prevState,
             userData: { ...(data.getUserData as UserType) },
           }));
+          console.log(data.getUserData?.plan);
           setAuthState({
             token,
             authenticated: true,
             onboarded: data?.getUserData?.onboarded,
+            tokenLoading: false,
           });
         } catch (error) {
           toast.show({
@@ -99,8 +107,20 @@ export const AuthProvider = ({
           });
           console.log(error);
           await SecureStore.deleteItemAsync("jwt");
-          setAuthState({ token: null, authenticated: false, onboarded: false });
+          setAuthState({
+            token: null,
+            authenticated: false,
+            onboarded: false,
+            tokenLoading: false,
+          });
         }
+      } else {
+        setAuthState({
+          token: null,
+          authenticated: false,
+          onboarded: false,
+          tokenLoading: false,
+        });
       }
     };
 
@@ -169,7 +189,12 @@ export const AuthProvider = ({
   const signOut = async () => {
     await SecureStore.deleteItemAsync("jwt");
 
-    setAuthState({ token: null, authenticated: false, onboarded: false });
+    setAuthState({
+      token: null,
+      authenticated: false,
+      onboarded: false,
+      tokenLoading: false,
+    });
   };
 
   const value = {

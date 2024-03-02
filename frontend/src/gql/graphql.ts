@@ -44,16 +44,17 @@ export type InputMealRecord = {
   cooked: Scalars["Boolean"]["input"];
   description?: InputMaybe<Scalars["String"]["input"]>;
   loggedDateTime: Scalars["String"]["input"];
-  mealId: Scalars["String"]["input"];
+  mealId?: InputMaybe<Scalars["String"]["input"]>;
   size: Scalars["String"]["input"];
 };
 
 export type MealRecord = {
   __typename?: "MealRecord";
+  _id: Scalars["String"]["output"];
   cooked: Scalars["Boolean"]["output"];
   description?: Maybe<Scalars["String"]["output"]>;
   loggedDateTime: Scalars["String"]["output"];
-  mealId: Scalars["String"]["output"];
+  mealId?: Maybe<Scalars["String"]["output"]>;
   size: Scalars["String"]["output"];
 };
 
@@ -69,8 +70,10 @@ export type Mutation = {
   addMealRecord?: Maybe<MealRecordData>;
   addStressRecord: StressRecords;
   onboard: User;
+  removeMealRecordById: Scalars["String"]["output"];
   signIn: User;
   signUp: User;
+  updateMealRecordById?: Maybe<MealRecordData>;
 };
 
 export type Mutation_EmptyArgs = {
@@ -90,12 +93,23 @@ export type MutationOnboardArgs = {
   onboardData: OnboardData;
 };
 
+export type MutationRemoveMealRecordByIdArgs = {
+  recordId: Scalars["String"]["input"];
+  userId: Scalars["String"]["input"];
+};
+
 export type MutationSignInArgs = {
   authData: SignInInput;
 };
 
 export type MutationSignUpArgs = {
   authData: SignUpInput;
+};
+
+export type MutationUpdateMealRecordByIdArgs = {
+  recordId: Scalars["String"]["input"];
+  updatedRecord: InputMealRecord;
+  userId: Scalars["String"]["input"];
 };
 
 export type OnboardData = {
@@ -187,6 +201,7 @@ export type User = {
   onboarded: Scalars["Boolean"]["output"];
   password: Scalars["String"]["output"];
   plan?: Maybe<Array<PlannedMeal>>;
+  streak?: Maybe<Scalars["Int"]["output"]>;
   token?: Maybe<Scalars["String"]["output"]>;
   username?: Maybe<Scalars["String"]["output"]>;
 };
@@ -292,7 +307,7 @@ export type MutationMutation = {
     userId: string;
     records: Array<{
       __typename?: "MealRecord";
-      mealId: string;
+      mealId?: string | null;
       loggedDateTime: string;
       size: string;
       description?: string | null;
@@ -310,12 +325,46 @@ export type GetMealRecordsByDateQuery = {
   __typename?: "Query";
   getMealRecordsByDate?: Array<{
     __typename?: "MealRecord";
-    mealId: string;
+    _id: string;
+    mealId?: string | null;
     loggedDateTime: string;
     size: string;
     description?: string | null;
     cooked: boolean;
   } | null> | null;
+};
+
+export type RemoveMealRecordByIdMutationVariables = Exact<{
+  recordId: Scalars["String"]["input"];
+  userId: Scalars["String"]["input"];
+}>;
+
+export type RemoveMealRecordByIdMutation = {
+  __typename?: "Mutation";
+  removeMealRecordById: string;
+};
+
+export type UpdateMealRecordByIdMutationVariables = Exact<{
+  userId: Scalars["String"]["input"];
+  recordId: Scalars["String"]["input"];
+  updatedRecord: InputMealRecord;
+}>;
+
+export type UpdateMealRecordByIdMutation = {
+  __typename?: "Mutation";
+  updateMealRecordById?: {
+    __typename?: "MealRecordData";
+    userId: string;
+    records: Array<{
+      __typename?: "MealRecord";
+      _id: string;
+      mealId?: string | null;
+      loggedDateTime: string;
+      size: string;
+      description?: string | null;
+      cooked: boolean;
+    }>;
+  } | null;
 };
 
 export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
@@ -822,6 +871,7 @@ export const GetMealRecordsByDateDocument = {
             selectionSet: {
               kind: "SelectionSet",
               selections: [
+                { kind: "Field", name: { kind: "Name", value: "_id" } },
                 { kind: "Field", name: { kind: "Name", value: "mealId" } },
                 {
                   kind: "Field",
@@ -840,6 +890,201 @@ export const GetMealRecordsByDateDocument = {
 } as unknown as DocumentNode<
   GetMealRecordsByDateQuery,
   GetMealRecordsByDateQueryVariables
+>;
+export const RemoveMealRecordByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "RemoveMealRecordById" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "recordId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "userId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "removeMealRecordById" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "recordId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "recordId" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "userId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "userId" },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  RemoveMealRecordByIdMutation,
+  RemoveMealRecordByIdMutationVariables
+>;
+export const UpdateMealRecordByIdDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "UpdateMealRecordById" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "userId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "recordId" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "updatedRecord" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "InputMealRecord" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "updateMealRecordById" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "userId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "userId" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "recordId" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "recordId" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "updatedRecord" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "updatedRecord" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "records" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "_id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealId" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "loggedDateTime" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "size" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "cooked" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateMealRecordByIdMutation,
+  UpdateMealRecordByIdMutationVariables
 >;
 export const GetUserDataDocument = {
   kind: "Document",

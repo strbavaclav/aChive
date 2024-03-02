@@ -8,6 +8,8 @@ import { addStressRecordResolver } from './modules/stress/resolvers/addStressRec
 import { getUserDataResolver } from './modules/user/resolvers/getUserDataResolver'
 import { addMealRecordResolver } from './modules/planner/resolvers/addMealRecordResolver'
 import { getMealRecordsByDate } from './modules/planner/resolvers/getMealRecordsByDate'
+import { removeMealRecordByIdResolver } from './modules/planner/resolvers/removeMealRecordById'
+import { updateMealRecordByIdResolver } from './modules/planner/resolvers/updateMealRecordResolver'
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -21,6 +23,8 @@ const resolvers: Resolvers = {
 
         //mealRecords
         addMealRecord: addMealRecordResolver,
+        removeMealRecordById: removeMealRecordByIdResolver,
+        updateMealRecordById: updateMealRecordByIdResolver,
     },
 
     Query: {

@@ -1,5 +1,7 @@
 type Mutation {
   addMealRecord(userId: String!, mealRecord: InputMealRecord!): MealRecordData
+  removeMealRecordById(userId:String!, recordId: String!): String!
+  updateMealRecordById(userId:String!, recordId:String!, updatedRecord: InputMealRecord!): MealRecordData
 }
 
 type Query {
@@ -7,7 +9,8 @@ type Query {
 }
 
 type MealRecord {
-  mealId: String!
+  _id:String!
+  mealId: String
   loggedDateTime: String!
   size: String!
   description: String
@@ -20,7 +23,7 @@ type MealRecordData {
 }
 
 input InputMealRecord {
-  mealId: String!
+  mealId: String
   loggedDateTime: String!
   size: String!
   description: String

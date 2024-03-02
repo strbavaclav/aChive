@@ -15,7 +15,6 @@ type Props = {
   onDaySelect: Dispatch<SetStateAction<Date>>;
   daySelected: Date;
 };
-console.log(new Date());
 
 const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
   const dates = eachWeekOfInterval(
@@ -52,7 +51,7 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
               }}
             >
               {week.map((day, i) => {
-                const txt = format(day, "EEEEE");
+                const txt = format(day, "EEEEEE");
                 const isTodayDate = isToday(day);
 
                 return (

@@ -1,3 +1,4 @@
+import { PlannedMealType } from "context/appContext";
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
@@ -6,7 +7,14 @@ export async function registerForPushNotificationsAsync() {
   const { status: existingStatus } = await Notifications.getPermissionsAsync();
   let finalStatus = existingStatus;
   if (existingStatus !== "granted") {
-    const { status } = await Notifications.requestPermissionsAsync();
+    const { status } = await Notifications.requestPermissionsAsync({
+      ios: {
+        allowAlert: true,
+        allowBadge: true,
+        allowSound: true,
+        allowAnnouncements: true,
+      },
+    });
     finalStatus = status;
   }
   if (finalStatus !== "granted") {
@@ -14,7 +22,6 @@ export async function registerForPushNotificationsAsync() {
     return;
   }
   token = (await Notifications.getExpoPushTokenAsync()).data;
-  console.log(token);
 
   if (Platform.OS === "android") {
     Notifications.setNotificationChannelAsync("default", {
@@ -28,12 +35,33 @@ export async function registerForPushNotificationsAsync() {
   return token;
 }
 
-export async function schedulePushNotification() {
+export const scheduleMealNotification = async (meal: PlannedMealType) => {
+  //TODO: opravit
+  const mealTimestamp = meal.startTime;
+  const mealTimeFormatted = new Date(parseInt(String(mealTimestamp)));
+
+  console.log(`Notification for ${meal.mealName} was set!`);
+
+  const hour = mealTimeFormatted.getHours();
+  const minutes = mealTimeFormatted.getMinutes();
+
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "Hi 👋", // Title of the notification
-      body: "Hi", // Body of the notification
+      title: `aChive`,
+      body: `Time for ${meal.mealName} 🥗!`,
+      sound: "default",
     },
-    trigger: { seconds: 1 }, // Delays the notification by 1 second for demonstration
+    trigger: { hour: hour, minute: minutes, repeats: true },
   });
-}
+};
+
+export const scheduleDailyStressRecord = async () => {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: `aChive`,
+      body: `How do you feel today 💚?`,
+      sound: "default",
+    },
+    trigger: { hour: 15, minute: 0, repeats: true },
+  });
+};
