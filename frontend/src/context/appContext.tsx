@@ -5,8 +5,11 @@ import React, {
   ReactNode,
   SetStateAction,
   useContext,
+  useEffect,
   useState,
 } from "react";
+import { scheduleMealNotification } from "services/notifications";
+import * as Notifications from "expo-notifications";
 
 type OnboardDataType = {
   body?: { height?: number; weight?: number };
@@ -74,6 +77,17 @@ export const AppProvider = ({
   children: ReactNode;
 }): ReactElement => {
   const [appState, setAppState] = useState<AppState>({});
+
+  useEffect(() => {
+    Notifications.cancelAllScheduledNotificationsAsync();
+
+    console.log("App state changed and notifications cleared: []");
+    appState.userData &&
+      appState.userData?.plan &&
+      appState?.userData?.plan.forEach((meal) => {
+        scheduleMealNotification(meal).catch(console.error);
+      });
+  }, [appState]);
 
   const value = {
     appState,

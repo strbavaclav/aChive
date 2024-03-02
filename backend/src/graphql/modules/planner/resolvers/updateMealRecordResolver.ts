@@ -1,32 +1,32 @@
 import { GraphQLError } from 'graphql'
-import User from '../../../../models/UserModel'
+import MealRecordData from '../../../../models/MealRecordModel'
 import {
     MealRecordData as MealRecordDataType,
-    MutationAddMealRecordArgs,
+    MutationUpdateMealRecordByIdArgs,
 } from '../../../../types/graphqlTypesGenerated'
-import MealRecordData from '../../../../models/MealRecordModel'
 
-export const addMealRecordResolver = async (
+export const updateMealRecordByIdResolver = async (
     _: unknown,
-    { userId, mealRecord }: MutationAddMealRecordArgs
+    { userId, recordId, updatedRecord }: MutationUpdateMealRecordByIdArgs
 ): Promise<MealRecordDataType> => {
     try {
         let mealRecordData = await MealRecordData.findOne({ userId })
-        if (mealRecordData) {
-            if (
-                mealRecordData.records.some(
-                    (meal) => String(meal.mealId) !== mealRecord.mealId
-                )
-            ) {
-                mealRecordData.records.push(mealRecord)
-            } else {
-                throw new Error()
-            }
-        } else {
-            mealRecordData = new MealRecordData({
-                userId,
-                records: [mealRecord],
-            })
+        if (!mealRecordData) {
+            throw new Error('Meal record data not found.')
+        }
+
+        const recordIndex = mealRecordData.records.findIndex(
+            (record) => String(record._id) === recordId
+        )
+
+        if (recordIndex === -1) {
+            throw new Error('Meal record not found.')
+        }
+
+        //@ts-ignore
+        mealRecordData.records[recordIndex] = {
+            ...mealRecordData.records[recordIndex],
+            ...updatedRecord,
         }
 
         await mealRecordData.save()
@@ -44,8 +44,8 @@ export const addMealRecordResolver = async (
         } as MealRecordDataType
     } catch (error) {
         console.log(error)
-        throw new GraphQLError('ONBOARD_FAIL', {
-            extensions: { code: 'ONBOARD_FAILED' },
+        throw new GraphQLError('UPDATE_FAIL', {
+            extensions: { code: 'UPDATE_FAILED' },
         })
     }
 }

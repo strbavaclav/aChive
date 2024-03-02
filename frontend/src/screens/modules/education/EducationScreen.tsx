@@ -1,11 +1,40 @@
-import { StyleSheet, View } from "react-native";
-import React from "react";
-import { Box, HStack, ScrollView, Text, VStack } from "@gluestack-ui/themed";
+import { Alert, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  ButtonText,
+  CloseIcon,
+  HStack,
+  Heading,
+  Icon,
+  Modal,
+  ModalBackdrop,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ScrollView,
+  Text,
+  VStack,
+} from "@gluestack-ui/themed";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { eatingHabitsTips } from "data/mock/educationTips";
 
+type EatingHabitTipType = {
+  date: string;
+  name: string;
+  description: string;
+  message: string;
+};
+
 const EducationScreen = () => {
+  const [selectedTip, setSelectedTip] = useState<
+    EatingHabitTipType | undefined
+  >(undefined);
+
   return (
     <View style={{ flex: 1, marginHorizontal: 5 }}>
       <ScrollView style={{ flex: 1, marginTop: 6 }}>
@@ -18,7 +47,7 @@ const EducationScreen = () => {
           food behaviour.
         </Text>
         <VStack gap={6} mt={6}>
-          {eatingHabitsTips.map((item, index) => (
+          {eatingHabitsTips.map((item: EatingHabitTipType, index: number) => (
             <Box
               key={index}
               style={
@@ -30,7 +59,7 @@ const EducationScreen = () => {
               <Text size="xs" style={{ color: "gray" }}>
                 {item.date}
               </Text>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => setSelectedTip(item)}>
                 <Box
                   style={{
                     backgroundColor: "white",
@@ -72,6 +101,33 @@ const EducationScreen = () => {
           ))}
         </VStack>
       </ScrollView>
+
+      <Modal
+        isOpen={!!selectedTip}
+        onClose={() => {
+          setSelectedTip(undefined);
+        }}
+      >
+        <ModalBackdrop />
+        <ModalContent>
+          <ModalHeader>
+            <Heading size="lg">{selectedTip?.name}</Heading>
+            <ModalCloseButton>
+              <Icon as={CloseIcon} />
+            </ModalCloseButton>
+          </ModalHeader>
+          <ModalBody>
+            <Text>{selectedTip?.message}</Text>
+          </ModalBody>
+          <ModalFooter>
+            <HStack flex={1} justifyContent="flex-end">
+              <Button size="sm" onPress={() => setSelectedTip(undefined)}>
+                <ButtonText>Got it!</ButtonText>
+              </Button>
+            </HStack>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </View>
   );
 };

@@ -47,16 +47,18 @@ export const MealPlannerProgressBar: FC<Props> = ({
         <VStack w={"80%"} justifyContent="center" alignItems="center">
           <Heading size="sm">Daily progress</Heading>
           <HStack justifyContent="center" alignItems="center" gap={10}>
-            <Progress
-              value={
-                appState.userData && appState.userData.plan
-                  ? (recordedMealsCount / appState.userData.plan.length) * 100
-                  : 0
-              }
-              h={8}
-            >
-              <ProgressFilledTrack h={8} />
-            </Progress>
+            {recordedMealsCount < planLength && (
+              <Progress
+                value={
+                  appState.userData && appState.userData.plan
+                    ? (recordedMealsCount / appState.userData.plan.length) * 100
+                    : 0
+                }
+                h={8}
+              >
+                <ProgressFilledTrack h={8} />
+              </Progress>
+            )}
             <Icon
               as={CheckCircleIcon}
               size="xl"

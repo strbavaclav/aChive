@@ -23,7 +23,9 @@ type User {
   bornDate:String
   body: BodyInfo
   eatHabitGoal:String
-  plan:[PlannedMeal!] 
+  plan:[PlannedMeal!]
+
+  streak: Int
 }
 
 type BodyInfo {

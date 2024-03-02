@@ -3,7 +3,7 @@ import mongoose from 'mongoose'
 const mealRecordSchema = new mongoose.Schema({
     mealId: {
         type: mongoose.Schema.Types.ObjectId,
-        required: true,
+        required: false,
     },
     loggedDateTime: {
         type: Date,

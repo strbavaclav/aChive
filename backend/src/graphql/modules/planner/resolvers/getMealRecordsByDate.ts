@@ -8,7 +8,6 @@ export const getMealRecordsByDate = async (
     _: unknown,
     { userId, date }: QueryGetMealRecordsByDateArgs
 ): Promise<Array<MealRecord>> => {
-    console.log('DATE', date)
     try {
         const dayStart = new Date(date)
 
@@ -34,6 +33,7 @@ export const getMealRecordsByDate = async (
             })
             .map((record) => ({
                 ...record,
+                _id: String(record._id),
                 mealId: String(record.mealId),
                 loggedDateTime: record.loggedDateTime.toISOString(),
                 description: record.description,
