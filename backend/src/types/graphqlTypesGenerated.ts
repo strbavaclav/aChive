@@ -48,16 +48,17 @@ export type InputMealRecord = {
     cooked: Scalars['Boolean']['input']
     description?: InputMaybe<Scalars['String']['input']>
     loggedDateTime: Scalars['String']['input']
-    mealId: Scalars['String']['input']
+    mealId?: InputMaybe<Scalars['String']['input']>
     size: Scalars['String']['input']
 }
 
 export type MealRecord = {
     __typename?: 'MealRecord'
+    _id: Scalars['String']['output']
     cooked: Scalars['Boolean']['output']
     description?: Maybe<Scalars['String']['output']>
     loggedDateTime: Scalars['String']['output']
-    mealId: Scalars['String']['output']
+    mealId?: Maybe<Scalars['String']['output']>
     size: Scalars['String']['output']
 }
 
@@ -73,8 +74,10 @@ export type Mutation = {
     addMealRecord?: Maybe<MealRecordData>
     addStressRecord: StressRecords
     onboard: User
+    removeMealRecordById: Scalars['String']['output']
     signIn: User
     signUp: User
+    updateMealRecordById?: Maybe<MealRecordData>
 }
 
 export type Mutation_EmptyArgs = {
@@ -94,12 +97,23 @@ export type MutationOnboardArgs = {
     onboardData: OnboardData
 }
 
+export type MutationRemoveMealRecordByIdArgs = {
+    recordId: Scalars['String']['input']
+    userId: Scalars['String']['input']
+}
+
 export type MutationSignInArgs = {
     authData: SignInInput
 }
 
 export type MutationSignUpArgs = {
     authData: SignUpInput
+}
+
+export type MutationUpdateMealRecordByIdArgs = {
+    recordId: Scalars['String']['input']
+    updatedRecord: InputMealRecord
+    userId: Scalars['String']['input']
 }
 
 export type OnboardData = {
@@ -191,6 +205,7 @@ export type User = {
     onboarded: Scalars['Boolean']['output']
     password: Scalars['String']['output']
     plan?: Maybe<Array<PlannedMeal>>
+    streak?: Maybe<Scalars['Int']['output']>
     token?: Maybe<Scalars['String']['output']>
     username?: Maybe<Scalars['String']['output']>
 }
@@ -363,6 +378,7 @@ export type MealRecordResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['MealRecord'] = ResolversParentTypes['MealRecord']
 > = {
+    _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     cooked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
     description?: Resolver<
         Maybe<ResolversTypes['String']>,
@@ -370,7 +386,7 @@ export type MealRecordResolvers<
         ContextType
     >
     loggedDateTime?: Resolver<ResolversTypes['String'], ParentType, ContextType>
-    mealId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    mealId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
     size?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
@@ -416,6 +432,12 @@ export type MutationResolvers<
         ContextType,
         RequireFields<MutationOnboardArgs, 'onboardData'>
     >
+    removeMealRecordById?: Resolver<
+        ResolversTypes['String'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationRemoveMealRecordByIdArgs, 'recordId' | 'userId'>
+    >
     signIn?: Resolver<
         ResolversTypes['User'],
         ParentType,
@@ -427,6 +449,15 @@ export type MutationResolvers<
         ParentType,
         ContextType,
         RequireFields<MutationSignUpArgs, 'authData'>
+    >
+    updateMealRecordById?: Resolver<
+        Maybe<ResolversTypes['MealRecordData']>,
+        ParentType,
+        ContextType,
+        RequireFields<
+            MutationUpdateMealRecordByIdArgs,
+            'recordId' | 'updatedRecord' | 'userId'
+        >
     >
 }
 
@@ -524,6 +555,7 @@ export type UserResolvers<
         ParentType,
         ContextType
     >
+    streak?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>
     token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
     username?: Resolver<
         Maybe<ResolversTypes['String']>,

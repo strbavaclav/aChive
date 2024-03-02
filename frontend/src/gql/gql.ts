@@ -21,8 +21,12 @@ const documents = {
     types.SignUpDocument,
   "\nmutation Mutation($userId: String!, $mealRecord: InputMealRecord!) {\n  addMealRecord(userId: $userId, mealRecord: $mealRecord) {\n    userId\n    records {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n":
     types.MutationDocument,
-  "\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n":
+  "\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n":
     types.GetMealRecordsByDateDocument,
+  "\nmutation RemoveMealRecordById($recordId: String!, $userId: String!) {\n  removeMealRecordById(recordId: $recordId, userId: $userId)\n}\n":
+    types.RemoveMealRecordByIdDocument,
+  "\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n":
+    types.UpdateMealRecordByIdDocument,
   "\n  query GetUserData {\n    getUserData {\n      _id\n      email\n      onboarded\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n    }\n  }\n":
     types.GetUserDataDocument,
 };
@@ -69,8 +73,20 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n",
-): (typeof documents)["\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n"];
+  source: "\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n",
+): (typeof documents)["\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\nmutation RemoveMealRecordById($recordId: String!, $userId: String!) {\n  removeMealRecordById(recordId: $recordId, userId: $userId)\n}\n",
+): (typeof documents)["\nmutation RemoveMealRecordById($recordId: String!, $userId: String!) {\n  removeMealRecordById(recordId: $recordId, userId: $userId)\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n",
+): (typeof documents)["\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

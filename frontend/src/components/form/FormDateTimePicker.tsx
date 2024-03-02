@@ -43,7 +43,7 @@ export const FormDateTimePicker: FC<Props> = (props) => {
           fieldState: { error },
         }) => (
           <FormControl isDisabled={disabled} isRequired={required}>
-            <FormControlLabel>
+            <FormControlLabel left={10}>
               <FormControlLabelText>{label}</FormControlLabelText>
             </FormControlLabel>
 

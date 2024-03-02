@@ -1,14 +1,21 @@
-import { Heading, Text, View } from "@gluestack-ui/themed";
+import { Heading, Spinner, View } from "@gluestack-ui/themed";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
 import { AuthStackParams } from "navigation/auth";
+import { useApp } from "context/appContext";
+import { useAuth } from "context/authContext";
 
 const SplashScreen = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParams>>();
+
+  const [showLoading, setShowLoading] = useState(false);
+  const { authState } = useAuth();
+
+  const tokenLoading = authState.tokenLoading;
 
   const ring1padding = useSharedValue(0);
   const ring2padding = useSharedValue(0);
@@ -25,8 +32,14 @@ const SplashScreen = () => {
       300
     );
 
-    setTimeout(() => navigation.navigate("Login"), 2000);
-  }, []);
+    setTimeout(() => setShowLoading(true), 500);
+
+    setTimeout(() => {
+      if (tokenLoading === false) {
+        navigation.navigate("Login");
+      }
+    }, 1000);
+  }, [tokenLoading]);
 
   return (
     <View
@@ -56,6 +69,14 @@ const SplashScreen = () => {
           </Heading>
         </Animated.View>
       </Animated.View>
+      {showLoading && (
+        <Spinner
+          position="absolute"
+          bottom={200}
+          size="large"
+          color="#FFFFFF"
+        />
+      )}
     </View>
   );
 };

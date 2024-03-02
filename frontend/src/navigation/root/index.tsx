@@ -1,4 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useApp } from "context/appContext";
 import { useAuth } from "context/authContext";
 import { AuthStackNavigator } from "navigation/auth";
 import { MainDrawerNavigator } from "navigation/main";
@@ -18,15 +19,11 @@ const screnOptions = {
 
 export const RootStackNavigator = () => {
   const { authState } = useAuth();
+  const { appState } = useApp();
 
   return (
     <RootNavigator.Navigator screenOptions={screnOptions}>
-      {/* <RootNavigator.Screen
-        name="OnboardingNavigator"
-        component={OnboardingStackNavigator}
-      /> */}
-
-      {authState?.authenticated && authState.onboarded ? (
+      {authState?.authenticated && authState.onboarded && appState.userData ? (
         <RootNavigator.Screen
           name="MainNavigator"
           component={MainDrawerNavigator}

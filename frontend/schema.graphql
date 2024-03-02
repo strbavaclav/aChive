@@ -12,15 +12,16 @@ input InputMealRecord {
   cooked: Boolean!
   description: String
   loggedDateTime: String!
-  mealId: String!
+  mealId: String
   size: String!
 }
 
 type MealRecord {
+  _id: String!
   cooked: Boolean!
   description: String
   loggedDateTime: String!
-  mealId: String!
+  mealId: String
   size: String!
 }
 
@@ -34,8 +35,10 @@ type Mutation {
   addMealRecord(mealRecord: InputMealRecord!, userId: String!): MealRecordData
   addStressRecord(stressRecordData: StressRecordDataInput!): StressRecords!
   onboard(onboardData: OnboardData!): User!
+  removeMealRecordById(recordId: String!, userId: String!): String!
   signIn(authData: SignInInput!): User!
   signUp(authData: SignUpInput!): User!
+  updateMealRecordById(recordId: String!, updatedRecord: InputMealRecord!, userId: String!): MealRecordData
 }
 
 input OnboardData {
@@ -113,6 +116,7 @@ type User {
   onboarded: Boolean!
   password: String!
   plan: [PlannedMeal!]
+  streak: Int
   token: String
   username: String
 }
