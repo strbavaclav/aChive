@@ -65,6 +65,20 @@ const userShema = new mongoose.Schema({
         ],
         required: [requiredIfOnboarded, 'Plan is required if onboarded'],
     },
+    shopping: {
+        prepDays: {
+            type: [Number],
+            default: [],
+        },
+        prepStartTime: Date,
+        prepEndTime: Date,
+        shopDays: {
+            type: [Number],
+            default: [],
+        },
+        shopStartTime: Date,
+        shopEndTime: Date,
+    },
 })
 
 const User = mongoose.model('User', userShema)

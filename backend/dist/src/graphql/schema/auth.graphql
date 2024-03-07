@@ -10,6 +10,7 @@ type Mutation {
 }
 
 type User {
+  _id:String!
   email: String!
   password: String!
   token: String
@@ -22,7 +23,10 @@ type User {
   bornDate:String
   body: BodyInfo
   eatHabitGoal:String
-  plan:[PlannedMeal!] 
+  plan:[PlannedMeal!]
+  shopping: ShoppingListSettings
+
+  streak: Int
 }
 
 type BodyInfo {
@@ -30,7 +34,17 @@ type BodyInfo {
   weight: Float!
 }
 
+type ShoppingListSettings {
+  prepDays: [Int!]
+  prepStartTime: String,
+  prepEndTime: String,
+  shopDays: [Int!]
+  shopStartTime: String,
+  shopEndTime: String,
+}
+
 type PlannedMeal {
+  _id:String!
   mealName:String!
   mealSize:String!
   startTime:String!

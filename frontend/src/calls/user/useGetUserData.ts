@@ -23,6 +23,14 @@ export const GET_USER_DATA_QUERY = gql(/* GraphQL */ `
         startTime
         endTime
       }
+      shopping {
+        prepDays
+        prepStartTime
+        prepEndTime
+        shopDays
+        shopStartTime
+        shopEndTime
+      }
     }
   }
 `);

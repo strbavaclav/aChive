@@ -36,6 +36,7 @@ type Mutation {
   addStressRecord(stressRecordData: StressRecordDataInput!): StressRecords!
   onboard(onboardData: OnboardData!): User!
   removeMealRecordById(recordId: String!, userId: String!): String!
+  setShoppingListSettings(ShopListSettings: ShopListSettingsInput!): User!
   signIn(authData: SignInInput!): User!
   signUp(authData: SignUpInput!): User!
   updateMealRecordById(recordId: String!, updatedRecord: InputMealRecord!, userId: String!): MealRecordData
@@ -73,6 +74,24 @@ type Query {
   getMealRecordsByDate(date: String!, userId: String!): [MealRecord]
   getUser(id: ID!): User
   getUserData: User
+}
+
+input ShopListSettingsInput {
+  prepDays: [Int!]
+  prepEndTime: String!
+  prepStartTime: String!
+  shopDays: [Int!]
+  shopEndTime: String!
+  shopStartTime: String!
+}
+
+type ShoppingListSettings {
+  prepDays: [Int!]
+  prepEndTime: String
+  prepStartTime: String
+  shopDays: [Int!]
+  shopEndTime: String
+  shopStartTime: String
 }
 
 input SignInInput {
@@ -116,6 +135,7 @@ type User {
   onboarded: Boolean!
   password: String!
   plan: [PlannedMeal!]
+  shopping: ShoppingListSettings
   streak: Int
   token: String
   username: String

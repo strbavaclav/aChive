@@ -24,6 +24,7 @@ type User {
   body: BodyInfo
   eatHabitGoal:String
   plan:[PlannedMeal!]
+  shopping: ShoppingListSettings
 
   streak: Int
 }
@@ -31,6 +32,15 @@ type User {
 type BodyInfo {
   height: Float!
   weight: Float!
+}
+
+type ShoppingListSettings {
+  prepDays: [Int!]
+  prepStartTime: String,
+  prepEndTime: String,
+  shopDays: [Int!]
+  shopStartTime: String,
+  shopEndTime: String,
 }
 
 type PlannedMeal {

@@ -5,5 +5,21 @@
     "Sign in":"Sign in",
     "Sign up":"Sign up",
     "or use":"or use",
-    "Don't have an account?":"Don't have an account? "
+    "Don't have an account?":"Don't have an account? ",
+    "dashboard.today":"Today - ",
+
+    "navigation.viewProfile":"View your profile",
+    "navigation.dashboard":"Dashboard",
+    "navigation.stressRelief":"Stress relief",
+    "navigation.shoppingList":"Shopping list",
+    "navigation.recipes":"Recipes",
+    "navigation.settings":"Settings",
+    "navigation.about":"About",
+    "navigation.signOut":"Sign out",
+
+    "navigation.Home":"Dashboard",
+    "navigation.Planner":"Planner",
+    "navigation.Insights":"Insights",
+    "navigation.Profile":"Profile"
+
 }

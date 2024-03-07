@@ -1,0 +1,31 @@
+type Mutation {
+  addMealRecord(userId: String!, mealRecord: InputMealRecord!): MealRecordData
+  removeMealRecordById(userId:String!, recordId: String!): String!
+  updateMealRecordById(userId:String!, recordId:String!, updatedRecord: InputMealRecord!): MealRecordData
+}
+
+type Query {
+  getMealRecordsByDate(userId: String!, date: String!): [MealRecord]
+}
+
+type MealRecord {
+  _id:String!
+  mealId: String
+  loggedDateTime: String!
+  size: String!
+  description: String
+  cooked: Boolean!
+}
+
+type MealRecordData {
+  userId: String!
+  records: [MealRecord!]!
+}
+
+input InputMealRecord {
+  mealId: String
+  loggedDateTime: String!
+  size: String!
+  description: String
+  cooked: Boolean!
+}

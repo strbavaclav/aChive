@@ -24,6 +24,14 @@ export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
         startTime
         endTime
       }
+      shopping {
+        prepDays
+        prepStartTime
+        prepEndTime
+        shopDays
+        shopStartTime
+        shopEndTime
+      }
     }
   }
 `);

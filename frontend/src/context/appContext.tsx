@@ -10,6 +10,8 @@ import React, {
 } from "react";
 import { scheduleMealNotification } from "services/notifications";
 import * as Notifications from "expo-notifications";
+import { client } from "gql/client";
+import { GET_USER_DATA_QUERY } from "calls/user/useGetUserData";
 
 type OnboardDataType = {
   body?: { height?: number; weight?: number };
@@ -35,6 +37,7 @@ export type UserType = {
   gender?: string;
   lastName?: string;
   plan?: PlannedMealType[];
+  shopping?: ShoppingListSettingsType;
   username?: string;
 };
 
@@ -44,6 +47,16 @@ export type PlannedMealType = {
   mealSize?: string;
   startTime?: Date;
   endTime?: Date;
+};
+
+export type ShoppingListSettingsType = {
+  prepDays?: number[];
+  prepStartTime?: string;
+  prepEndTime?: string;
+
+  shopDays?: number[];
+  shopStartTime?: string;
+  shopEndTime?: string;
 };
 
 type BodyInfoType = {
@@ -59,6 +72,7 @@ interface AppState {
 interface AppContextProps {
   appState: AppState;
   setAppState: Dispatch<SetStateAction<AppState>>;
+  refetchUserData: () => Promise<void>;
 }
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
@@ -89,9 +103,25 @@ export const AppProvider = ({
       });
   }, [appState]);
 
+  const refetchUserData = async () => {
+    try {
+      const response = await client.query({ query: GET_USER_DATA_QUERY });
+      const { data } = response;
+      console.log("D", data);
+      setAppState((prevState) => ({
+        ...prevState,
+        userData: { ...(data.getUserData as UserType) },
+      }));
+      console.log("User data refetched!");
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const value = {
     appState,
     setAppState,
+    refetchUserData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

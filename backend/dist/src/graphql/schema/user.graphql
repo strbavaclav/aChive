@@ -1,4 +1,4 @@
 type Query {
-  getUserData: User!
+  getUserData: User
 }
 

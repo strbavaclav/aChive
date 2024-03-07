@@ -5,5 +5,20 @@
     "Sign up":"Zaregistruj se",
     "Sign in":"Přihlásit se",
     "or use":"nebo přes",
-    "Don't have an account?":"Nemáte ještě svůj účet? "
+    "Don't have an account?":"Nemáte ještě svůj účet? ",
+    "dashboard.today":"Dnes - ",
+    
+    "navigation.viewProfile":"Zobrazit profil",
+    "navigation.dashboard":"Přehled",
+    "navigation.stressRelief":"Deník stresu",
+    "navigation.shoppingList":"Nákupní seznam",
+    "navigation.recipes":"Recepty",
+    "navigation.settings":"Nastavení",
+    "navigation.about":"O aplikaci",
+    "navigation.signOut":"Odhlásit se",
+
+    "navigation.Home":"Přehled",
+    "navigation.Planner":"Plánovač",
+    "navigation.Insights":"Tipy",
+    "navigation.Profile":"Profil"
 }

@@ -72,16 +72,16 @@ const MealPlannerScreen = () => {
         data: planData,
         renderItem: renderItem,
       },
-      // {
-      //   title: "Extra meals",
-      //   data: [
-      //     records?.getMealRecordsByDate?.filter(
-      //       (record) => record?.mealId === "undefined"
-      //     ),
-      //   ], // Wrap records in an array since data expects an array
-      //   //@ts-ignore
-      //   renderItem: renderExtraMeals,
-      // },
+      {
+        title: "Extra meals",
+        data:
+          records?.getMealRecordsByDate?.filter(
+            (record) => record?.mealId === "undefined"
+          ) ?? [],
+        // Wrap records in an array since data expects an array
+        //@ts-ignore
+        renderItem: renderExtraItem,
+      },
     ];
 
     //@ts-ignore
@@ -98,8 +98,11 @@ const MealPlannerScreen = () => {
     }, [refetchRecords])
   );
 
-  const openMealDetail = (meal: PlannedMealType) => {
-    setSelectedMeal(meal);
+  const openMealDetail = (meal?: PlannedMealType) => {
+    setSelectedMeal(undefined);
+    if (meal) {
+      setSelectedMeal(meal);
+    }
     setShowModal(true);
   };
 
@@ -134,6 +137,29 @@ const MealPlannerScreen = () => {
         onPress={() => openMealDetail(plannedMeal)}
       />
     );
+  };
+
+  const renderExtraItem: ListRenderItem<unknown> = ({ item }) => {
+    const isLogged = true;
+    const itemData = item as MealRecord;
+    if (itemData) {
+      const extraMeal = itemData;
+      if (extraMeal) {
+        return (
+          <MealPlannerCard
+            key={extraMeal._id}
+            recordedMeal={extraMeal}
+            logged={isLogged}
+            selectedDate={selectedDay.toISOString()}
+            onPress={() => openMealDetail()}
+          />
+        );
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
   };
 
   return (

@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import {
   Box,
   CheckCircleIcon,
+  CloseCircleIcon,
   HStack,
   Heading,
   Icon,
@@ -44,7 +45,7 @@ export const MealPlannerProgressBar: FC<Props> = ({
       {loading ? (
         <Text>Loading...</Text>
       ) : (
-        <VStack w={"80%"} justifyContent="center" alignItems="center">
+        <VStack w={"75%"} justifyContent="center" alignItems="center">
           <Heading size="sm">Daily progress</Heading>
           <HStack justifyContent="center" alignItems="center" gap={10}>
             {recordedMealsCount < planLength && (
@@ -60,7 +61,11 @@ export const MealPlannerProgressBar: FC<Props> = ({
               </Progress>
             )}
             <Icon
-              as={CheckCircleIcon}
+              as={
+                recordedMealsCount >= planLength
+                  ? CheckCircleIcon
+                  : CloseCircleIcon
+              }
               size="xl"
               color={recordedMealsCount >= planLength ? "#10b981" : "gray"}
             />

@@ -10,6 +10,7 @@ import { addMealRecordResolver } from './modules/planner/resolvers/addMealRecord
 import { getMealRecordsByDate } from './modules/planner/resolvers/getMealRecordsByDate'
 import { removeMealRecordByIdResolver } from './modules/planner/resolvers/removeMealRecordById'
 import { updateMealRecordByIdResolver } from './modules/planner/resolvers/updateMealRecordResolver'
+import { setShoppingListSettingsResolver } from './modules/shopping/resolvers/setShoppingListSettingsResolver'
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -25,6 +26,9 @@ const resolvers: Resolvers = {
         addMealRecord: addMealRecordResolver,
         removeMealRecordById: removeMealRecordByIdResolver,
         updateMealRecordById: updateMealRecordByIdResolver,
+
+        //shoppingList
+        setShoppingListSettings: setShoppingListSettingsResolver,
     },
 
     Query: {

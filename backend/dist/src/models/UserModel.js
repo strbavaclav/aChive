@@ -56,9 +56,31 @@ const userShema = new mongoose_1.default.Schema({
         type: String,
         require: [requiredIfOnboarded],
     },
-    plan: [
-        { mealName: String, mealSize: String, startTime: Date, endTime: Date },
-    ],
+    plan: {
+        type: [
+            {
+                mealName: String,
+                mealSize: String,
+                startTime: Date,
+                endTime: Date,
+            },
+        ],
+        required: [requiredIfOnboarded, 'Plan is required if onboarded'],
+    },
+    shopping: {
+        prepDays: {
+            type: [Number],
+            default: [],
+        },
+        prepStartTime: Date,
+        prepEndTime: Date,
+        shopDays: {
+            type: [Number],
+            default: [],
+        },
+        shopStartTime: Date,
+        shopEndTime: Date,
+    },
 });
 const User = mongoose_1.default.model('User', userShema);
 exports.default = User;
