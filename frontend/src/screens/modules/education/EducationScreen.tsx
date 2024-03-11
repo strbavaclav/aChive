@@ -1,4 +1,3 @@
-import { Alert, StyleSheet, View } from "react-native";
 import React, { useState } from "react";
 import {
   Box,
@@ -18,10 +17,12 @@ import {
   ScrollView,
   Text,
   VStack,
+  View,
 } from "@gluestack-ui/themed";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { eatingHabitsTips } from "data/mock/educationTips";
+import { Image } from "@gluestack-ui/themed";
 
 type EatingHabitTipType = {
   date: string;
@@ -30,7 +31,7 @@ type EatingHabitTipType = {
   message: string;
 };
 
-const EducationScreen = () => {
+export const EducationScreen = () => {
   const [selectedTip, setSelectedTip] = useState<
     EatingHabitTipType | undefined
   >(undefined);
@@ -38,6 +39,15 @@ const EducationScreen = () => {
   return (
     <View style={{ flex: 1, marginHorizontal: 5 }}>
       <ScrollView style={{ flex: 1, marginTop: 6 }}>
+        <View alignItems="center">
+          <Image
+            w={150}
+            h={150}
+            source={require("../../../assets/images/insights.png")}
+            resizeMode="contain"
+            alt="about"
+          />
+        </View>
         <Text bold size="lg" style={{ color: "#10b981" }}>
           Read up on healthy habits
         </Text>
@@ -131,7 +141,3 @@ const EducationScreen = () => {
     </View>
   );
 };
-
-export default EducationScreen;
-
-const styles = StyleSheet.create({});

@@ -46,6 +46,11 @@ const userShema = new mongoose.Schema({
         type: Date,
         required: [requiredIfOnboarded],
     },
+    language: {
+        type: String,
+        required: true,
+        default: 'en',
+    },
     body: {
         height: { type: Number },
         weight: { type: Number },
@@ -64,6 +69,20 @@ const userShema = new mongoose.Schema({
             },
         ],
         required: [requiredIfOnboarded, 'Plan is required if onboarded'],
+    },
+    shopping: {
+        prepDays: {
+            type: [Number],
+            default: [],
+        },
+        prepStartTime: Date,
+        prepEndTime: Date,
+        shopDays: {
+            type: [Number],
+            default: [],
+        },
+        shopStartTime: Date,
+        shopEndTime: Date,
     },
 })
 

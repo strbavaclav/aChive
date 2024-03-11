@@ -1,4 +1,10 @@
 import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  Icon,
+  View,
+} from "@gluestack-ui/themed";
+import {
   addDays,
   eachDayOfInterval,
   eachWeekOfInterval,
@@ -8,7 +14,7 @@ import {
   subDays,
 } from "date-fns";
 import React, { Dispatch, FC, SetStateAction } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import PagerView from "react-native-pager-view";
 
 type Props = {
@@ -50,6 +56,9 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
                 gap: 1,
               }}
             >
+              <View alignItems="center" justifyContent="center">
+                <Icon as={ChevronLeftIcon} color="grey" />
+              </View>
               {week.map((day, i) => {
                 const txt = format(day, "EEEEEE");
                 const isTodayDate = isToday(day);
@@ -99,10 +108,16 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
                       }}
                     >
                       {day.getDate()}
+                      {daySelected.getDate() === day.getDate()
+                        ? `.${day.getMonth()}.`
+                        : null}
                     </Text>
                   </TouchableOpacity>
                 );
               })}
+              <View alignItems="center" justifyContent="center">
+                <Icon as={ChevronRightIcon} />
+              </View>
             </View>
           );
         })}

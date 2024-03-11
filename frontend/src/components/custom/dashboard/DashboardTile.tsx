@@ -25,7 +25,6 @@ const DashboardTile: FC<Props> = ({ children, variant, navigate }) => {
         <Box
           backgroundColor={variant === "secondary" ? "#10b981" : "white"}
           style={{
-            marginVertical: 3,
             borderRadius: 8,
             shadowColor: "black",
             shadowOffset: { width: 2, height: 2 },

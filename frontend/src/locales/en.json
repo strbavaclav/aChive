@@ -5,5 +5,31 @@
     "Sign in":"Sign in",
     "Sign up":"Sign up",
     "or use":"or use",
-    "Don't have an account?":"Don't have an account? "
+    "Don't have an account?":"Don't have an account? ",
+    "dashboard.today":"Today - ",
+
+    "navigation.viewProfile":"View your profile",
+    "navigation.dashboard":"Dashboard",
+    "navigation.stressRelief":"Stress relief",
+    "navigation.shoppingList":"Shopping list",
+    "navigation.recipes":"Recipes",
+    "navigation.settings":"Settings",
+    "navigation.appSettings":"App settings",
+    "navigation.about":"About",
+    "navigation.aboutApp":"About app",
+    "navigation.signOut":"Sign out",
+
+    "navigation.Home":"Dashboard",
+    "navigation.Planner":"Planner",
+    "navigation.Insights":"Insights",
+    "navigation.Profile":"Profile",
+
+    "settings.applicationLanguage":"Application's language",
+    "settings.colorsTheme":"Colors theme",
+    "settings.notMuch":"Well, not much yet. But don't be sad because the app is still growing!",
+
+    "about.description":"The aChive application was created as a final product of the diploma thesis named:",
+    "about.thesisName":"\"Design and implementation of a mobile application to improve eating habits using Design Thinking methodology\"",
+    "about.feedback":"Your feedback is welcomed at",
+    "about.byAuthor":"by Václav Štrba"
 }

@@ -95,7 +95,6 @@ export default MealCarouselCard;
 const styles = StyleSheet.create({
   imageContainer: {
     borderRadius: 10,
-    backgroundColor: "lightgreen",
     overflow: "hidden",
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },

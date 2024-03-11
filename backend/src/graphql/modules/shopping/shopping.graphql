@@ -1,0 +1,14 @@
+
+type Mutation {
+  setShoppingListSettings(ShopListSettings: ShopListSettingsInput!):User!
+}
+
+input ShopListSettingsInput {
+  prepDays: [Int!]
+  prepStartTime: String!,
+  prepEndTime: String!,
+  shopDays: [Int!]
+  shopStartTime: String!,
+  shopEndTime: String!,
+}
+

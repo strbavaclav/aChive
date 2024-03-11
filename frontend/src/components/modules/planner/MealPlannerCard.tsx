@@ -1,8 +1,12 @@
 import {
+  Badge,
+  BadgeIcon,
+  BadgeText,
   CheckIcon,
   ChevronsUpDownIcon,
   ClockIcon,
   CloseIcon,
+  GlobeIcon,
   HStack,
   Icon,
   Text,
@@ -16,6 +20,7 @@ import { TouchableOpacity } from "react-native";
 
 import moment from "moment";
 import { formatTime } from "utils/formatTime";
+import { Ionicons } from "@expo/vector-icons";
 
 type Props = {
   logged?: boolean;
@@ -64,27 +69,34 @@ const DateRange: FC<DatRangeProps> = ({ plannedMeal, recordedMeal }) => {
   return (
     <VStack alignItems="flex-end">
       <HStack alignItems="center" gap={4}>
-        <Icon as={ClockIcon} size="xs" />
-
-        <Text
-          size="xs"
-          textDecorationLine={
-            recordedMeal && !isWithinRange ? "line-through" : undefined
-          }
-          color={
-            recordedMeal && isWithinRange
-              ? "#10b981"
-              : recordedMeal && !isWithinRange
-                ? "#cc0000"
-                : "gray"
-          }
-        >
-          {plannedStartShow} - {plannedEndShow}
-        </Text>
+        {plannedMeal && (
+          <>
+            <Icon as={ClockIcon} size="xs" />
+            <Text
+              size="xs"
+              textDecorationLine={
+                recordedMeal && !isWithinRange ? "line-through" : undefined
+              }
+              color={
+                recordedMeal && isWithinRange
+                  ? "#10b981"
+                  : recordedMeal && !isWithinRange
+                    ? "#cc0000"
+                    : "gray"
+              }
+            >
+              {plannedStartShow} - {plannedEndShow}
+            </Text>
+          </>
+        )}
       </HStack>
-      {recordedMeal && (
-        <Text size="xs">{`${recordedTimeOnly.format("HH:mm")}`}</Text>
-      )}
+      <HStack alignItems="center" gap={4}>
+        {!plannedMeal && <Icon as={ClockIcon} size="xs" />}
+
+        {recordedMeal && (
+          <Text size="xs">{`${recordedTimeOnly.format("HH:mm")}`}</Text>
+        )}
+      </HStack>
     </VStack>
   );
 };
@@ -120,9 +132,20 @@ export const MealPlannerCard: FC<Props> = ({
           <DateRange plannedMeal={plannedMeal} recordedMeal={recordedMeal} />
         </HStack>
         <HStack justifyContent="space-between" m={10}>
-          <HStack alignItems="center">
-            <Icon as={ChevronsUpDownIcon} size="sm" />
-            <Text
+          <Badge
+            size="md"
+            variant="solid"
+            borderRadius={"$sm"}
+            action={
+              recordedMeal && recordedMeal.size !== plannedMeal?.mealSize
+                ? "error"
+                : recordedMeal?.size === plannedMeal?.mealSize
+                  ? "success"
+                  : "muted"
+            }
+          >
+            <BadgeIcon as={ChevronsUpDownIcon} mr={"$1"} />
+            <BadgeText
               size="xs"
               color={
                 recordedMeal && recordedMeal.size !== plannedMeal?.mealSize
@@ -133,15 +156,24 @@ export const MealPlannerCard: FC<Props> = ({
               }
             >
               SIZE{" "}
-              {recordedMeal && recordedMeal.size !== plannedMeal?.mealSize
+              {recordedMeal &&
+              plannedMeal &&
+              recordedMeal.size !== plannedMeal?.mealSize
                 ? `${plannedMeal?.mealSize} -> ${recordedMeal.size}`
-                : plannedMeal?.mealSize}
-            </Text>
-          </HStack>
+                : !plannedMeal
+                  ? recordedMeal?.size
+                  : plannedMeal?.mealSize}
+            </BadgeText>
+          </Badge>
+
           {logged ? (
-            <Icon as={CheckIcon} size="xl" color="#10b981" />
+            <Ionicons
+              name={"checkmark-circle-outline"}
+              size={24}
+              color={"#10b981"}
+            />
           ) : (
-            <Icon as={CloseIcon} size="xl" color="gray" />
+            <Ionicons name={"close-circle-outline"} size={24} color={"gray"} />
           )}
         </HStack>
       </View>

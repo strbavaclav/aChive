@@ -7,6 +7,7 @@ export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
       _id
       email
       onboarded
+      language
       username
       firstName
       lastName
@@ -23,6 +24,14 @@ export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
         mealSize
         startTime
         endTime
+      }
+      shopping {
+        prepDays
+        prepStartTime
+        prepEndTime
+        shopDays
+        shopStartTime
+        shopEndTime
       }
     }
   }

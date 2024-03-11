@@ -94,7 +94,7 @@ const RegisterScreen = () => {
   const onPress = formContext.handleSubmit(onSubmit, onError);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
@@ -127,12 +127,12 @@ const RegisterScreen = () => {
               <FormInput name="email" placeholder={t("your@mail.cz")} />
               <FormInput
                 name="password"
-                placeholder={t("select a password")}
+                placeholder={t("select password")}
                 secret
               />
               <FormInput
                 name="passwordConfirm"
-                placeholder={t("retype a password")}
+                placeholder={t("retype password")}
                 secret
               />
             </FormProvider>

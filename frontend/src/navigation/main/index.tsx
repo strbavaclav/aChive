@@ -6,21 +6,22 @@ import {
 } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "screens/core/profile/ProfileScreen";
 import MealPlannerScreen from "screens/modules/mealplanning/MealPlannerScreen";
-import EducationScreen from "screens/modules/education/EducationScreen";
+import { EducationScreen } from "screens/modules/education/EducationScreen";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { ReactNode, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import CustomDrawer from "components/navigation/CustomDrawer";
 import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
-import AboutScreen from "screens/core/about/AboutScreen";
+import { AboutScreen } from "screens/core/about/AboutScreen";
 import ShoppingListScreen from "screens/modules/shopping/ShoppingListScreen";
 import CookBookScreen from "screens/modules/cookbook/CookBookScreen";
 import ReliefScreen from "screens/modules/relief/ReliefScreen";
-import SettingsScreen from "screens/core/settings/SettingsScreent";
+import { SettingsScreen } from "screens/core/settings/SettingsScreen";
 import { useNavigation } from "@react-navigation/native";
 import NotificationScreen from "screens/core/notification/NotificationScreen";
 import { PlannerStackNavigator } from "navigation/planner";
+import { useTranslation } from "react-i18next";
 
 type Props = { children: ReactNode };
 
@@ -44,53 +45,56 @@ export type MainDrawerParams = {
 const MainTab = createBottomTabNavigator<MainTabsParams>();
 const MainDrawer = createDrawerNavigator<MainDrawerParams>();
 
-const TabScreenOptions = ({
-  route,
-}: BottomTabScreenProps<
-  MainTabsParams,
-  keyof MainTabsParams
->): BottomTabNavigationOptions => ({
-  tabBarIcon: ({ focused, color, size }) => {
-    let iconName: string;
-    let iconColor: string;
+const TabScreenOptions =
+  (t: (key: string) => string) =>
+  ({
+    route,
+  }: BottomTabScreenProps<
+    MainTabsParams,
+    keyof MainTabsParams
+  >): BottomTabNavigationOptions => ({
+    tabBarIcon: ({ focused, color, size }) => {
+      let iconName: string;
+      let iconColor: string;
 
-    if (route.name === "Home") {
-      iconName = "dashboard";
-      iconColor = focused ? "#10b981" : "#555";
-    } else if (route.name === "Profile") {
-      iconName = focused ? "person" : "person-outline";
-      iconColor = focused ? "#10b981" : "#555";
-    } else if (route.name === "Planner") {
-      iconName = "access-time";
-      iconColor = focused ? "#10b981" : "#555";
-    } else if (route.name === "Insights") {
-      iconName = "library-books";
-      iconColor = focused ? "#10b981" : "#555";
-    } else {
-      iconName = "ios-alert";
-      iconColor = "#555";
-    }
+      if (route.name === "Home") {
+        iconName = "dashboard";
+        iconColor = focused ? "#10b981" : "#555";
+      } else if (route.name === "Profile") {
+        iconName = focused ? "person" : "person-outline";
+        iconColor = focused ? "#10b981" : "#555";
+      } else if (route.name === "Planner") {
+        iconName = "access-time";
+        iconColor = focused ? "#10b981" : "#555";
+      } else if (route.name === "Insights") {
+        iconName = "library-books";
+        iconColor = focused ? "#10b981" : "#555";
+      } else {
+        iconName = "ios-alert";
+        iconColor = "#555";
+      }
 
-    return (
-      <MaterialIcons name={iconName as "tab"} size={size} color={iconColor} />
-    );
-  },
-  tabBarLabel: route.name === "Home" ? "Dashboard" : route.name,
-  tabBarActiveTintColor: "#10b981",
-  headerShown: false,
-  tabBarStyle: {
-    shadowColor: "black",
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    borderBottomLeftRadius: 15,
-    shadowRadius: 5,
-    borderTopWidth: 1,
-    backgroundColor: "white",
-  },
-});
+      return (
+        <MaterialIcons name={iconName as "tab"} size={size} color={iconColor} />
+      );
+    },
+    tabBarLabel: t(`navigation.${route.name}`),
+    tabBarActiveTintColor: "#10b981",
+    headerShown: false,
+    tabBarStyle: {
+      shadowColor: "black",
+      shadowOffset: { width: 0, height: 8 },
+      shadowOpacity: 0.2,
+      borderBottomLeftRadius: 15,
+      shadowRadius: 5,
+      borderTopWidth: 1,
+      backgroundColor: "white",
+    },
+  });
 
 export const MainTabNavigator = () => {
   const navigation = useNavigation();
+  const { t } = useTranslation();
 
   const state = navigation.getState();
   const route = state?.routes[state.index] ?? {};
@@ -115,7 +119,7 @@ export const MainTabNavigator = () => {
     >
       <MainTab.Navigator
         initialRouteName="Home"
-        screenOptions={TabScreenOptions}
+        screenOptions={TabScreenOptions(t)}
       >
         <MainTab.Screen name="Home" component={HomeScreen} />
         <MainTab.Screen name="Planner" component={PlannerStackNavigator} />

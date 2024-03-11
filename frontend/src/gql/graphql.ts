@@ -71,6 +71,7 @@ export type Mutation = {
   addStressRecord: StressRecords;
   onboard: User;
   removeMealRecordById: Scalars["String"]["output"];
+  setShoppingListSettings: User;
   signIn: User;
   signUp: User;
   updateMealRecordById?: Maybe<MealRecordData>;
@@ -96,6 +97,10 @@ export type MutationOnboardArgs = {
 export type MutationRemoveMealRecordByIdArgs = {
   recordId: Scalars["String"]["input"];
   userId: Scalars["String"]["input"];
+};
+
+export type MutationSetShoppingListSettingsArgs = {
+  ShopListSettings: ShopListSettingsInput;
 };
 
 export type MutationSignInArgs = {
@@ -157,6 +162,25 @@ export type QueryGetUserArgs = {
   id: Scalars["ID"]["input"];
 };
 
+export type ShopListSettingsInput = {
+  prepDays?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  prepEndTime: Scalars["String"]["input"];
+  prepStartTime: Scalars["String"]["input"];
+  shopDays?: InputMaybe<Array<Scalars["Int"]["input"]>>;
+  shopEndTime: Scalars["String"]["input"];
+  shopStartTime: Scalars["String"]["input"];
+};
+
+export type ShoppingListSettings = {
+  __typename?: "ShoppingListSettings";
+  prepDays?: Maybe<Array<Scalars["Int"]["output"]>>;
+  prepEndTime?: Maybe<Scalars["String"]["output"]>;
+  prepStartTime?: Maybe<Scalars["String"]["output"]>;
+  shopDays?: Maybe<Array<Scalars["Int"]["output"]>>;
+  shopEndTime?: Maybe<Scalars["String"]["output"]>;
+  shopStartTime?: Maybe<Scalars["String"]["output"]>;
+};
+
 export type SignInInput = {
   email: Scalars["String"]["input"];
   password: Scalars["String"]["input"];
@@ -197,10 +221,12 @@ export type User = {
   email: Scalars["String"]["output"];
   firstName?: Maybe<Scalars["String"]["output"]>;
   gender?: Maybe<Scalars["String"]["output"]>;
+  language: Scalars["String"]["output"];
   lastName?: Maybe<Scalars["String"]["output"]>;
   onboarded: Scalars["Boolean"]["output"];
   password: Scalars["String"]["output"];
   plan?: Maybe<Array<PlannedMeal>>;
+  shopping?: Maybe<ShoppingListSettings>;
   streak?: Maybe<Scalars["Int"]["output"]>;
   token?: Maybe<Scalars["String"]["output"]>;
   username?: Maybe<Scalars["String"]["output"]>;
@@ -218,6 +244,7 @@ export type SignInMutation = {
     email: string;
     token?: string | null;
     onboarded: boolean;
+    language: string;
     username?: string | null;
     firstName?: string | null;
     lastName?: string | null;
@@ -233,6 +260,15 @@ export type SignInMutation = {
       startTime: string;
       endTime: string;
     }> | null;
+    shopping?: {
+      __typename?: "ShoppingListSettings";
+      prepDays?: Array<number> | null;
+      prepStartTime?: string | null;
+      prepEndTime?: string | null;
+      shopDays?: Array<number> | null;
+      shopStartTime?: string | null;
+      shopEndTime?: string | null;
+    } | null;
   };
 };
 
@@ -247,6 +283,7 @@ export type OnboardMutation = {
     _id: string;
     email: string;
     onboarded: boolean;
+    language: string;
     username?: string | null;
     firstName?: string | null;
     lastName?: string | null;
@@ -262,6 +299,15 @@ export type OnboardMutation = {
       startTime: string;
       endTime: string;
     }> | null;
+    shopping?: {
+      __typename?: "ShoppingListSettings";
+      prepDays?: Array<number> | null;
+      prepStartTime?: string | null;
+      prepEndTime?: string | null;
+      shopDays?: Array<number> | null;
+      shopStartTime?: string | null;
+      shopEndTime?: string | null;
+    } | null;
   };
 };
 
@@ -277,6 +323,7 @@ export type SignUpMutation = {
     email: string;
     token?: string | null;
     onboarded: boolean;
+    language: string;
     username?: string | null;
     firstName?: string | null;
     lastName?: string | null;
@@ -292,6 +339,15 @@ export type SignUpMutation = {
       startTime: string;
       endTime: string;
     }> | null;
+    shopping?: {
+      __typename?: "ShoppingListSettings";
+      prepDays?: Array<number> | null;
+      prepStartTime?: string | null;
+      prepEndTime?: string | null;
+      shopDays?: Array<number> | null;
+      shopStartTime?: string | null;
+      shopEndTime?: string | null;
+    } | null;
   };
 };
 
@@ -367,6 +423,26 @@ export type UpdateMealRecordByIdMutation = {
   } | null;
 };
 
+export type SetShoppingListSettingsMutationVariables = Exact<{
+  shopListSettings: ShopListSettingsInput;
+}>;
+
+export type SetShoppingListSettingsMutation = {
+  __typename?: "Mutation";
+  setShoppingListSettings: {
+    __typename?: "User";
+    shopping?: {
+      __typename?: "ShoppingListSettings";
+      prepDays?: Array<number> | null;
+      prepStartTime?: string | null;
+      prepEndTime?: string | null;
+      shopDays?: Array<number> | null;
+      shopStartTime?: string | null;
+      shopEndTime?: string | null;
+    } | null;
+  };
+};
+
 export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetUserDataQuery = {
@@ -376,6 +452,7 @@ export type GetUserDataQuery = {
     _id: string;
     email: string;
     onboarded: boolean;
+    language: string;
     username?: string | null;
     firstName?: string | null;
     lastName?: string | null;
@@ -391,6 +468,15 @@ export type GetUserDataQuery = {
       startTime: string;
       endTime: string;
     }> | null;
+    shopping?: {
+      __typename?: "ShoppingListSettings";
+      prepDays?: Array<number> | null;
+      prepStartTime?: string | null;
+      prepEndTime?: string | null;
+      shopDays?: Array<number> | null;
+      shopStartTime?: string | null;
+      shopEndTime?: string | null;
+    } | null;
   } | null;
 };
 
@@ -440,6 +526,7 @@ export const SignInDocument = {
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "token" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
                 { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
                 { kind: "Field", name: { kind: "Name", value: "lastName" } },
@@ -488,6 +575,39 @@ export const SignInDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "shopping" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepEndTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopEndTime" },
                       },
                     ],
                   },
@@ -545,6 +665,7 @@ export const OnboardDocument = {
                 { kind: "Field", name: { kind: "Name", value: "_id" } },
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
                 { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
                 { kind: "Field", name: { kind: "Name", value: "lastName" } },
@@ -593,6 +714,39 @@ export const OnboardDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "shopping" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepEndTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopEndTime" },
                       },
                     ],
                   },
@@ -651,6 +805,7 @@ export const SignUpDocument = {
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "token" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
                 { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
                 { kind: "Field", name: { kind: "Name", value: "lastName" } },
@@ -699,6 +854,39 @@ export const SignUpDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "shopping" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepEndTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopEndTime" },
                       },
                     ],
                   },
@@ -1086,6 +1274,92 @@ export const UpdateMealRecordByIdDocument = {
   UpdateMealRecordByIdMutation,
   UpdateMealRecordByIdMutationVariables
 >;
+export const SetShoppingListSettingsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "SetShoppingListSettings" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "shopListSettings" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "ShopListSettingsInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "setShoppingListSettings" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "ShopListSettings" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "shopListSettings" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "shopping" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepEndTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopEndTime" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  SetShoppingListSettingsMutation,
+  SetShoppingListSettingsMutationVariables
+>;
 export const GetUserDataDocument = {
   kind: "Document",
   definitions: [
@@ -1105,6 +1379,7 @@ export const GetUserDataDocument = {
                 { kind: "Field", name: { kind: "Name", value: "_id" } },
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
                 { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
                 { kind: "Field", name: { kind: "Name", value: "lastName" } },
@@ -1153,6 +1428,39 @@ export const GetUserDataDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "shopping" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepEndTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopEndTime" },
                       },
                     ],
                   },

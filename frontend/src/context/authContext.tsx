@@ -75,8 +75,8 @@ export const AuthProvider = ({
         }));
         try {
           const response = await client.query({ query: GET_USER_DATA_QUERY });
-
           const { data } = response;
+          console.log(data);
           setAppState((prevState) => ({
             ...prevState,
             userData: { ...(data.getUserData as UserType) },
