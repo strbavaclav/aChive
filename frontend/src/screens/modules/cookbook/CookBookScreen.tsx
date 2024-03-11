@@ -2,7 +2,7 @@ import React from "react";
 import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 import MealCarousel from "components/custom/MealCarousel";
 import { Meals } from "data/mock/meals";
-import { Heading, Image, ScrollView, View } from "@gluestack-ui/themed";
+import { Heading, Image, ScrollView, Text, View } from "@gluestack-ui/themed";
 
 const CookBookScreen = () => {
   return (
@@ -20,6 +20,12 @@ const CookBookScreen = () => {
             alt="cookbook"
           />
           <Heading color="grey">This is just a feature preview...</Heading>
+          <Text
+            style={{ marginHorizontal: 20, textAlign: "center", marginTop: 10 }}
+          >
+            We are currently still working on this part. You will be notified
+            once we are finished!
+          </Text>
         </View>
       </ScrollView>
     </DrawerScreenWrapper>
