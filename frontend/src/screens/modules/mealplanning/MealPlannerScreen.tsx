@@ -14,6 +14,7 @@ import {
   FlatList,
   Link,
   SectionList,
+  VStack,
 } from "@gluestack-ui/themed";
 import { MealPlannerCard } from "components/modules/planner/MealPlannerCard";
 import { PlannedMealType, useApp } from "context/appContext";
@@ -27,6 +28,7 @@ import { formatTime } from "utils/formatTime";
 import { ListRenderItem } from "react-native";
 import { GET_MEAL_RECORDS_BY_DATE } from "calls/planner/useGetMealRecordsByDate";
 import { MealRecord } from "gql/graphql";
+import { Image } from "@gluestack-ui/themed";
 
 const MealPlannerScreen = () => {
   const today = new Date();
@@ -72,16 +74,16 @@ const MealPlannerScreen = () => {
         data: planData,
         renderItem: renderItem,
       },
-      // {
-      //   title: "Extra meals",
-      //   data: [
-      //     records?.getMealRecordsByDate?.filter(
-      //       (record) => record?.mealId === "undefined"
-      //     ),
-      //   ], // Wrap records in an array since data expects an array
-      //   //@ts-ignore
-      //   renderItem: renderExtraMeals,
-      // },
+      {
+        title: "Extra meals",
+        data:
+          records?.getMealRecordsByDate?.filter(
+            (record) => record?.mealId === "undefined"
+          ) ?? [],
+        // Wrap records in an array since data expects an array
+        //@ts-ignore
+        renderItem: renderExtraItem,
+      },
     ];
 
     //@ts-ignore
@@ -98,8 +100,11 @@ const MealPlannerScreen = () => {
     }, [refetchRecords])
   );
 
-  const openMealDetail = (meal: PlannedMealType) => {
-    setSelectedMeal(meal);
+  const openMealDetail = (meal?: PlannedMealType) => {
+    setSelectedMeal(undefined);
+    if (meal) {
+      setSelectedMeal(meal);
+    }
     setShowModal(true);
   };
 
@@ -136,6 +141,29 @@ const MealPlannerScreen = () => {
     );
   };
 
+  const renderExtraItem: ListRenderItem<unknown> = ({ item }) => {
+    const isLogged = true;
+    const itemData = item as MealRecord;
+    if (itemData) {
+      const extraMeal = itemData;
+      if (extraMeal) {
+        return (
+          <MealPlannerCard
+            key={extraMeal._id}
+            recordedMeal={extraMeal}
+            logged={isLogged}
+            selectedDate={selectedDay.toISOString()}
+            onPress={() => openMealDetail()}
+          />
+        );
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  };
+
   return (
     <View flex={1} gap={2}>
       <DateSlider onDaySelect={setSelectedDay} daySelected={selectedDay} />
@@ -157,7 +185,7 @@ const MealPlannerScreen = () => {
             </Text>
           )}
           ListFooterComponent={() => (
-            <HStack justifyContent="center" mt={4}>
+            <VStack justifyContent="center" alignItems="center" mt={4}>
               <Button
                 size="sm"
                 justifyContent="center"
@@ -170,7 +198,14 @@ const MealPlannerScreen = () => {
                 <ButtonIcon as={AddIcon} size="sm" />
                 <ButtonText>Add extra meal</ButtonText>
               </Button>
-            </HStack>
+              <Image
+                w={150}
+                h={150}
+                source={require("../../../assets/images/planner.png")}
+                resizeMode="contain"
+                alt="about"
+              />
+            </VStack>
           )}
           renderItem={({ item, section }) => {
             //@ts-ignore

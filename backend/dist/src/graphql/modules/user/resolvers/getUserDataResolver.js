@@ -12,7 +12,12 @@ const getUserDataResolver = async (_, __, { authUser }) => {
     }
     try {
         const user = await UserModel_1.default.findOne({ _id: authUser.userId });
-        return Object.assign({}, user === null || user === void 0 ? void 0 : user.toObject());
+        if (user) {
+            return Object.assign({}, user === null || user === void 0 ? void 0 : user.toObject());
+        }
+        else {
+            throw new graphql_1.GraphQLError('user not exist');
+        }
     }
     catch (error) {
         console.log(error);

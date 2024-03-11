@@ -24,10 +24,15 @@ import {
 import { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
+type OptionType = {
+  label: string;
+  value: string;
+};
+
 type Props = {
   name: string;
   label?: string;
-  options: string[];
+  options: OptionType[];
   placeholder?: string;
   errorLabel?: string;
   helperLabel?: string;
@@ -71,7 +76,9 @@ export const FormSelect: FC<Props> = (props) => {
                 <SelectInput
                   id={name}
                   placeholder={placeholder}
-                  value={value}
+                  value={
+                    options.find((option) => option.value === value)?.label
+                  }
                   {...rest}
                 />
                 <SelectIcon as={ChevronDownIcon} mr={"$3"} />
@@ -84,9 +91,9 @@ export const FormSelect: FC<Props> = (props) => {
                   </SelectDragIndicatorWrapper>
                   {options.map((option, i) => (
                     <SelectItem
-                      key={`${option}_i`}
-                      label={option}
-                      value={option}
+                      key={`${option.value}_${i}`}
+                      label={option.label}
+                      value={option.value}
                     />
                   ))}
                 </SelectContent>
@@ -98,7 +105,6 @@ export const FormSelect: FC<Props> = (props) => {
             {!!error && (
               <FormControlHelper id={`${name}_helperText`}>
                 <FormControlHelperText color="#cc0000">
-                  {" "}
                   {error.message}
                 </FormControlHelperText>
               </FormControlHelper>

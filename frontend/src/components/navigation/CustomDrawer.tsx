@@ -3,6 +3,7 @@ import { DrawerNavigationHelpers } from "@react-navigation/drawer/lib/typescript
 import { useApp } from "context/appContext";
 import { useAuth } from "context/authContext";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 
 type Props = {
@@ -41,6 +42,7 @@ const CustomDrawerItem: React.FC<CustomDrawerItemProps> = ({
 const CustomDrawer: React.FC<Props> = ({ navigation }) => {
   const { onSignOut } = useAuth();
   const { appState } = useApp();
+  const { t } = useTranslation();
 
   return (
     <View
@@ -86,40 +88,40 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
               {appState.userData?.firstName + " " + appState.userData?.lastName}
             </Text>
-            <Text style={{ color: "white" }}>View your profile</Text>
+            <Text style={{ color: "white" }}>
+              {t("navigation.viewProfile")}
+            </Text>
           </View>
         </TouchableOpacity>
         <View style={{ flex: 1, marginTop: 20, marginLeft: 10 }}>
           <CustomDrawerItem
-            label={"Dashboard"}
+            label={t("navigation.dashboard")}
             icon={"home"}
             navigate={() => navigation.navigate("Home")}
           />
           <CustomDrawerItem
-            label={"Stress relief"}
-            icon={"battery-full-outline"}
+            label={t("navigation.stressRelief")}
+            icon={"fitness-outline"}
             navigate={() => navigation.navigate("StressRelief")}
           />
           <CustomDrawerItem
-            label={"Shopping list"}
+            label={t("navigation.shoppingList")}
             icon={"cart"}
             navigate={() => navigation.navigate("Shopping")}
           />
           <CustomDrawerItem
-            label={"Recipes"}
+            label={t("navigation.recipes")}
             icon={"bookmarks"}
             navigate={() => navigation.navigate("Cookbook")}
           />
 
-          {/* <CustomDrawerItem label={"Supplies"} icon={"file-tray"} /> */}
-
           <CustomDrawerItem
-            label={"Settings"}
+            label={t("navigation.settings")}
             icon={"settings"}
             navigate={() => navigation.navigate("Settings")}
           />
           <CustomDrawerItem
-            label={"About"}
+            label={t("navigation.about")}
             icon={"information-circle"}
             navigate={() => navigation.navigate("About")}
           />
@@ -132,7 +134,7 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
             }}
           />
           <CustomDrawerItem
-            label={"Sign out"}
+            label={t("navigation.signOut")}
             icon={"exit-outline"}
             navigate={onSignOut}
           />

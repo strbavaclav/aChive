@@ -74,7 +74,7 @@ const OnboardingStep2Screen = () => {
   const onPress = formContext.handleSubmit(onSubmit, onError);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <KeyboardAvoidingView alignItems="center" flex={1}>
         <Heading>
           Describe your <Heading color="#10b981">goals!</Heading>
@@ -90,7 +90,11 @@ const OnboardingStep2Screen = () => {
               <Text>First we need to lay out your eating habit goal!</Text>
               <FormSelect
                 name="eatHabitGoal"
-                options={["Eat more", "Eat less", "Be consistent"]}
+                options={[
+                  { label: "Eat more", value: "Eat more" },
+                  { label: "Eat more", value: "Eat less" },
+                  { label: "Be consistent", value: "Be consistent" },
+                ]}
                 placeholder="I would like to..."
               />
               <Text>

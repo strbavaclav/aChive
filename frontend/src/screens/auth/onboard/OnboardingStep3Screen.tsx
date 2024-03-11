@@ -54,7 +54,7 @@ export const validationSchema = z.object({
 
 type FormDataType = z.infer<typeof validationSchema>;
 
-const getDefaultTime = (hours: number, minutes: number) => {
+export const getDefaultTime = (hours: number, minutes: number) => {
   const date = new Date();
   date.setHours(hours, minutes);
   return date;

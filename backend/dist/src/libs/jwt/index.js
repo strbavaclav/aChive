@@ -7,7 +7,7 @@ exports.parseAndVerifyJWT = exports.createToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const createToken = (content) => {
     return jsonwebtoken_1.default.sign(content, process.env.ACCESS_JWT_SECRET, {
-        expiresIn: '30d',
+        expiresIn: '1y',
     });
 };
 exports.createToken = createToken;

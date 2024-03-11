@@ -1,15 +1,16 @@
 import React, { FC, ReactNode } from "react";
-import { VStack } from "@gluestack-ui/themed";
+import { Heading, Text, VStack, View } from "@gluestack-ui/themed";
 
 type Props = {
   children: ReactNode;
+  title?: String;
 };
 
-export const DashboardChartTile: FC<Props> = ({ children }) => {
+export const DashboardChartTile: FC<Props> = ({ children, title }) => {
   return (
     <VStack
       flex={1}
-      justifyContent="center"
+      p={6}
       backgroundColor="white"
       borderRadius={8}
       style={{
@@ -20,7 +21,11 @@ export const DashboardChartTile: FC<Props> = ({ children }) => {
         alignItems: "center",
       }}
     >
-      {children}
+      <Heading color="grey">{title}</Heading>
+      <View flex={2}>{children}</View>
+      <View flex={1}>
+        <Text>Here will be text describing the chart data!</Text>
+      </View>
     </VStack>
   );
 };
