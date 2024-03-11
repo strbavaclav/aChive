@@ -33,12 +33,12 @@ export const ShoppingOnboarding = () => {
 
   const defaultValues: Partial<FormDataType> = {
     prepDays: [],
-    prepStartTime: new Date(),
-    prepEndTime: new Date(),
+    prepStartTime: new Date(new Date().setHours(16, 30, 0, 0)),
+    prepEndTime: new Date(new Date().setHours(17, 0, 0, 0)),
 
     shopDays: [],
-    shopStartTime: new Date(),
-    shopEndTime: new Date(),
+    shopStartTime: new Date(new Date().setHours(17, 0, 0, 0)),
+    shopEndTime: new Date(new Date().setHours(18, 0, 0, 0)),
   };
 
   const formContext = useForm<FormDataType>({

@@ -7,6 +7,7 @@ export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
       email
       token
       onboarded
+      language
       username
       firstName
       lastName

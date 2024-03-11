@@ -6,6 +6,7 @@ export const GET_USER_DATA_QUERY = gql(/* GraphQL */ `
       _id
       email
       onboarded
+      language
       username
       firstName
       lastName

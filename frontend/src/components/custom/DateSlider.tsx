@@ -108,6 +108,9 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
                       }}
                     >
                       {day.getDate()}
+                      {daySelected.getDate() === day.getDate()
+                        ? `.${day.getMonth()}.`
+                        : null}
                     </Text>
                   </TouchableOpacity>
                 );

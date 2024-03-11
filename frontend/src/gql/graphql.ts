@@ -221,6 +221,7 @@ export type User = {
   email: Scalars["String"]["output"];
   firstName?: Maybe<Scalars["String"]["output"]>;
   gender?: Maybe<Scalars["String"]["output"]>;
+  language: Scalars["String"]["output"];
   lastName?: Maybe<Scalars["String"]["output"]>;
   onboarded: Scalars["Boolean"]["output"];
   password: Scalars["String"]["output"];
@@ -243,6 +244,7 @@ export type SignInMutation = {
     email: string;
     token?: string | null;
     onboarded: boolean;
+    language: string;
     username?: string | null;
     firstName?: string | null;
     lastName?: string | null;
@@ -281,6 +283,7 @@ export type OnboardMutation = {
     _id: string;
     email: string;
     onboarded: boolean;
+    language: string;
     username?: string | null;
     firstName?: string | null;
     lastName?: string | null;
@@ -320,6 +323,7 @@ export type SignUpMutation = {
     email: string;
     token?: string | null;
     onboarded: boolean;
+    language: string;
     username?: string | null;
     firstName?: string | null;
     lastName?: string | null;
@@ -448,6 +452,7 @@ export type GetUserDataQuery = {
     _id: string;
     email: string;
     onboarded: boolean;
+    language: string;
     username?: string | null;
     firstName?: string | null;
     lastName?: string | null;
@@ -521,6 +526,7 @@ export const SignInDocument = {
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "token" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
                 { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
                 { kind: "Field", name: { kind: "Name", value: "lastName" } },
@@ -659,6 +665,7 @@ export const OnboardDocument = {
                 { kind: "Field", name: { kind: "Name", value: "_id" } },
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
                 { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
                 { kind: "Field", name: { kind: "Name", value: "lastName" } },
@@ -798,6 +805,7 @@ export const SignUpDocument = {
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "token" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
                 { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
                 { kind: "Field", name: { kind: "Name", value: "lastName" } },
@@ -1371,6 +1379,7 @@ export const GetUserDataDocument = {
                 { kind: "Field", name: { kind: "Name", value: "_id" } },
                 { kind: "Field", name: { kind: "Name", value: "email" } },
                 { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
                 { kind: "Field", name: { kind: "Name", value: "username" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
                 { kind: "Field", name: { kind: "Name", value: "lastName" } },

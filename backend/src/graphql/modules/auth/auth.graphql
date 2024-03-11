@@ -15,6 +15,7 @@ type User {
   password: String!
   token: String
   onboarded: Boolean!
+  language: String!
 
   username:String
   firstName:String

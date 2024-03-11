@@ -7,6 +7,7 @@ export const SIGN_UP_MUTATION = gql(/* GraphQL */ `
       email
       token
       onboarded
+      language
       username
       firstName
       lastName

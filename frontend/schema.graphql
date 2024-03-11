@@ -131,6 +131,7 @@ type User {
   email: String!
   firstName: String
   gender: String
+  language: String!
   lastName: String
   onboarded: Boolean!
   password: String!

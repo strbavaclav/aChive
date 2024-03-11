@@ -88,7 +88,7 @@ const OnboardingStep1Screen = () => {
   const onPress = formContext.handleSubmit(onSubmit, onError);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <KeyboardAvoidingView alignItems="center" flex={1}>
         <Heading>
           Tell us more about <Heading color="#10b981">you!</Heading>
@@ -114,7 +114,11 @@ const OnboardingStep1Screen = () => {
               <FormSelect
                 name="gender"
                 placeholder="What's your gender?"
-                options={["Male", "Female", "Other"]}
+                options={[
+                  { label: "Male", value: "Male" },
+                  { label: "Female", value: "Female" },
+                  { label: "Other", value: "Other" },
+                ]}
               />
               <VStack>
                 <HStack alignItems="center" mt={20}>

@@ -76,6 +76,7 @@ export const AuthProvider = ({
         try {
           const response = await client.query({ query: GET_USER_DATA_QUERY });
           const { data } = response;
+          console.log(data);
           setAppState((prevState) => ({
             ...prevState,
             userData: { ...(data.getUserData as UserType) },
@@ -164,8 +165,6 @@ export const AuthProvider = ({
         mutation: SIGN_IN_MUTATION,
         variables: { authData: { email, password } },
       });
-
-      console.log(result);
 
       const token = result.data?.signIn?.token;
       const onboarded = result.data?.signIn.onboarded;

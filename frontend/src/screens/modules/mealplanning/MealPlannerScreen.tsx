@@ -14,6 +14,7 @@ import {
   FlatList,
   Link,
   SectionList,
+  VStack,
 } from "@gluestack-ui/themed";
 import { MealPlannerCard } from "components/modules/planner/MealPlannerCard";
 import { PlannedMealType, useApp } from "context/appContext";
@@ -27,6 +28,7 @@ import { formatTime } from "utils/formatTime";
 import { ListRenderItem } from "react-native";
 import { GET_MEAL_RECORDS_BY_DATE } from "calls/planner/useGetMealRecordsByDate";
 import { MealRecord } from "gql/graphql";
+import { Image } from "@gluestack-ui/themed";
 
 const MealPlannerScreen = () => {
   const today = new Date();
@@ -183,7 +185,7 @@ const MealPlannerScreen = () => {
             </Text>
           )}
           ListFooterComponent={() => (
-            <HStack justifyContent="center" mt={4}>
+            <VStack justifyContent="center" alignItems="center" mt={4}>
               <Button
                 size="sm"
                 justifyContent="center"
@@ -196,7 +198,14 @@ const MealPlannerScreen = () => {
                 <ButtonIcon as={AddIcon} size="sm" />
                 <ButtonText>Add extra meal</ButtonText>
               </Button>
-            </HStack>
+              <Image
+                w={150}
+                h={150}
+                source={require("../../../assets/images/planner.png")}
+                resizeMode="contain"
+                alt="about"
+              />
+            </VStack>
           )}
           renderItem={({ item, section }) => {
             //@ts-ignore

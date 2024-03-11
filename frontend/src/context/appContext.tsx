@@ -39,6 +39,7 @@ export type UserType = {
   plan?: PlannedMealType[];
   shopping?: ShoppingListSettingsType;
   username?: string;
+  language?: string;
 };
 
 export type PlannedMealType = {

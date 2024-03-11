@@ -14,11 +14,22 @@
     "navigation.shoppingList":"Nákupní seznam",
     "navigation.recipes":"Recepty",
     "navigation.settings":"Nastavení",
+    "navigation.appSettings":"Nastavení",
     "navigation.about":"O aplikaci",
+    "navigation.aboutApp":"O aplikaci",
     "navigation.signOut":"Odhlásit se",
 
     "navigation.Home":"Přehled",
     "navigation.Planner":"Plánovač",
     "navigation.Insights":"Tipy",
-    "navigation.Profile":"Profil"
+    "navigation.Profile":"Profil",
+
+    "settings.applicationLanguage":"Jazyk aplikace",
+    "settings.colorsTheme":"Barevné schéma",
+    "settings.notMuch":"Není toho zatím moc. Ale neboj se, aplikace stále ještě roste!",
+
+    "about.description":"Aplikace aChive vznikla jako výsledný produkt diplomové práce nesoucí název:",
+    "about.thesisName":"Návrh a implementace mobilní aplikace pro zlepšení stravovacích návyků za využití metodiky Design Thinking",
+    "about.feedback":"Vaši zpětnou vazbu rád uvítám na",
+    "about.byAuthor":"Václav Štrba"
 }

@@ -27,9 +27,9 @@ type FormInputKeys = {
   timeEndPickerKey: string;
 };
 
-type buttons={
-  next:()=>void
-}
+type buttons = {
+  next: () => void;
+};
 
 type Props = {
   imagePathKey: keyof typeof imageMap;
@@ -65,26 +65,25 @@ export const ShoppingOnboardingPart: FC<Props> = (props) => {
   const imageSource = imageMap[imagePathKey];
 
   return (
-    <SafeAreaView flex={1} justifyContent="space-between" alignItems="center">
-      <Image
-        source={imageSource}
-        h={300}
-        w={300}
-        resizeMode="contain"
-        alt="shopping"
-      />
-
+    <SafeAreaView flex={1} alignItems="center" justifyContent="space-between">
       <Animated.View
         entering={FadeIn}
         exiting={FadeOutLeft}
-        style={{ justifyContent: "center", alignItems: "center", gap: 20 }}
+        style={{ alignItems: "center", gap: 20 }}
       >
+        <Image
+          source={imageSource}
+          h={300}
+          w={300}
+          resizeMode="contain"
+          alt="shopping"
+        />
         <Heading>{title}</Heading>
         <Text textAlign="justify" m={24} mb={0} mt={0}>
           {description}
         </Text>
         <DayPicker name={formKeys.daySelectorKey} />
-        <HStack justifyContent="space-between" alignItems="center" gap={20}>
+        <HStack alignItems="center" gap={20}>
           <FormDateTimePicker
             name={formKeys.timeStartPickerKey}
             mode="time"
@@ -99,11 +98,7 @@ export const ShoppingOnboardingPart: FC<Props> = (props) => {
         </HStack>
       </Animated.View>
 
-      <Animated.View
-        entering={FadeIn}
-        exiting={FadeOutLeft}
-        style={{ width: "100%" }}
-      >
+      <View style={{ width: "100%" }}>
         <HStack justifyContent="center">
           {previousBtn && (
             <Button
@@ -129,7 +124,7 @@ export const ShoppingOnboardingPart: FC<Props> = (props) => {
             </Button>
           )}
         </HStack>
-      </Animated.View>
+      </View>
     </SafeAreaView>
   );
 };

@@ -95,7 +95,7 @@ const LoginScreen = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParams>>();
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <KeyboardAvoidingView
         behavior="padding"
         keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
@@ -117,7 +117,8 @@ const LoginScreen = () => {
               resizeMode="contain"
             />
             <Heading>
-              {t("sign in to")} <Heading color="$primary500">aChive</Heading>
+              {t("sign in to")}
+              <Heading color="$primary500">aChive</Heading>
             </Heading>
 
             <FormProvider {...formContext}>
