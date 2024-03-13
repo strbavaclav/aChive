@@ -17,7 +17,7 @@ import { Dimensions } from "react-native";
 
 type Props = {
   name: string;
-  label: string;
+  label?: string;
 };
 
 export const FormSlider: FC<Props> = (props) => {

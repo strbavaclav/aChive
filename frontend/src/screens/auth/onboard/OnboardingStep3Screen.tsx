@@ -1,4 +1,4 @@
-import { SafeAreaView } from "react-native";
+import { SafeAreaView, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
   Accordion,
@@ -16,6 +16,7 @@ import {
   HStack,
   Heading,
   KeyboardAvoidingView,
+  Link,
   ScrollView,
   Text,
   VStack,
@@ -295,7 +296,16 @@ const OnboardingStep3Screen = () => {
                     </AccordionTrigger>
                   </AccordionHeader>
                   <AccordionContent>
-                    <Text size="xs">T-Shirt sizes XS, S, M, L</Text>
+                    <Text size="xs">
+                      We are going to measure the meal sizes similar to the
+                      T-Shirts (XS, S, M, L). This approach helps to generalize
+                      the measuring process concept.
+                    </Text>
+                    <TouchableOpacity>
+                      <Text size="xs" bold color="#10b981">
+                        Learn more.
+                      </Text>
+                    </TouchableOpacity>
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -340,7 +350,7 @@ const OnboardingStep3Screen = () => {
           <HStack gap={10} pt={20}>
             <Button
               w={"30%"}
-              variant="outline"
+              action="secondary"
               onPress={() => onboardingNavigation.navigate("Step2")}
             >
               <ButtonIcon as={ChevronLeftIcon} />
@@ -368,7 +378,12 @@ const OnboardingStep3Screen = () => {
             <FormSelect
               name="mealSize"
               placeholder="Select meal size"
-              options={["XS", "S", "M", "L"]}
+              options={[
+                { label: "XS", value: "XS" },
+                { label: "S", value: "S" },
+                { label: "M", value: "M" },
+                { label: "L", value: "L" },
+              ]}
             />
 
             <FormControlLabel>

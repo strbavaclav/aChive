@@ -294,7 +294,12 @@ export const MealPlannerLogModal: FC<Props> = ({
                   </HStack>
                   <FormSelect
                     name="size"
-                    options={["XS", "S", "M", "L"]}
+                    options={[
+                      { label: "XS", value: "XS" },
+                      { label: "S", value: "S" },
+                      { label: "M", value: "M" },
+                      { label: "L", value: "L" },
+                    ]}
                     placeholder="The actual meal size?"
                   />
 

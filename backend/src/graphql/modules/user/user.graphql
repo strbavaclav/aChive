@@ -3,10 +3,12 @@ type Query {
 }
 
 type Mutation {
-  updateUserData(NewUserData:NewUserDataInput!):User!
-  setShoppingListSettings(ShopListSettings: ShopListSettingsInput!):User!
+  updateUserData(newUserData:NewUserDataInput!):User!
+  resetUserRecords:User!
 }
 
 input NewUserDataInput {
-language:String
+name: String!
+stringValue: String
+floatValue: Float
 }

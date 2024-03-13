@@ -1,5 +1,5 @@
-import { Alert, TouchableOpacity } from "react-native";
-import React from "react";
+import { Alert, Platform, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 import { useApp } from "context/appContext";
 import {
   Button,
@@ -15,11 +15,44 @@ import {
 import { ProfileItem } from "components/modules/profile/ProfileItem";
 import moment from "moment";
 import { Image } from "@gluestack-ui/themed";
+import { ProfileEditActionSheet } from "components/modules/profile/ProfileEditActionSheet";
+import { OptionType } from "components/form/FormSelect";
+import { AppAlertDialog } from "components/general/AppAlertDialog";
+import { useTranslation } from "react-i18next";
+
+export type EditedDataType = {
+  label: string;
+  name: string;
+  initialData?: string | number;
+  formType?: string;
+  options?: OptionType[];
+  ruler: {
+    unit?: string;
+    step?: number;
+    max?: number;
+    min?: number;
+  };
+};
 
 const ProfileScreen = () => {
-  const { appState } = useApp();
+  const { t } = useTranslation();
 
+  const { appState, refetchUserData } = useApp();
+
+  const [editedData, setEditedData] = useState<EditedDataType | undefined>(
+    undefined
+  );
+
+  const [alertOpen, setAlertOpen] = useState(false);
   const userData = appState.userData;
+
+  const handleRefresh = async () => {
+    try {
+      await refetchUserData();
+    } catch (error) {
+      Alert.alert("Error", "Failed to refresh profile data.");
+    }
+  };
 
   return (
     <ScrollView m={6} contentContainerStyle={{ justifyContent: "center" }}>
@@ -32,12 +65,12 @@ const ProfileScreen = () => {
           alt="about"
         />
         <Text size="sm" color="gray">
-          Edit by touching the info tile
+          {t("profile.editByTouch")}
         </Text>
       </View>
 
       <VStack gap={10}>
-        <Heading size="sm">About me</Heading>
+        <Heading size="sm"> {t("profile.aboutMe")}</Heading>
 
         <VStack
           p={6}
@@ -50,21 +83,53 @@ const ProfileScreen = () => {
             shadowRadius: 5,
           }}
         >
-          <ProfileItem title="Username" data={userData?.username} />
-          <Divider />
-          <ProfileItem title="First name" data={userData?.firstName} />
-          <Divider />
-          <ProfileItem title="Last name" data={userData?.lastName} />
-          <Divider />
-          <ProfileItem title="Gender" data={userData?.gender} />
+          <ProfileItem
+            name="username"
+            title={t("profile.username")}
+            data={userData?.username}
+            onEdit={setEditedData}
+            formType="string"
+          />
           <Divider />
           <ProfileItem
-            title="Born date"
+            name="firstName"
+            title={t("profile.firstName")}
+            data={userData?.firstName}
+            onEdit={setEditedData}
+            formType="string"
+          />
+          <Divider />
+          <ProfileItem
+            name="lastName"
+            title={t("profile.lastName")}
+            data={userData?.lastName}
+            onEdit={setEditedData}
+            formType="string"
+          />
+          <Divider />
+          <ProfileItem
+            name="gender"
+            title={t("profile.gender")}
+            data={userData?.gender}
+            onEdit={setEditedData}
+            formType="select"
+            options={[
+              { value: "Male", label: t("gender.Male") },
+              { value: "Female", label: t("gender.Female") },
+              { value: "Other", label: t("gender.Other") },
+            ]}
+          />
+          <Divider />
+          <ProfileItem
+            name="bornDate"
+            title={t("profile.bornDate")}
             data={moment(Number(userData?.bornDate)).format("YYYY-MM-DD")}
+            onEdit={setEditedData}
+            formType="date"
           />
         </VStack>
 
-        <Heading size="sm">My body</Heading>
+        <Heading size="sm"> {t("profile.myBody")}</Heading>
 
         <VStack
           p={6}
@@ -77,12 +142,32 @@ const ProfileScreen = () => {
             shadowRadius: 5,
           }}
         >
-          <ProfileItem title="Height" data={userData?.body?.height + " cm"} />
+          <ProfileItem
+            name="body.height"
+            title={t("profile.height")}
+            data={userData?.body?.height}
+            onEdit={setEditedData}
+            formType="number"
+            unit={"cm"}
+            max={240}
+            min={0}
+            step={0.5}
+          />
           <Divider />
-          <ProfileItem title="Weight" data={userData?.body?.weight + " kg"} />
+          <ProfileItem
+            name="body.weight"
+            title={t("profile.weight")}
+            data={userData?.body?.weight}
+            onEdit={setEditedData}
+            formType="number"
+            unit={"kg"}
+            max={160}
+            min={0}
+            step={0.1}
+          />
         </VStack>
 
-        <Heading size="sm">Contact</Heading>
+        <Heading size="sm"> {t("profile.contact")}</Heading>
 
         <VStack
           p={6}
@@ -95,10 +180,16 @@ const ProfileScreen = () => {
             shadowRadius: 5,
           }}
         >
-          <ProfileItem title="Email" data={userData?.email} />
+          <ProfileItem
+            name="email"
+            title={t("profile.email")}
+            data={userData?.email}
+            onEdit={setEditedData}
+            formType="string"
+          />
         </VStack>
 
-        <Heading size="sm">Goals</Heading>
+        <Heading size="sm"> {t("profile.goals")}</Heading>
 
         <VStack
           p={6}
@@ -111,46 +202,70 @@ const ProfileScreen = () => {
             shadowRadius: 5,
           }}
         >
-          <ProfileItem title="Eating goal" data={userData?.eatHabitGoal} />
+          <ProfileItem
+            name="eatHabitGoal"
+            title={t("profile.eatingGoal")}
+            data={userData?.eatHabitGoal}
+            onEdit={setEditedData}
+            formType="select"
+            options={[
+              { label: t("eatingGoal.more"), value: "more" },
+              { label: t("eatingGoal.less"), value: "less" },
+              { label: t("eatingGoal.consistent"), value: "consistent" },
+            ]}
+          />
         </VStack>
 
-        <Heading size="sm">Plans</Heading>
-        <HStack gap={6}>
-          <Button flex={1}>
-            <ButtonText
-              onPress={() => Alert.alert("This will opent Change meals plan.")}
-            >
-              Change meals
-            </ButtonText>
+        <Heading size="sm"> {t("profile.changePlans")}</Heading>
+        <HStack gap={6} marginHorizontal={8}>
+          <Button
+            flex={1}
+            onPress={() =>
+              Alert.alert("This feature is not implemented yet 🥺!")
+            }
+          >
+            <ButtonText size="sm">{t("profile.changeEatingPlan")}</ButtonText>
           </Button>
-          <Button flex={1}>
-            <ButtonText
-              onPress={() =>
-                Alert.alert("This will open Change shopping plan screen.")
-              }
-            >
-              Change shopping
+          <Button
+            flex={1}
+            onPress={() =>
+              Alert.alert("This feature is not implemented yet 🥺!")
+            }
+          >
+            <ButtonText textAlign="center" size="sm">
+              {t("profile.changeShoppingPlan")}
             </ButtonText>
           </Button>
         </HStack>
-
         <Heading size="sm" color="#cc0000">
-          Danger zone
+          {t("profile.dangeZone")}
         </Heading>
-        <Text>
-          Be careful using this button. The operation is irreversible!
-        </Text>
+        <VStack gap={6} marginHorizontal={8}>
+          <Text>{t("profile.deleteAllRecordsDescription")}</Text>
 
-        <Button flex={1} action="secondary" disabled>
-          <ButtonText
-            onPress={() =>
-              Alert.alert("This will open Change shopping plan screen.")
-            }
+          <Button
+            flex={1}
+            action="negative"
+            backgroundColor="#cc0000"
+            onPress={() => setAlertOpen(true)}
           >
-            Delete all records
-          </ButtonText>
-        </Button>
+            <ButtonText>{t("profile.deleteAllRecords")}</ButtonText>
+          </Button>
+        </VStack>
       </VStack>
+      <ProfileEditActionSheet
+        editedData={editedData}
+        onClose={() => setEditedData(undefined)}
+        onRefresh={handleRefresh}
+      />
+      <AppAlertDialog
+        isOpen={alertOpen}
+        onClose={() => setAlertOpen(false)}
+        onSubmit={() => Alert.alert("This feature is not implemented yet 🥺!")}
+        title={t("profile.deleteAllRecords")}
+        description={t("profile.deleteAllRecordsAlert")}
+        submitTitle={t("profile.earseData")}
+      />
     </ScrollView>
   );
 };

@@ -6,11 +6,14 @@
     "Sign up":"Sign up",
     "or use":"or use",
     "Don't have an account?":"Don't have an account? ",
+
+    "general.cancel":"Cancel",
+    
     "dashboard.today":"Today - ",
 
     "navigation.viewProfile":"View your profile",
     "navigation.dashboard":"Dashboard",
-    "navigation.stressRelief":"Stress relief",
+    "navigation.stressRelief":"Stress journal",
     "navigation.shoppingList":"Shopping list",
     "navigation.recipes":"Recipes",
     "navigation.settings":"Settings",
@@ -23,13 +26,49 @@
     "navigation.Planner":"Planner",
     "navigation.Insights":"Insights",
     "navigation.Profile":"Profile",
+    "navigation.myProfile":"My Profile",
+
 
     "settings.applicationLanguage":"Application's language",
     "settings.colorsTheme":"Colors theme",
+    "settings.colorsTheme.light":"Light",
+    "settings.colorsTheme.dark":"Dark",
     "settings.notMuch":"Well, not much yet. But don't be sad because the app is still growing!",
 
     "about.description":"The aChive application was created as a final product of the diploma thesis named:",
     "about.thesisName":"\"Design and implementation of a mobile application to improve eating habits using Design Thinking methodology\"",
     "about.feedback":"Your feedback is welcomed at",
-    "about.byAuthor":"by Václav Štrba"
+    "about.byAuthor":"by Václav Štrba",
+
+    "profile.editByTouch":"Edit by touching the info tiles",
+    "profile.aboutMe":"About me",
+    "profile.username":"Username",
+    "profile.firstName":"First name",
+    "profile.lastName":"Last name",
+    "profile.gender":"Gender",
+    "profile.bornDate":"Born date",
+    "profile.myBody":"My body",
+    "profile.height":"Height",
+    "profile.weight":"Weight",
+    "profile.contact":"Contact",
+    "profile.email":"Email",
+    "profile.goals":"Goals",
+    "profile.eatingGoal":"Eating goal",
+    "profile.changePlans":"Change plans",
+    "profile.changeEatingPlan":"meal's plan",
+    "profile.changeShoppingPlan":"shopping schedule",
+    "profile.dangeZone":"Danger zone",
+    "profile.deleteAllRecords":"Earse all records",
+    "profile.earseData":"Earse data",
+    "profile.deleteAllRecordsDescription":"Starting again? Ok, but be careful using this button. The operation is irreversible!",
+    "profile.deleteAllRecordsAlert":"This operation will delete all meal and stress journal records from your user profile. The operation is irreversible. Are you sure you want to do it?",
+
+
+    "gender.Male":"Male",
+    "gender.Female":"Female",
+    "gender.Other":"Other",
+
+    "eatingGoal.more":"Eat more",
+    "eatingGoal.less":"Eat less",
+    "eatingGoal.consistent":"Be consistent"
 }

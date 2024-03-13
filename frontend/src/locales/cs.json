@@ -6,6 +6,9 @@
     "Sign in":"Přihlásit se",
     "or use":"nebo přes",
     "Don't have an account?":"Nemáte ještě svůj účet? ",
+
+    "general.cancel":"Zrušit",
+    
     "dashboard.today":"Dnes - ",
     
     "navigation.viewProfile":"Zobrazit profil",
@@ -23,13 +26,48 @@
     "navigation.Planner":"Plánovač",
     "navigation.Insights":"Tipy",
     "navigation.Profile":"Profil",
+    "navigation.myProfile":"Můj Profil",
 
     "settings.applicationLanguage":"Jazyk aplikace",
     "settings.colorsTheme":"Barevné schéma",
+    "settings.colorsTheme.light":"Světlé",
+    "settings.colorsTheme.dark":"Tmavé",
     "settings.notMuch":"Není toho zatím moc. Ale neboj se, aplikace stále ještě roste!",
 
     "about.description":"Aplikace aChive vznikla jako výsledný produkt diplomové práce nesoucí název:",
     "about.thesisName":"Návrh a implementace mobilní aplikace pro zlepšení stravovacích návyků za využití metodiky Design Thinking",
     "about.feedback":"Vaši zpětnou vazbu rád uvítám na",
-    "about.byAuthor":"Václav Štrba"
+    "about.byAuthor":"Václav Štrba",
+
+    "profile.editByTouch":"Klepnutím na informace je můžeš upravit",
+    "profile.aboutMe":"O mně",
+    "profile.username":"Přezdívka",
+    "profile.firstName":"Jméno",
+    "profile.lastName":"Příjmení",
+    "profile.gender":"Pohlaví",
+    "profile.bornDate":"Narozen/a",
+    "profile.myBody":"Tělesné údaje",
+    "profile.height":"Výška",
+    "profile.weight":"Hmotnost",
+    "profile.contact":"Kontakt",
+    "profile.email":"Email",
+    "profile.goals":"Cíle",
+    "profile.eatingGoal":"Stravovací cíl",
+    "profile.changePlans":"Změna plánů",
+    "profile.changeEatingPlan":"Stravovací plán",
+    "profile.changeShoppingPlan":"Plán nákupů",
+    "profile.dangeZone":"Riziková nastavení",
+    "profile.deleteAllRecords":"Vymazat veškeré záznamy",
+    "profile.earseData":"Vymazat data",
+    "profile.deleteAllRecordsDescription":"Rádi byste začali od znova? Dobrá, ale buďte s touto volbou opatrní. Tato akce je nenávratná!",
+    "profile.deleteAllRecordsAlert":"Tato operace odstraní z vašeho uživatelského profilu všechny záznamy z jídelního a stresového deníku. Operace je nevratná. Jste si jisti, že ji chcete provést?",
+
+
+    "gender.Male":"Muž",
+    "gender.Female":"Žena",
+    "gender.Other":"Jiné",
+
+    "eatingGoal.more":"Jíst více",
+    "eatingGoal.less":"Jíst méně",
+    "eatingGoal.consistent":"Jíst konzistentně"
 }
