@@ -40,6 +40,13 @@ type Mutation {
   signIn(authData: SignInInput!): User!
   signUp(authData: SignUpInput!): User!
   updateMealRecordById(recordId: String!, updatedRecord: InputMealRecord!, userId: String!): MealRecordData
+  updateUserData(newUserData: NewUserDataInput!): User!
+}
+
+input NewUserDataInput {
+  floatValue: Float
+  name: String!
+  stringValue: String
 }
 
 input OnboardData {

@@ -20,6 +20,7 @@ import {
   useToast,
   VStack,
 } from "@gluestack-ui/themed";
+import i18next from "i18next";
 
 interface AuthState {
   token?: string | null;
@@ -76,18 +77,17 @@ export const AuthProvider = ({
         try {
           const response = await client.query({ query: GET_USER_DATA_QUERY });
           const { data } = response;
-          console.log(data);
           setAppState((prevState) => ({
             ...prevState,
             userData: { ...(data.getUserData as UserType) },
           }));
-          console.log(data.getUserData?.plan);
           setAuthState({
             token,
             authenticated: true,
             onboarded: data?.getUserData?.onboarded,
             tokenLoading: false,
           });
+          i18next.changeLanguage(response.data.getUserData?.language);
         } catch (error) {
           toast.show({
             placement: "top",
@@ -179,6 +179,8 @@ export const AuthProvider = ({
         authenticated: true,
         onboarded: onboarded,
       });
+
+      i18next.changeLanguage(result.data?.signIn.language);
 
       await SecureStore.setItemAsync("jwt", String(token));
     } catch (error) {

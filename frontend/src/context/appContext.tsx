@@ -102,13 +102,12 @@ export const AppProvider = ({
       appState?.userData?.plan.forEach((meal) => {
         scheduleMealNotification(meal).catch(console.error);
       });
-  }, [appState]);
+  }, [appState?.userData?.plan]);
 
   const refetchUserData = async () => {
     try {
       const response = await client.query({ query: GET_USER_DATA_QUERY });
       const { data } = response;
-      console.log("D", data);
       setAppState((prevState) => ({
         ...prevState,
         userData: { ...(data.getUserData as UserType) },

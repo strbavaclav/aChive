@@ -24,7 +24,7 @@ import {
 import { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
-type OptionType = {
+export type OptionType = {
   label: string;
   value: string;
 };

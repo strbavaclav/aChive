@@ -91,9 +91,9 @@ const OnboardingStep2Screen = () => {
               <FormSelect
                 name="eatHabitGoal"
                 options={[
-                  { label: "Eat more", value: "Eat more" },
-                  { label: "Eat more", value: "Eat less" },
-                  { label: "Be consistent", value: "Be consistent" },
+                  { label: "Eat more", value: "more" },
+                  { label: "Eat more", value: "less" },
+                  { label: "Be consistent", value: "consistent" },
                 ]}
                 placeholder="I would like to..."
               />
@@ -102,7 +102,7 @@ const OnboardingStep2Screen = () => {
                 you will determine how stressed you feel at the moment.
               </Text>
               <Text>
-                On the scale 1 (extreme stress) - 10 (no stress at all) how much
+                On the scale 0 (extreme stress) - 10 (no stress at all) how much
                 stress are we facing together?
               </Text>
 
@@ -122,7 +122,7 @@ const OnboardingStep2Screen = () => {
         <HStack gap={10}>
           <Button
             w={"30%"}
-            variant="outline"
+            action="secondary"
             onPress={() => navigation.navigate("Step1")}
           >
             <ButtonIcon as={ChevronLeftIcon} />
