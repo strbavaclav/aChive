@@ -75,6 +75,7 @@ export type Mutation = {
   signIn: User;
   signUp: User;
   updateMealRecordById?: Maybe<MealRecordData>;
+  updateUserData: User;
 };
 
 export type Mutation_EmptyArgs = {
@@ -115,6 +116,16 @@ export type MutationUpdateMealRecordByIdArgs = {
   recordId: Scalars["String"]["input"];
   updatedRecord: InputMealRecord;
   userId: Scalars["String"]["input"];
+};
+
+export type MutationUpdateUserDataArgs = {
+  newUserData: NewUserDataInput;
+};
+
+export type NewUserDataInput = {
+  floatValue?: InputMaybe<Scalars["Float"]["input"]>;
+  name: Scalars["String"]["input"];
+  stringValue?: InputMaybe<Scalars["String"]["input"]>;
 };
 
 export type OnboardData = {
@@ -478,6 +489,27 @@ export type GetUserDataQuery = {
       shopEndTime?: string | null;
     } | null;
   } | null;
+};
+
+export type UpdateUserDataMutationVariables = Exact<{
+  newUserData: NewUserDataInput;
+}>;
+
+export type UpdateUserDataMutation = {
+  __typename?: "Mutation";
+  updateUserData: {
+    __typename?: "User";
+    email: string;
+    language: string;
+    username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    gender?: string | null;
+    bornDate?: string | null;
+    eatHabitGoal?: string | null;
+    _id: string;
+    body?: { __typename?: "BodyInfo"; height: number; weight: number } | null;
+  };
 };
 
 export const SignInDocument = {
@@ -1473,3 +1505,85 @@ export const GetUserDataDocument = {
     },
   ],
 } as unknown as DocumentNode<GetUserDataQuery, GetUserDataQueryVariables>;
+export const UpdateUserDataDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "UpdateUserData" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "newUserData" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "NewUserDataInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "updateUserData" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "newUserData" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "newUserData" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
+                { kind: "Field", name: { kind: "Name", value: "username" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "gender" } },
+                { kind: "Field", name: { kind: "Name", value: "bornDate" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "body" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "height" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "weight" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "eatHabitGoal" },
+                },
+                { kind: "Field", name: { kind: "Name", value: "_id" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  UpdateUserDataMutation,
+  UpdateUserDataMutationVariables
+>;

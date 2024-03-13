@@ -204,10 +204,15 @@ const HomeScreen = () => {
                         {
                           data: [5, 4, 1, 0, 4, 5, 5],
                         },
+                        {
+                          data: [3, 2, 4, 5, 3, 4, 2], // Example stress data
+                          color: (opacity = 1) =>
+                            `rgba(255, 183, 77, ${opacity})`, // Optional - specify a different custom color for this dataset
+                        },
                       ],
                     }}
                     width={Dimensions.get("window").width - 20}
-                    height={200}
+                    height={250}
                     yAxisSuffix=" meals"
                     yAxisInterval={1}
                     chartConfig={{
@@ -218,19 +223,12 @@ const HomeScreen = () => {
                       color: (opacity = 1) => `rgba(16, 185, 129, ${opacity})`,
                       labelColor: (opacity = 1) =>
                         `rgba(16, 185, 129, ${opacity})`,
-                      style: {
-                        borderRadius: 16,
-                      },
                       propsForDots: {
                         r: "6",
-                        strokeWidth: "2",
-                        stroke: "#10b981",
                       },
                     }}
-                    bezier
                     style={{
                       marginVertical: 8,
-                      borderRadius: 16,
                     }}
                   />
                 </DashboardChartTile>

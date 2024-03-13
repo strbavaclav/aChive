@@ -6,7 +6,7 @@ import { Dimensions } from "react-native";
 
 type Props = {
   name: string;
-  label: string;
+  label?: string;
   min?: number;
   max?: number;
   step?: number;
@@ -38,8 +38,8 @@ export const FormRulerPicker: FC<Props> = (props) => {
             <Text>{label}</Text>
             <Box mt={40} justifyContent="center" alignItems="center">
               <RulerPicker
-                min={0}
-                max={190}
+                min={min ? min : 0}
+                max={max ? max : 240}
                 initialValue={initialValue}
                 step={step}
                 height={40}

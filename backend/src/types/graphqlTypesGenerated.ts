@@ -79,6 +79,7 @@ export type Mutation = {
     signIn: User
     signUp: User
     updateMealRecordById?: Maybe<MealRecordData>
+    updateUserData: User
 }
 
 export type Mutation_EmptyArgs = {
@@ -119,6 +120,16 @@ export type MutationUpdateMealRecordByIdArgs = {
     recordId: Scalars['String']['input']
     updatedRecord: InputMealRecord
     userId: Scalars['String']['input']
+}
+
+export type MutationUpdateUserDataArgs = {
+    newUserData: NewUserDataInput
+}
+
+export type NewUserDataInput = {
+    floatValue?: InputMaybe<Scalars['Float']['input']>
+    name: Scalars['String']['input']
+    stringValue?: InputMaybe<Scalars['String']['input']>
 }
 
 export type OnboardData = {
@@ -225,6 +236,7 @@ export type User = {
     email: Scalars['String']['output']
     firstName?: Maybe<Scalars['String']['output']>
     gender?: Maybe<Scalars['String']['output']>
+    language: Scalars['String']['output']
     lastName?: Maybe<Scalars['String']['output']>
     onboarded: Scalars['Boolean']['output']
     password: Scalars['String']['output']
@@ -352,6 +364,7 @@ export type ResolversTypes = {
     MealRecord: ResolverTypeWrapper<MealRecord>
     MealRecordData: ResolverTypeWrapper<MealRecordData>
     Mutation: ResolverTypeWrapper<{}>
+    NewUserDataInput: NewUserDataInput
     OnboardData: OnboardData
     PlannedMeal: ResolverTypeWrapper<PlannedMeal>
     PlannedMealInput: PlannedMealInput
@@ -379,6 +392,7 @@ export type ResolversParentTypes = {
     MealRecord: MealRecord
     MealRecordData: MealRecordData
     Mutation: {}
+    NewUserDataInput: NewUserDataInput
     OnboardData: OnboardData
     PlannedMeal: PlannedMeal
     PlannedMealInput: PlannedMealInput
@@ -493,6 +507,12 @@ export type MutationResolvers<
             MutationUpdateMealRecordByIdArgs,
             'recordId' | 'updatedRecord' | 'userId'
         >
+    >
+    updateUserData?: Resolver<
+        ResolversTypes['User'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationUpdateUserDataArgs, 'newUserData'>
     >
 }
 
@@ -615,6 +635,7 @@ export type UserResolvers<
         ContextType
     >
     gender?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>
+    language?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     lastName?: Resolver<
         Maybe<ResolversTypes['String']>,
         ParentType,

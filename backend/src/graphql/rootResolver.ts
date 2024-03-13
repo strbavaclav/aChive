@@ -11,6 +11,7 @@ import { getMealRecordsByDate } from './modules/planner/resolvers/getMealRecords
 import { removeMealRecordByIdResolver } from './modules/planner/resolvers/removeMealRecordById'
 import { updateMealRecordByIdResolver } from './modules/planner/resolvers/updateMealRecordResolver'
 import { setShoppingListSettingsResolver } from './modules/shopping/resolvers/setShoppingListSettingsResolver'
+import { updateUserDataResolver } from './modules/user/resolvers/updateUserDataResolver'
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -29,6 +30,9 @@ const resolvers: Resolvers = {
 
         //shoppingList
         setShoppingListSettings: setShoppingListSettingsResolver,
+
+        //user
+        updateUserData: updateUserDataResolver,
     },
 
     Query: {
