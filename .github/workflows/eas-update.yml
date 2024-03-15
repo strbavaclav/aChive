@@ -4,7 +4,7 @@ run-name: Deploy to Expo
 on:
   push:
     branches:
-      - production
+      - main
     paths:
       - "frontend/**"
 
