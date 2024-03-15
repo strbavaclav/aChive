@@ -10,6 +10,7 @@
     "general.cancel":"Cancel",
     
     "dashboard.today":"Today - ",
+    "dashboard.dateFormat":"MMMM DD, YYYY",
 
     "navigation.viewProfile":"View your profile",
     "navigation.dashboard":"Dashboard",

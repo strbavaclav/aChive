@@ -17,7 +17,9 @@ import {
 import { DashboardChartTile } from "components/custom/dashboard/DashboardChartTile";
 import DashboardTile from "components/custom/dashboard/DashboardTile";
 import { useApp } from "context/appContext";
+import i18next from "i18next";
 import moment from "moment";
+import "moment/locale/cs"; // Import the Czech locale
 import { MainDrawerParams } from "navigation/main";
 import React from "react";
 import { useTranslation } from "react-i18next";
@@ -54,6 +56,7 @@ const HomeScreen = () => {
   const width = Dimensions.get("window").width;
   const { appState } = useApp();
   const { t } = useTranslation();
+  const currentLanguage = i18next.language;
 
   return (
     <View flex={1} padding={6}>
@@ -61,7 +64,9 @@ const HomeScreen = () => {
         <Text bold size="lg">
           {t("dashboard.today")}
         </Text>
-        <Text size="lg">{moment().format("D. MMMM, YYYY")}</Text>
+        <Text size="lg">
+          {moment().locale(currentLanguage).format(t("dashboard.dateFormat"))}
+        </Text>
       </HStack>
 
       <VStack gap={4}>
