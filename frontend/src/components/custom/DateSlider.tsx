@@ -9,11 +9,9 @@ import {
   eachDayOfInterval,
   eachWeekOfInterval,
   format,
-  isToday,
-  startOfDay,
   subDays,
 } from "date-fns";
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, FC, SetStateAction, useRef, useState } from "react";
 import { Text, TouchableOpacity } from "react-native";
 import PagerView from "react-native-pager-view";
 
@@ -25,8 +23,8 @@ type Props = {
 const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
   const dates = eachWeekOfInterval(
     {
-      start: subDays(new Date(), 14),
-      end: addDays(new Date(), 14),
+      start: subDays(new Date(), 28),
+      end: new Date(),
     },
     { weekStartsOn: 1 }
   ).reduce((acc: Date[][], cur) => {
@@ -34,6 +32,28 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
     acc.push(allDays);
     return acc;
   }, []);
+
+  const initialPage = dates.length - 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const pagerViewRef = useRef(null); // Reference to the PagerView
+
+  const today = new Date();
+  const todayDate = today.getDate();
+  const todayMonth = today.getMonth();
+
+  const goToNextPage = () => {
+    if (currentPage < dates.length - 1) {
+      //@ts-ignore
+      pagerViewRef.current?.setPage(currentPage + 1);
+    }
+  };
+
+  const goToPreviousPage = () => {
+    if (currentPage > 0) {
+      //@ts-ignore
+      pagerViewRef.current?.setPage(currentPage - 1);
+    }
+  };
 
   return (
     <View
@@ -44,7 +64,12 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
         backgroundColor: "white",
       }}
     >
-      <PagerView style={{ flex: 1, backgroundColor: "white" }} initialPage={2}>
+      <PagerView
+        style={{ flex: 1, backgroundColor: "white" }}
+        initialPage={initialPage}
+        onPageSelected={(e) => setCurrentPage(e.nativeEvent.position)}
+        ref={pagerViewRef}
+      >
         {dates.map((week, i) => {
           return (
             <View
@@ -56,12 +81,18 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
                 gap: 1,
               }}
             >
-              <View alignItems="center" justifyContent="center">
-                <Icon as={ChevronLeftIcon} color="grey" />
-              </View>
+              {currentPage !== 0 && (
+                <TouchableOpacity
+                  onPress={goToPreviousPage}
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
+                  <Icon as={ChevronLeftIcon} color="grey" />
+                </TouchableOpacity>
+              )}
               {week.map((day, i) => {
                 const txt = format(day, "EEEEEE");
-                const isTodayDate = isToday(day);
+                const isTodayDate =
+                  day.getDate() === todayDate && day.getMonth() === todayMonth;
 
                 return (
                   <TouchableOpacity
@@ -70,7 +101,8 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
                       alignItems: "center",
                       flex: 1,
                       backgroundColor:
-                        daySelected.getDate() === day.getDate()
+                        daySelected.getDate() === day.getDate() &&
+                        daySelected.getMonth() === day.getMonth()
                           ? "#f2f2f2"
                           : "white",
                       borderRadius: 8,
@@ -108,16 +140,22 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
                       }}
                     >
                       {day.getDate()}
-                      {daySelected.getDate() === day.getDate()
-                        ? `.${day.getMonth()}.`
+                      {daySelected.getDate() === day.getDate() &&
+                      daySelected.getMonth() === day.getMonth()
+                        ? `.${day.getMonth() + 1}.`
                         : null}
                     </Text>
                   </TouchableOpacity>
                 );
               })}
-              <View alignItems="center" justifyContent="center">
-                <Icon as={ChevronRightIcon} />
-              </View>
+              {currentPage !== dates.length - 1 && (
+                <TouchableOpacity
+                  onPress={goToNextPage}
+                  style={{ alignItems: "center", justifyContent: "center" }}
+                >
+                  <Icon as={ChevronRightIcon} color="grey" />
+                </TouchableOpacity>
+              )}
             </View>
           );
         })}

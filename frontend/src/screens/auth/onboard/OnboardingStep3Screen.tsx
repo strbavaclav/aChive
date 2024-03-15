@@ -81,6 +81,7 @@ const OnboardingStep3Screen = () => {
     },
   ]);
   const [showModal, setShowModal] = useState(false);
+  const [showMealSizeModal, setShowMealSizeModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState<PlannedMealType | undefined>(
     undefined
   );
@@ -272,7 +273,11 @@ const OnboardingStep3Screen = () => {
                   </AccordionHeader>
                   <AccordionContent>
                     <Text size="xs">
-                      There are a few principles that are good to follow.
+                      There are a few principles that are good to follow. Eat
+                      your breakfast between 7:00 AM and 9:00 AM to kickstart
+                      your metabolism, and aim for lunch and dinner at 12:00 PM
+                      to 2:00 PM and 6:00 PM to 8:00 PM, respectively, to align
+                      with your body's natural rhythms.
                     </Text>
                   </AccordionContent>
                 </AccordionItem>
@@ -301,7 +306,9 @@ const OnboardingStep3Screen = () => {
                       T-Shirts (XS, S, M, L). This approach helps to generalize
                       the measuring process concept.
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => setShowMealSizeModal(true)}
+                    >
                       <Text size="xs" bold color="#10b981">
                         Learn more.
                       </Text>
@@ -401,6 +408,19 @@ const OnboardingStep3Screen = () => {
               <FormDateTimePicker name="endTime" mode="time" />
             </HStack>
           </FormProvider>
+        </AppModal>
+
+        <AppModal
+          title="Meal sizes explained"
+          buttonTitle={"Got it!"}
+          open={showMealSizeModal}
+          onClose={() => setShowMealSizeModal(false)}
+          onSubmit={() => setShowMealSizeModal(false)}
+        >
+          <Text>
+            This table will help you to understand the T-shirt sizes for the
+            meals
+          </Text>
         </AppModal>
       </KeyboardAvoidingView>
     </SafeAreaView>

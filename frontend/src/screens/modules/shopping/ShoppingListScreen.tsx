@@ -20,9 +20,7 @@ const ShoppingListScreen = () => {
 
   const { appState } = useApp();
   useEffect(() => {
-    console.log("EY");
     if (appState.userData?.shopping?.prepDays?.length !== 0) {
-      console.log("SET");
       setActiveShoppingList(true);
     }
   }, [appState.userData?.shopping?.prepDays]);
@@ -33,8 +31,6 @@ const ShoppingListScreen = () => {
   });
 
   const hasShopping = appState.userData?.shopping?.prepDays?.length !== 0;
-
-  console.log("DDD", hasShopping);
 
   return (
     <DrawerScreenWrapper isBack screenTitle="Shopping list">

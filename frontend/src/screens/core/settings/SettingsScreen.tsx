@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 import {
+  Heading,
   Image,
   ScrollView,
   Text,
@@ -88,6 +89,7 @@ export const SettingsScreen = () => {
         contentContainerStyle={{
           justifyContent: "center",
           alignItems: "center",
+          paddingBottom: 40,
         }}
       >
         <Image
@@ -100,6 +102,9 @@ export const SettingsScreen = () => {
         />
         <VStack w={"90%"}>
           <FormProvider {...formContext}>
+            <Heading color="#10b981" mb={6}>
+              Appearance
+            </Heading>
             <FormSelect
               name="language"
               options={[
@@ -111,6 +116,7 @@ export const SettingsScreen = () => {
 
             <FormSelect
               name="schema"
+              helperLabel="This feature is still in progress"
               options={[
                 { value: "Light", label: t("settings.colorsTheme.light") },
                 { value: "Dark", label: t("settings.colorsTheme.dark") },
@@ -118,8 +124,52 @@ export const SettingsScreen = () => {
               label={t("settings.colorsTheme")}
               disabled
             />
+            <Heading color="#10b981" marginVertical={6}>
+              Notifications
+            </Heading>
+            <FormSelect
+              name="plannerMealTime"
+              options={[
+                { value: "Light", label: t("settings.colorsTheme.light") },
+                { value: "Dark", label: t("settings.colorsTheme.dark") },
+              ]}
+              label={"Planned meal time"}
+            />
+            <FormSelect
+              name="plannerMealTime"
+              options={[
+                { value: "Light", label: t("settings.colorsTheme.light") },
+                { value: "Dark", label: t("settings.colorsTheme.dark") },
+              ]}
+              label={"Log meal reminder"}
+            />
+            <FormSelect
+              name="plannerMealTime"
+              options={[
+                { value: "Light", label: t("settings.colorsTheme.light") },
+                { value: "Dark", label: t("settings.colorsTheme.dark") },
+              ]}
+              label={"Shopping list creation reminder"}
+            />
+            <FormSelect
+              name="plannerMealTime"
+              options={[
+                { value: "Light", label: t("settings.colorsTheme.light") },
+                { value: "Dark", label: t("settings.colorsTheme.dark") },
+              ]}
+              label={"Shopping time reminder"}
+            />
+            <FormSelect
+              name="plannerMealTime"
+              options={[
+                { value: "Light", label: t("settings.colorsTheme.light") },
+                { value: "Dark", label: t("settings.colorsTheme.dark") },
+              ]}
+              label={"Stress journal record"}
+            />
           </FormProvider>
         </VStack>
+
         <Text m={20} textAlign="center">
           {t("settings.notMuch")}
         </Text>
