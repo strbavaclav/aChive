@@ -51,6 +51,7 @@ export const signUpResolver = async (
 
         const newUser = new User({
             email,
+            method: 'classic',
             password: hashedPassword,
             onboarded: false,
         })
