@@ -68,9 +68,11 @@ export type Mutation = {
   __typename?: "Mutation";
   _empty?: Maybe<Scalars["String"]["output"]>;
   addMealRecord?: Maybe<MealRecordData>;
+  addShoppingListItem: ShoppingList;
   addStressRecord: StressRecords;
   onboard: User;
   removeMealRecordById: Scalars["String"]["output"];
+  resetUserRecords: User;
   setShoppingListSettings: User;
   signIn: User;
   signUp: User;
@@ -85,6 +87,10 @@ export type Mutation_EmptyArgs = {
 export type MutationAddMealRecordArgs = {
   mealRecord: InputMealRecord;
   userId: Scalars["String"]["input"];
+};
+
+export type MutationAddShoppingListItemArgs = {
+  item: ShoppingListItemInput;
 };
 
 export type MutationAddStressRecordArgs = {
@@ -160,6 +166,7 @@ export type Query = {
   __typename?: "Query";
   _empty?: Maybe<Scalars["String"]["output"]>;
   getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>;
+  getShoppingList?: Maybe<ShoppingList>;
   getUser?: Maybe<User>;
   getUserData?: Maybe<User>;
 };
@@ -180,6 +187,27 @@ export type ShopListSettingsInput = {
   shopDays?: InputMaybe<Array<Scalars["Int"]["input"]>>;
   shopEndTime: Scalars["String"]["input"];
   shopStartTime: Scalars["String"]["input"];
+};
+
+export type ShoppingList = {
+  __typename?: "ShoppingList";
+  items?: Maybe<Array<ShoppingListItem>>;
+  userId: Scalars["String"]["output"];
+};
+
+export type ShoppingListItem = {
+  __typename?: "ShoppingListItem";
+  checked: Scalars["Boolean"]["output"];
+  itemName: Scalars["String"]["output"];
+  quantity: Scalars["Float"]["output"];
+  unit: Scalars["String"]["output"];
+};
+
+export type ShoppingListItemInput = {
+  checked?: InputMaybe<Scalars["Boolean"]["input"]>;
+  itemName: Scalars["String"]["input"];
+  quantity: Scalars["Float"]["input"];
+  unit: Scalars["String"]["input"];
 };
 
 export type ShoppingListSettings = {
@@ -431,6 +459,23 @@ export type UpdateMealRecordByIdMutation = {
       description?: string | null;
       cooked: boolean;
     }>;
+  } | null;
+};
+
+export type GetShoppingListQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetShoppingListQuery = {
+  __typename?: "Query";
+  getShoppingList?: {
+    __typename?: "ShoppingList";
+    userId: string;
+    items?: Array<{
+      __typename?: "ShoppingListItem";
+      itemName: string;
+      quantity: number;
+      unit: string;
+      checked: boolean;
+    }> | null;
   } | null;
 };
 
@@ -1305,6 +1350,56 @@ export const UpdateMealRecordByIdDocument = {
 } as unknown as DocumentNode<
   UpdateMealRecordByIdMutation,
   UpdateMealRecordByIdMutationVariables
+>;
+export const GetShoppingListDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetShoppingList" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getShoppingList" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "items" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "itemName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "quantity" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "unit" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "checked" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetShoppingListQuery,
+  GetShoppingListQueryVariables
 >;
 export const SetShoppingListSettingsDocument = {
   kind: "Document",

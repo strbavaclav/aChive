@@ -1,6 +1,12 @@
 
 type Mutation {
   setShoppingListSettings(ShopListSettings: ShopListSettingsInput!):User!
+
+  addShoppingListItem(item:ShoppingListItemInput!): ShoppingList!
+}
+
+type Query {
+  getShoppingList: ShoppingList
 }
 
 input ShopListSettingsInput {
@@ -11,4 +17,25 @@ input ShopListSettingsInput {
   shopStartTime: String!,
   shopEndTime: String!,
 }
+
+input ShoppingListItemInput {
+  itemName: String!
+  quantity: Float!
+  unit: String!
+  checked: Boolean
+}
+
+type ShoppingListItem {
+  itemName: String!
+  quantity: Float!
+  unit: String!
+  checked: Boolean!
+}
+
+type ShoppingList {
+  userId: String!
+  items: [ShoppingListItem!]
+}
+
+
 

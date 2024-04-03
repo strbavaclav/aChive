@@ -23,6 +23,11 @@ import { changeLanguage } from "utils/changeLanguage";
 export const validationSchema = z.object({
   language: z.string(),
   schema: z.string(),
+  plannerMealTime: z.string(),
+  logMealTime: z.string(),
+  listCreationTime: z.string(),
+  shoppingTime: z.string(),
+  logStressTime: z.string(),
 });
 
 type FormDataType = z.infer<typeof validationSchema>;
@@ -38,6 +43,11 @@ export const SettingsScreen = () => {
   const defaultValues: Partial<FormDataType> = {
     language: language ? language : "en",
     schema: "Light",
+    plannerMealTime: "true",
+    logMealTime: "true",
+    listCreationTime: "true",
+    shoppingTime: "true",
+    logStressTime: "true",
   };
 
   const formContext = useForm<FormDataType>({
@@ -130,40 +140,40 @@ export const SettingsScreen = () => {
             <FormSelect
               name="plannerMealTime"
               options={[
-                { value: "Light", label: t("settings.colorsTheme.light") },
-                { value: "Dark", label: t("settings.colorsTheme.dark") },
+                { value: "true", label: "Turned on" },
+                { value: "false", label: "off" },
               ]}
               label={"Planned meal time"}
             />
             <FormSelect
-              name="plannerMealTime"
+              name="logMealTime"
               options={[
-                { value: "Light", label: t("settings.colorsTheme.light") },
-                { value: "Dark", label: t("settings.colorsTheme.dark") },
+                { value: "true", label: "Turned on" },
+                { value: "false", label: "off" },
               ]}
               label={"Log meal reminder"}
             />
             <FormSelect
-              name="plannerMealTime"
+              name="listCreationTime"
               options={[
-                { value: "Light", label: t("settings.colorsTheme.light") },
-                { value: "Dark", label: t("settings.colorsTheme.dark") },
+                { value: "true", label: "Turned on" },
+                { value: "false", label: "off" },
               ]}
               label={"Shopping list creation reminder"}
             />
             <FormSelect
-              name="plannerMealTime"
+              name="shoppingTime"
               options={[
-                { value: "Light", label: t("settings.colorsTheme.light") },
-                { value: "Dark", label: t("settings.colorsTheme.dark") },
+                { value: "true", label: "Turned on" },
+                { value: "false", label: "off" },
               ]}
               label={"Shopping time reminder"}
             />
             <FormSelect
-              name="plannerMealTime"
+              name="logStressTime"
               options={[
-                { value: "Light", label: t("settings.colorsTheme.light") },
-                { value: "Dark", label: t("settings.colorsTheme.dark") },
+                { value: "true", label: "Turned on" },
+                { value: "false", label: "off" },
               ]}
               label={"Stress journal record"}
             />

@@ -72,9 +72,11 @@ export type Mutation = {
     __typename?: 'Mutation'
     _empty?: Maybe<Scalars['String']['output']>
     addMealRecord?: Maybe<MealRecordData>
+    addShoppingListItem: ShoppingList
     addStressRecord: StressRecords
     onboard: User
     removeMealRecordById: Scalars['String']['output']
+    resetUserRecords: User
     setShoppingListSettings: User
     signIn: User
     signUp: User
@@ -89,6 +91,10 @@ export type Mutation_EmptyArgs = {
 export type MutationAddMealRecordArgs = {
     mealRecord: InputMealRecord
     userId: Scalars['String']['input']
+}
+
+export type MutationAddShoppingListItemArgs = {
+    item: ShoppingListItemInput
 }
 
 export type MutationAddStressRecordArgs = {
@@ -164,6 +170,7 @@ export type Query = {
     __typename?: 'Query'
     _empty?: Maybe<Scalars['String']['output']>
     getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>
+    getShoppingList?: Maybe<ShoppingList>
     getUser?: Maybe<User>
     getUserData?: Maybe<User>
 }
@@ -184,6 +191,27 @@ export type ShopListSettingsInput = {
     shopDays?: InputMaybe<Array<Scalars['Int']['input']>>
     shopEndTime: Scalars['String']['input']
     shopStartTime: Scalars['String']['input']
+}
+
+export type ShoppingList = {
+    __typename?: 'ShoppingList'
+    items?: Maybe<Array<ShoppingListItem>>
+    userId: Scalars['String']['output']
+}
+
+export type ShoppingListItem = {
+    __typename?: 'ShoppingListItem'
+    checked: Scalars['Boolean']['output']
+    itemName: Scalars['String']['output']
+    quantity: Scalars['Float']['output']
+    unit: Scalars['String']['output']
+}
+
+export type ShoppingListItemInput = {
+    checked?: InputMaybe<Scalars['Boolean']['input']>
+    itemName: Scalars['String']['input']
+    quantity: Scalars['Float']['input']
+    unit: Scalars['String']['input']
 }
 
 export type ShoppingListSettings = {
@@ -370,6 +398,9 @@ export type ResolversTypes = {
     PlannedMealInput: PlannedMealInput
     Query: ResolverTypeWrapper<{}>
     ShopListSettingsInput: ShopListSettingsInput
+    ShoppingList: ResolverTypeWrapper<ShoppingList>
+    ShoppingListItem: ResolverTypeWrapper<ShoppingListItem>
+    ShoppingListItemInput: ShoppingListItemInput
     ShoppingListSettings: ResolverTypeWrapper<ShoppingListSettings>
     SignInInput: SignInInput
     SignUpInput: SignUpInput
@@ -398,6 +429,9 @@ export type ResolversParentTypes = {
     PlannedMealInput: PlannedMealInput
     Query: {}
     ShopListSettingsInput: ShopListSettingsInput
+    ShoppingList: ShoppingList
+    ShoppingListItem: ShoppingListItem
+    ShoppingListItemInput: ShoppingListItemInput
     ShoppingListSettings: ShoppingListSettings
     SignInInput: SignInInput
     SignUpInput: SignUpInput
@@ -463,6 +497,12 @@ export type MutationResolvers<
         ContextType,
         RequireFields<MutationAddMealRecordArgs, 'mealRecord' | 'userId'>
     >
+    addShoppingListItem?: Resolver<
+        ResolversTypes['ShoppingList'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationAddShoppingListItemArgs, 'item'>
+    >
     addStressRecord?: Resolver<
         ResolversTypes['StressRecords'],
         ParentType,
@@ -481,6 +521,7 @@ export type MutationResolvers<
         ContextType,
         RequireFields<MutationRemoveMealRecordByIdArgs, 'recordId' | 'userId'>
     >
+    resetUserRecords?: Resolver<ResolversTypes['User'], ParentType, ContextType>
     setShoppingListSettings?: Resolver<
         ResolversTypes['User'],
         ParentType,
@@ -539,6 +580,11 @@ export type QueryResolvers<
         ContextType,
         RequireFields<QueryGetMealRecordsByDateArgs, 'date' | 'userId'>
     >
+    getShoppingList?: Resolver<
+        Maybe<ResolversTypes['ShoppingList']>,
+        ParentType,
+        ContextType
+    >
     getUser?: Resolver<
         Maybe<ResolversTypes['User']>,
         ParentType,
@@ -550,6 +596,30 @@ export type QueryResolvers<
         ParentType,
         ContextType
     >
+}
+
+export type ShoppingListResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['ShoppingList'] = ResolversParentTypes['ShoppingList']
+> = {
+    items?: Resolver<
+        Maybe<Array<ResolversTypes['ShoppingListItem']>>,
+        ParentType,
+        ContextType
+    >
+    userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type ShoppingListItemResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['ShoppingListItem'] = ResolversParentTypes['ShoppingListItem']
+> = {
+    checked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
+    itemName?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    quantity?: Resolver<ResolversTypes['Float'], ParentType, ContextType>
+    unit?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type ShoppingListSettingsResolvers<
@@ -670,6 +740,8 @@ export type Resolvers<ContextType = any> = {
     Mutation?: MutationResolvers<ContextType>
     PlannedMeal?: PlannedMealResolvers<ContextType>
     Query?: QueryResolvers<ContextType>
+    ShoppingList?: ShoppingListResolvers<ContextType>
+    ShoppingListItem?: ShoppingListItemResolvers<ContextType>
     ShoppingListSettings?: ShoppingListSettingsResolvers<ContextType>
     StressRecordData?: StressRecordDataResolvers<ContextType>
     StressRecords?: StressRecordsResolvers<ContextType>
