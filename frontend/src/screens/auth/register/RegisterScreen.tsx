@@ -166,7 +166,7 @@ const RegisterScreen = () => {
                 </React.Fragment>
               )}
             </Button>
-            <OAuthButton />
+            <OAuthButton signUp />
             <HStack justifyContent="center" alignItems="center" mt={20}>
               <Text>{t("Already signed up?")} </Text>
               <Link onPress={() => navigation.navigate("Login")}>

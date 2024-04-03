@@ -13,6 +13,8 @@ import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
+  "\n  mutation AppleSignIn($token: String!) {\n    appleSignIn(token: $token) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n":
+    types.AppleSignInDocument,
   "\n  mutation SignIn($authData: SignInInput!) {\n    signIn(authData: $authData) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n":
     types.SignInDocument,
   "\n  mutation Onboard($onboardData: OnboardData!) {\n    onboard(onboardData: $onboardData) {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n":
@@ -53,6 +55,12 @@ const documents = {
  */
 export function gql(source: string): unknown;
 
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  mutation AppleSignIn($token: String!) {\n    appleSignIn(token: $token) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n",
+): (typeof documents)["\n  mutation AppleSignIn($token: String!) {\n    appleSignIn(token: $token) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
