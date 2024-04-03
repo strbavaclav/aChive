@@ -258,7 +258,20 @@ export const AuthProvider = ({
 
       await SecureStore.setItemAsync("jwt", String(token));
     } catch (error) {
-      throw error;
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          const toastId = "toast-" + id;
+          return (
+            <Toast nativeID={toastId} action="error" variant="accent">
+              <VStack space="xs">
+                <ToastTitle>Oops... Something went worng!</ToastTitle>
+                <ToastDescription>Please try again later.</ToastDescription>
+              </VStack>
+            </Toast>
+          );
+        },
+      });
     }
   };
 
