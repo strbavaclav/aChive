@@ -21,6 +21,7 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 import i18next from "i18next";
+import { APPLE_SIGN_UP_MUTATION } from "calls/auth/register/useAppleSignUp";
 
 interface AuthState {
   token?: string | null;
@@ -37,6 +38,7 @@ interface AuthContextProps {
     username: string,
     password: string
   ) => Promise<void>;
+  onAppleSignUp: (token: string) => Promise<void>;
   onSignIn: (email: string, password: string) => Promise<void>;
   onSignOut: () => Promise<void>;
 }
@@ -159,6 +161,34 @@ export const AuthProvider = ({
     }
   };
 
+  const appleSignUp = async (token: string) => {
+    try {
+      const result = await client.mutate({
+        mutation: APPLE_SIGN_UP_MUTATION,
+        variables: { token },
+      });
+
+      const newUser = result.data?.appleSignUp;
+
+      if (newUser) {
+        await setAuthState({
+          token: newUser?.token,
+          authenticated: true,
+          onboarded: newUser?.onboarded,
+        });
+
+        setAppState((prevState) => ({
+          ...prevState,
+          userData: { ...prevState.userData, email: newUser.email },
+        }));
+
+        await SecureStore.setItemAsync("jwt", String(newUser?.token));
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const signIn = async (email: string, password: string) => {
     try {
       const result = await client.mutate({
@@ -203,6 +233,7 @@ export const AuthProvider = ({
     authState,
     setAuthState,
     onSignUp: signUp,
+    onAppleSignUp: appleSignUp,
     onSignIn: signIn,
     onSignOut: signOut,
   };

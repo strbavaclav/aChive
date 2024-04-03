@@ -14,12 +14,15 @@ import { setShoppingListSettingsResolver } from './modules/shopping/resolvers/se
 import { updateUserDataResolver } from './modules/user/resolvers/updateUserDataResolver'
 import { addShoppingListItemResolver } from './modules/shopping/resolvers/addShoppingListItemResolver'
 import { getShoppingListResolver } from './modules/shopping/resolvers/getShoppingListResolver'
+import { appleSignUpResolver } from './modules/auth/resolvers/appleSignUpResolver'
 
 const resolvers: Resolvers = {
     Mutation: {
         //auth
         signUp: signUpResolver,
         signIn: signInResolver,
+
+        appleSignUp: appleSignUpResolver,
         onboard: onboardResolver,
 
         //stress

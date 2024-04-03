@@ -24,6 +24,7 @@ import { Image } from "@gluestack-ui/themed";
 import { Alert, SectionList, TouchableOpacity } from "react-native";
 import { useQuery } from "@apollo/client";
 import { GET_SHOPPING_LIST } from "calls/shopping/useGetShoppingList";
+import { ShoppingListModal } from "components/modules/shopping/ShoppingListModal";
 
 type ShopItemProps = {
   itemName: string;
@@ -45,7 +46,7 @@ const renderItem = ({ item }: { item: ShopItemProps }) => (
 export const ShoppingListScreen = () => {
   const { appState, refetchUserData } = useApp();
 
-  const [activeShoppingList, setActiveShoppingList] = useState(false);
+  const [activeShoppingList, setActiveShoppingList] = useState(true);
   const [itemsToBuy, setItemsToBuy] = useState<ShopItemProps[]>([]);
   const [itemsGot, setItemsGot] = useState<ShopItemProps[]>([]);
   const [dataSections, setDataSections] = useState([]);
@@ -194,6 +195,7 @@ export const ShoppingListScreen = () => {
             <FabIcon as={AddIcon} mr="$1" />
             <FabLabel>Add item</FabLabel>
           </Fab>
+          <ShoppingListModal />
         </>
       )}
     </DrawerScreenWrapper>

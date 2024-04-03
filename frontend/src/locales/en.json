@@ -1,11 +1,27 @@
 {
     "sign in to":"Sign in to ",
+    "sign up to":"Sign up to ",
     "your@mail.cz":"your@mail.com",
     "password":"password",
     "Sign in":"Sign in",
     "Sign up":"Sign up",
     "or use":"or use",
     "Don't have an account?":"Don't have an account? ",
+    "Already signed up?":"Already signed up?",
+    "User already exists with given email!":"User already exists with given email!",
+    "Passwords do not match!":"Passwords do not match!",
+    "Password is too short!":"Password is too short!",
+
+    "Oops..":"Oops... 🥺",
+    "The google authentication is not supported yet!":"The google authentication is not supported yet!",
+
+
+    "User with this email doesnt exist!":"User with this email doesnt exist!",
+    "Invalid password!":"Invalid password!",
+    "Incorect Email!":"Incorect Email!",
+    "Password must be filled!":"Password must be filled!",
+
+
 
     "general.cancel":"Cancel",
     

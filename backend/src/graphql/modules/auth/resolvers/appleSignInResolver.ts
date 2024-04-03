@@ -1,17 +1,21 @@
 import { GraphQLError } from 'graphql'
 import User from '../../../../models/UserModel'
 import {
-    MutationSignInArgs,
+    MutationAppleSignInArgs,
     User as UserType,
 } from '../../../../types/graphqlTypesGenerated'
-import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
-export const signInResolver = async (
+interface DecodedToken {
+    email?: string
+}
+
+export const appleSignInResolver = async (
     _: unknown,
-    { authData }: MutationSignInArgs
+    { token }: MutationAppleSignInArgs
 ): Promise<UserType> => {
-    const { email, password } = authData
+    const decodedToken = jwt.decode(token) as DecodedToken
+    const email = decodedToken?.email
 
     try {
         const user = await User.findOne({ email })
@@ -21,17 +25,6 @@ export const signInResolver = async (
                     formInput: 'email',
                     code: 'USER_NOT_FOUND',
                     message: 'User with this email doesnt exist!',
-                },
-            })
-        }
-
-        const isPasswordValid = await bcrypt.compare(password, user.password!)
-        if (!isPasswordValid) {
-            throw new GraphQLError('Invalid password!', {
-                extensions: {
-                    formInput: 'password',
-                    code: 'INVALID_PASSWORD',
-                    message: 'Invalid password!',
                 },
             })
         }

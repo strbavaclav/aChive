@@ -35,6 +35,8 @@ type Mutation {
   addMealRecord(mealRecord: InputMealRecord!, userId: String!): MealRecordData
   addShoppingListItem(item: ShoppingListItemInput!): ShoppingList!
   addStressRecord(stressRecordData: StressRecordDataInput!): StressRecords!
+  appleSignIn(token: String!): User!
+  appleSignUp(token: String!): User!
   onboard(onboardData: OnboardData!): User!
   removeMealRecordById(recordId: String!, userId: String!): String!
   resetUserRecords: User!
