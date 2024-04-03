@@ -37,7 +37,7 @@ const SplashScreen = () => {
 
     setTimeout(() => {
       if (tokenLoading === false) {
-        navigation.navigate("Login");
+        navigation.replace("Login");
       }
     }, 1000);
   }, [tokenLoading]);
