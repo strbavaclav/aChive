@@ -68,9 +68,13 @@ export type Mutation = {
   __typename?: "Mutation";
   _empty?: Maybe<Scalars["String"]["output"]>;
   addMealRecord?: Maybe<MealRecordData>;
+  addShoppingListItem: ShoppingList;
   addStressRecord: StressRecords;
+  appleSignIn: User;
+  appleSignUp: User;
   onboard: User;
   removeMealRecordById: Scalars["String"]["output"];
+  resetUserRecords: User;
   setShoppingListSettings: User;
   signIn: User;
   signUp: User;
@@ -87,8 +91,20 @@ export type MutationAddMealRecordArgs = {
   userId: Scalars["String"]["input"];
 };
 
+export type MutationAddShoppingListItemArgs = {
+  item: ShoppingListItemInput;
+};
+
 export type MutationAddStressRecordArgs = {
   stressRecordData: StressRecordDataInput;
+};
+
+export type MutationAppleSignInArgs = {
+  token: Scalars["String"]["input"];
+};
+
+export type MutationAppleSignUpArgs = {
+  token: Scalars["String"]["input"];
 };
 
 export type MutationOnboardArgs = {
@@ -160,6 +176,7 @@ export type Query = {
   __typename?: "Query";
   _empty?: Maybe<Scalars["String"]["output"]>;
   getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>;
+  getShoppingList?: Maybe<ShoppingList>;
   getUser?: Maybe<User>;
   getUserData?: Maybe<User>;
 };
@@ -180,6 +197,27 @@ export type ShopListSettingsInput = {
   shopDays?: InputMaybe<Array<Scalars["Int"]["input"]>>;
   shopEndTime: Scalars["String"]["input"];
   shopStartTime: Scalars["String"]["input"];
+};
+
+export type ShoppingList = {
+  __typename?: "ShoppingList";
+  items?: Maybe<Array<ShoppingListItem>>;
+  userId: Scalars["String"]["output"];
+};
+
+export type ShoppingListItem = {
+  __typename?: "ShoppingListItem";
+  checked: Scalars["Boolean"]["output"];
+  itemName: Scalars["String"]["output"];
+  quantity: Scalars["Float"]["output"];
+  unit: Scalars["String"]["output"];
+};
+
+export type ShoppingListItemInput = {
+  checked?: InputMaybe<Scalars["Boolean"]["input"]>;
+  itemName: Scalars["String"]["input"];
+  quantity: Scalars["Float"]["input"];
+  unit: Scalars["String"]["input"];
 };
 
 export type ShoppingListSettings = {
@@ -322,6 +360,46 @@ export type OnboardMutation = {
   };
 };
 
+export type AppleSignUpMutationVariables = Exact<{
+  token: Scalars["String"]["input"];
+}>;
+
+export type AppleSignUpMutation = {
+  __typename?: "Mutation";
+  appleSignUp: {
+    __typename?: "User";
+    _id: string;
+    email: string;
+    token?: string | null;
+    onboarded: boolean;
+    language: string;
+    username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    gender?: string | null;
+    bornDate?: string | null;
+    eatHabitGoal?: string | null;
+    body?: { __typename?: "BodyInfo"; height: number; weight: number } | null;
+    plan?: Array<{
+      __typename?: "PlannedMeal";
+      _id: string;
+      mealName: string;
+      mealSize: string;
+      startTime: string;
+      endTime: string;
+    }> | null;
+    shopping?: {
+      __typename?: "ShoppingListSettings";
+      prepDays?: Array<number> | null;
+      prepStartTime?: string | null;
+      prepEndTime?: string | null;
+      shopDays?: Array<number> | null;
+      shopStartTime?: string | null;
+      shopEndTime?: string | null;
+    } | null;
+  };
+};
+
 export type SignUpMutationVariables = Exact<{
   authData: SignUpInput;
 }>;
@@ -431,6 +509,23 @@ export type UpdateMealRecordByIdMutation = {
       description?: string | null;
       cooked: boolean;
     }>;
+  } | null;
+};
+
+export type GetShoppingListQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetShoppingListQuery = {
+  __typename?: "Query";
+  getShoppingList?: {
+    __typename?: "ShoppingList";
+    userId: string;
+    items?: Array<{
+      __typename?: "ShoppingListItem";
+      itemName: string;
+      quantity: number;
+      unit: string;
+      checked: boolean;
+    }> | null;
   } | null;
 };
 
@@ -791,6 +886,146 @@ export const OnboardDocument = {
     },
   ],
 } as unknown as DocumentNode<OnboardMutation, OnboardMutationVariables>;
+export const AppleSignUpDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "AppleSignUp" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "token" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "appleSignUp" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "token" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "token" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "_id" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "token" } },
+                { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
+                { kind: "Field", name: { kind: "Name", value: "username" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "gender" } },
+                { kind: "Field", name: { kind: "Name", value: "bornDate" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "body" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "height" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "weight" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "eatHabitGoal" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "plan" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "_id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealSize" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "startTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "shopping" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepEndTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopEndTime" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AppleSignUpMutation, AppleSignUpMutationVariables>;
 export const SignUpDocument = {
   kind: "Document",
   definitions: [
@@ -1305,6 +1540,56 @@ export const UpdateMealRecordByIdDocument = {
 } as unknown as DocumentNode<
   UpdateMealRecordByIdMutation,
   UpdateMealRecordByIdMutationVariables
+>;
+export const GetShoppingListDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetShoppingList" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getShoppingList" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "userId" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "items" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "itemName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "quantity" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "unit" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "checked" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetShoppingListQuery,
+  GetShoppingListQueryVariables
 >;
 export const SetShoppingListSettingsDocument = {
   kind: "Document",

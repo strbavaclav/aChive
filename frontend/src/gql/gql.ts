@@ -17,6 +17,8 @@ const documents = {
     types.SignInDocument,
   "\n  mutation Onboard($onboardData: OnboardData!) {\n    onboard(onboardData: $onboardData) {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n":
     types.OnboardDocument,
+  "\n  mutation AppleSignUp($token: String!) {\n    appleSignUp(token: $token) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n":
+    types.AppleSignUpDocument,
   "\n  mutation SignUp($authData: SignUpInput!) {\n    signUp(authData: $authData) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n":
     types.SignUpDocument,
   "\nmutation Mutation($userId: String!, $mealRecord: InputMealRecord!) {\n  addMealRecord(userId: $userId, mealRecord: $mealRecord) {\n    userId\n    records {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n":
@@ -27,6 +29,8 @@ const documents = {
     types.RemoveMealRecordByIdDocument,
   "\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n":
     types.UpdateMealRecordByIdDocument,
+  "\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n":
+    types.GetShoppingListDocument,
   "\nmutation SetShoppingListSettings($shopListSettings: ShopListSettingsInput!) {\n  setShoppingListSettings(ShopListSettings: $shopListSettings) {\n    shopping {\n      prepDays\n      prepStartTime\n      prepEndTime\n      shopDays\n      shopStartTime\n      shopEndTime\n    }\n  }\n}\n":
     types.SetShoppingListSettingsDocument,
   "\n  query GetUserData {\n    getUserData {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n":
@@ -65,6 +69,12 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+  source: "\n  mutation AppleSignUp($token: String!) {\n    appleSignUp(token: $token) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n",
+): (typeof documents)["\n  mutation AppleSignUp($token: String!) {\n    appleSignUp(token: $token) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
   source: "\n  mutation SignUp($authData: SignUpInput!) {\n    signUp(authData: $authData) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  mutation SignUp($authData: SignUpInput!) {\n    signUp(authData: $authData) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n"];
 /**
@@ -91,6 +101,12 @@ export function gql(
 export function gql(
   source: "\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n",
 ): (typeof documents)["\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

@@ -38,6 +38,7 @@ import { FormInput } from "components/form/FormInput";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "context/authContext";
 import { ApolloError } from "@apollo/client";
+import i18next from "services/i18next";
 
 const image = require("../../../assets/images/register.png");
 
@@ -49,10 +50,12 @@ export const validationSchema = z.object({
 
 type FormDataType = z.infer<typeof validationSchema>;
 
+const develop = false;
+
 export const defaultValues: Partial<FormDataType> = {
-  email: "test@test.cz",
-  password: "Abeceda123",
-  passwordConfirm: "Abeceda123",
+  email: develop ? "test@test.cz" : "",
+  password: develop ? "Abeceda123" : "",
+  passwordConfirm: develop ? "Abeceda123" : "",
 };
 
 const RegisterScreen = () => {
@@ -78,7 +81,9 @@ const RegisterScreen = () => {
 
       if (apolloError.graphQLErrors && apolloError.graphQLErrors.length > 0) {
         const gqlError = apolloError.graphQLErrors[0];
-        const formInput = String(gqlError.extensions?.formInput) as "email";
+        const formInput = String(gqlError.extensions?.formInput) as
+          | "email"
+          | "password";
         const message = String(gqlError.extensions?.message);
 
         formContext.setError(formInput, { message });
@@ -92,6 +97,10 @@ const RegisterScreen = () => {
     console.log(errors);
 
   const onPress = formContext.handleSubmit(onSubmit, onError);
+
+  const changeLanguage = (lng: string) => {
+    i18next.changeLanguage(lng);
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
@@ -117,11 +126,11 @@ const RegisterScreen = () => {
           >
             <Image
               source={image}
-              style={{ width: "100%", height: 300 }}
+              style={{ width: "100%", height: 260 }}
               resizeMode="contain"
             />
             <Heading>
-              Sign up to <Heading color="$primary500">aChive</Heading>
+              {t("sign up to")} <Heading color="$primary500">aChive</Heading>
             </Heading>
             <FormProvider {...formContext}>
               <FormInput name="email" placeholder={t("your@mail.cz")} />
@@ -152,16 +161,35 @@ const RegisterScreen = () => {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <ButtonText>Sign up </ButtonText>
+                  <ButtonText>{t("Sign up")}</ButtonText>
                   <ButtonIcon as={ChevronsRightIcon} />
                 </React.Fragment>
               )}
             </Button>
             <OAuthButton />
             <HStack justifyContent="center" alignItems="center" mt={20}>
-              <Text>Already signed up? </Text>
+              <Text>{t("Already signed up?")} </Text>
               <Link onPress={() => navigation.navigate("Login")}>
-                <LinkText color="$primary600">Sign in!</LinkText>
+                <LinkText color="$primary600">{t("Sign in")}!</LinkText>
+              </Link>
+            </HStack>
+            <HStack gap={10} mt={10}>
+              <Link>
+                <LinkText
+                  onPress={() => changeLanguage("en")}
+                  color="$primary600"
+                >
+                  English
+                </LinkText>
+              </Link>
+              <Text>|</Text>
+              <Link>
+                <LinkText
+                  color="$primary600"
+                  onPress={() => changeLanguage("cs")}
+                >
+                  Česky
+                </LinkText>
               </Link>
             </HStack>
           </VStack>

@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import CustomDrawer from "components/navigation/CustomDrawer";
 import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 import { AboutScreen } from "screens/core/about/AboutScreen";
-import ShoppingListScreen from "screens/modules/shopping/ShoppingListScreen";
+import { ShoppingListScreen } from "screens/modules/shopping/ShoppingListScreen";
 import CookBookScreen from "screens/modules/cookbook/CookBookScreen";
 import ReliefScreen from "screens/modules/relief/ReliefScreen";
 import { SettingsScreen } from "screens/core/settings/SettingsScreen";

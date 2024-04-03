@@ -6,7 +6,6 @@ import {
   HStack,
   Link,
   LinkText,
-  View,
   Text,
   Heading,
   VStack,
@@ -47,9 +46,11 @@ export const validationSchema = z.object({
 
 type FormDataType = z.infer<typeof validationSchema>;
 
+const develop = true;
+
 export const defaultValues: Partial<FormDataType> = {
-  email: "test@test.cz",
-  password: "Abeceda123",
+  email: develop ? "test@test.cz" : "",
+  password: develop ? "Abeceda123" : "",
 };
 
 const LoginScreen = () => {
@@ -77,7 +78,9 @@ const LoginScreen = () => {
 
       if (apolloError.graphQLErrors && apolloError.graphQLErrors.length > 0) {
         const gqlError = apolloError.graphQLErrors[0];
-        const formInput = String(gqlError.extensions?.formInput) as "email";
+        const formInput = String(gqlError.extensions?.formInput) as
+          | "email"
+          | "password";
         const message = String(gqlError.extensions?.message);
 
         formContext.setError(formInput, { message });
@@ -94,6 +97,7 @@ const LoginScreen = () => {
 
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParams>>();
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <KeyboardAvoidingView
@@ -113,7 +117,7 @@ const LoginScreen = () => {
           >
             <Image
               source={require("../../../assets/images/login.png")}
-              style={{ width: "100%", height: 300 }}
+              style={{ width: "100%", height: 260 }}
               resizeMode="contain"
             />
             <Heading>
@@ -140,7 +144,7 @@ const LoginScreen = () => {
                 </React.Fragment>
               ) : (
                 <React.Fragment>
-                  <ButtonText>{t("Sign in")} </ButtonText>
+                  <ButtonText>{t("Sign in")}</ButtonText>
                   <ButtonIcon as={ChevronsRightIcon} />
                 </React.Fragment>
               )}

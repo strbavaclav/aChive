@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import { z } from "zod";
 import {
   FormProvider,
@@ -9,9 +9,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { View } from "@gluestack-ui/themed";
 import { ShoppingOnboardingPart } from "./ShoppingOnboardingPart";
-import moment from "moment";
 import { useSetShoppingListSettings } from "calls/shopping/useSetShoppingListSettings";
-import { useApp } from "context/appContext";
+import { GET_USER_DATA_QUERY } from "calls/user/useGetUserData";
 
 export const validationSchema = z.object({
   prepDays: z.array(z.number()),
@@ -25,11 +24,13 @@ export const validationSchema = z.object({
 
 type FormDataType = z.infer<typeof validationSchema>;
 
-export const ShoppingOnboarding = () => {
+type Props = {
+  onFinish: () => Promise<void>;
+};
+
+export const ShoppingOnboarding: FC<Props> = ({ onFinish }) => {
   const [step, setStep] = useState(0);
   const { setShoppingListSettingsMutation } = useSetShoppingListSettings();
-
-  const { appState, refetchUserData } = useApp();
 
   const defaultValues: Partial<FormDataType> = {
     prepDays: [],
@@ -48,19 +49,24 @@ export const ShoppingOnboarding = () => {
   });
 
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
-    const response = await setShoppingListSettingsMutation({
-      variables: {
-        shopListSettings: {
-          prepDays: values.prepDays,
-          prepStartTime: values.prepStartTime.toISOString(),
-          prepEndTime: values.prepEndTime.toISOString(),
-          shopDays: values.shopDays,
-          shopStartTime: values.shopStartTime.toISOString(),
-          shopEndTime: values.shopEndTime.toISOString(),
+    try {
+      const result = await setShoppingListSettingsMutation({
+        variables: {
+          shopListSettings: {
+            prepDays: values.prepDays,
+            prepStartTime: values.prepStartTime.toISOString(),
+            prepEndTime: values.prepEndTime.toISOString(),
+            shopDays: values.shopDays,
+            shopStartTime: values.shopStartTime.toISOString(),
+            shopEndTime: values.shopEndTime.toISOString(),
+          },
         },
-      },
-    });
-    console.log("R", response.data?.setShoppingListSettings);
+      });
+      await onFinish();
+    } catch (error) {
+      console.log(error);
+    } finally {
+    }
   };
 
   const onError: SubmitErrorHandler<FormDataType> = (errors, e) =>
