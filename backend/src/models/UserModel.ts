@@ -4,6 +4,10 @@ const requiredIfOnboarded = function (this: { onboarded: boolean }) {
     return this.onboarded
 }
 
+const requiredIfClassic = function (this: { method: string }) {
+    return this.method === 'classic'
+}
+
 const userShema = new mongoose.Schema({
     email: {
         type: String,
@@ -18,9 +22,10 @@ const userShema = new mongoose.Schema({
                 `${props.value} is not a valid email address!`,
         },
     },
+    method: { type: String, required: true, default: 'classic' },
     password: {
         type: String,
-        required: [true, 'Password is required'],
+        required: [requiredIfClassic, 'password is required!'],
     },
     onboarded: {
         type: Boolean,

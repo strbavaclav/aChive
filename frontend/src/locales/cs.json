@@ -1,11 +1,29 @@
 {
     "sign in to":"Přihlaš se do ",
+    "sign up to":"Zaregistruj se do ",
     "your@mail.cz":"tvůj@mail.cz",
     "password":"heslo",
-    "Sign up":"Zaregistruj se",
-    "Sign in":"Přihlásit se",
+    "select password":"zvol heslo",
+    "retype password":"heslo znovu",
+    "Sign up":"Zaregistrovat",
+    "Sign in":"Přihlásit",
     "or use":"nebo přes",
     "Don't have an account?":"Nemáte ještě svůj účet? ",
+    "Already signed up?":"Již máš svůj účet?",
+    "User already exists with given email!":"Email je již používán!",
+    "Passwords do not match!":"Zadaná hesla se nehodují!",
+    "Password is too short!":"Heslo je příliš krátké",
+
+    "Oops..":"Jejda... 🥺",
+    "The google authentication is not supported yet!":"Přihlašování pomocí Google není zatím možné!",
+
+
+    "User with this email doesnt exist!":"Uživatel neexistuje!",
+    "Invalid password!":"Nesprávné heslo!",
+    "Incorect Email!":"Neplatný email!",
+    "Password must be filled!":"Heslo musí být vyplněno!",
+
+
 
     "general.cancel":"Zrušit",
     

@@ -7,6 +7,7 @@ import Animated, { useSharedValue, withSpring } from "react-native-reanimated";
 import { AuthStackParams } from "navigation/auth";
 import { useApp } from "context/appContext";
 import { useAuth } from "context/authContext";
+import { COLORS } from "styles/colors";
 
 const SplashScreen = () => {
   const navigation =
@@ -47,7 +48,7 @@ const SplashScreen = () => {
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#10b981",
+        backgroundColor: COLORS.primaryColor,
       }}
     >
       <StatusBar style="light" />

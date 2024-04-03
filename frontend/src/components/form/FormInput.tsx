@@ -14,6 +14,7 @@ import {
 import { t } from "i18next";
 import React, { ReactNode, FC, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { Keyboard, TextInput } from "react-native";
 
 type Props = {
@@ -51,6 +52,8 @@ export const FormInput: FC<Props> = (props) => {
       return !showContent;
     });
   };
+
+  const { t } = useTranslation();
 
   return (
     <>
@@ -94,7 +97,7 @@ export const FormInput: FC<Props> = (props) => {
               <FormControlHelper id={`${name}_helperText`}>
                 <FormControlHelperText color="#cc0000">
                   {" "}
-                  {error.message}
+                  {t(error.message!)}
                 </FormControlHelperText>
               </FormControlHelper>
             )}
