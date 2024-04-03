@@ -1,9 +1,18 @@
-import { Button, HStack, Text, VStack } from "@gluestack-ui/themed";
+import {
+  Button,
+  HStack,
+  Text,
+  Toast,
+  ToastTitle,
+  VStack,
+} from "@gluestack-ui/themed";
 import React, { FC } from "react";
 import { useTranslation } from "react-i18next";
 import { Alert, Image } from "react-native";
 import * as AppleAuthentication from "expo-apple-authentication";
 import { useAuth } from "context/authContext";
+import { useToast } from "@gluestack-ui/themed";
+import { ToastDescription } from "@gluestack-ui/themed";
 
 type Props = {
   signUp?: boolean;
@@ -13,6 +22,7 @@ type Props = {
 const OAuthButton: FC<Props> = ({ signUp, signIn }) => {
   const { t } = useTranslation();
   const { onAppleSignUp, onAppleSignIn } = useAuth();
+  const toast = useToast();
 
   const appleAuth = async () => {
     try {
@@ -28,7 +38,20 @@ const OAuthButton: FC<Props> = ({ signUp, signIn }) => {
         }
       }
     } catch (error) {
-      console.log(error);
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          const toastId = "toast-" + id;
+          return (
+            <Toast nativeID={toastId} action="error" variant="accent">
+              <VStack space="xs">
+                <ToastTitle>Oops... Something went worng!</ToastTitle>
+                <ToastDescription>Please try again later.</ToastDescription>
+              </VStack>
+            </Toast>
+          );
+        },
+      });
     }
   };
 
