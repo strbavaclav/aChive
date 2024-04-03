@@ -150,7 +150,7 @@ const LoginScreen = () => {
               )}
             </Button>
 
-            <OAuthButton />
+            <OAuthButton signIn />
             <HStack justifyContent="center" alignItems="center" mt={20}>
               <Text>{t("Don't have an account?")}</Text>
               <Link onPress={() => navigation.navigate("Register")}>

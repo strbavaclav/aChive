@@ -15,6 +15,7 @@ import { updateUserDataResolver } from './modules/user/resolvers/updateUserDataR
 import { addShoppingListItemResolver } from './modules/shopping/resolvers/addShoppingListItemResolver'
 import { getShoppingListResolver } from './modules/shopping/resolvers/getShoppingListResolver'
 import { appleSignUpResolver } from './modules/auth/resolvers/appleSignUpResolver'
+import { appleSignInResolver } from './modules/auth/resolvers/appleSignInResolver'
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -23,6 +24,7 @@ const resolvers: Resolvers = {
         signIn: signInResolver,
 
         appleSignUp: appleSignUpResolver,
+        appleSignIn: appleSignInResolver,
         onboard: onboardResolver,
 
         //stress

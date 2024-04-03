@@ -281,6 +281,46 @@ export type User = {
   username?: Maybe<Scalars["String"]["output"]>;
 };
 
+export type AppleSignInMutationVariables = Exact<{
+  token: Scalars["String"]["input"];
+}>;
+
+export type AppleSignInMutation = {
+  __typename?: "Mutation";
+  appleSignIn: {
+    __typename?: "User";
+    _id: string;
+    email: string;
+    token?: string | null;
+    onboarded: boolean;
+    language: string;
+    username?: string | null;
+    firstName?: string | null;
+    lastName?: string | null;
+    gender?: string | null;
+    bornDate?: string | null;
+    eatHabitGoal?: string | null;
+    body?: { __typename?: "BodyInfo"; height: number; weight: number } | null;
+    plan?: Array<{
+      __typename?: "PlannedMeal";
+      _id: string;
+      mealName: string;
+      mealSize: string;
+      startTime: string;
+      endTime: string;
+    }> | null;
+    shopping?: {
+      __typename?: "ShoppingListSettings";
+      prepDays?: Array<number> | null;
+      prepStartTime?: string | null;
+      prepEndTime?: string | null;
+      shopDays?: Array<number> | null;
+      shopStartTime?: string | null;
+      shopEndTime?: string | null;
+    } | null;
+  };
+};
+
 export type SignInMutationVariables = Exact<{
   authData: SignInInput;
 }>;
@@ -607,6 +647,146 @@ export type UpdateUserDataMutation = {
   };
 };
 
+export const AppleSignInDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "AppleSignIn" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "token" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "appleSignIn" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "token" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "token" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "_id" } },
+                { kind: "Field", name: { kind: "Name", value: "email" } },
+                { kind: "Field", name: { kind: "Name", value: "token" } },
+                { kind: "Field", name: { kind: "Name", value: "onboarded" } },
+                { kind: "Field", name: { kind: "Name", value: "language" } },
+                { kind: "Field", name: { kind: "Name", value: "username" } },
+                { kind: "Field", name: { kind: "Name", value: "firstName" } },
+                { kind: "Field", name: { kind: "Name", value: "lastName" } },
+                { kind: "Field", name: { kind: "Name", value: "gender" } },
+                { kind: "Field", name: { kind: "Name", value: "bornDate" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "body" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "height" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "weight" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "eatHabitGoal" },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "plan" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "_id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealSize" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "startTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "shopping" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "prepEndTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopDays" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopStartTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shopEndTime" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<AppleSignInMutation, AppleSignInMutationVariables>;
 export const SignInDocument = {
   kind: "Document",
   definitions: [

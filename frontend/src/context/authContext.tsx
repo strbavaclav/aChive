@@ -22,6 +22,7 @@ import {
 } from "@gluestack-ui/themed";
 import i18next from "i18next";
 import { APPLE_SIGN_UP_MUTATION } from "calls/auth/register/useAppleSignUp";
+import { APPLE_SIGN_IN_MUTATION } from "calls/auth/login/useAppleSignIn";
 
 interface AuthState {
   token?: string | null;
@@ -40,6 +41,7 @@ interface AuthContextProps {
   ) => Promise<void>;
   onAppleSignUp: (token: string) => Promise<void>;
   onSignIn: (email: string, password: string) => Promise<void>;
+  onAppleSignIn: (appleToken: string) => Promise<void>;
   onSignOut: () => Promise<void>;
 }
 
@@ -185,7 +187,20 @@ export const AuthProvider = ({
         await SecureStore.setItemAsync("jwt", String(newUser?.token));
       }
     } catch (error) {
-      throw error;
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          const toastId = "toast-" + id;
+          return (
+            <Toast nativeID={toastId} action="error" variant="accent">
+              <VStack space="xs">
+                <ToastTitle>Oops... Something went worng!</ToastTitle>
+                <ToastDescription>Please try again later.</ToastDescription>
+              </VStack>
+            </Toast>
+          );
+        },
+      });
     }
   };
 
@@ -218,6 +233,35 @@ export const AuthProvider = ({
     }
   };
 
+  const appleSignIn = async (appleToken: string) => {
+    try {
+      const result = await client.mutate({
+        mutation: APPLE_SIGN_IN_MUTATION,
+        variables: { token: appleToken },
+      });
+
+      const token = result.data?.appleSignIn?.token;
+      const onboarded = result.data?.appleSignIn.onboarded;
+
+      await setAppState!((prevState) => ({
+        ...prevState!,
+        userData: result.data?.appleSignIn as UserType,
+      }));
+
+      await setAuthState({
+        token: token!,
+        authenticated: true,
+        onboarded: onboarded,
+      });
+
+      i18next.changeLanguage(result.data?.appleSignIn.language);
+
+      await SecureStore.setItemAsync("jwt", String(token));
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const signOut = async () => {
     await SecureStore.deleteItemAsync("jwt");
 
@@ -235,6 +279,7 @@ export const AuthProvider = ({
     onSignUp: signUp,
     onAppleSignUp: appleSignUp,
     onSignIn: signIn,
+    onAppleSignIn: appleSignIn,
     onSignOut: signOut,
   };
 
