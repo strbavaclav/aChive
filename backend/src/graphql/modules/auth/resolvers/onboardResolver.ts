@@ -4,6 +4,7 @@ import {
     MutationOnboardArgs,
     User as UserType,
 } from '../../../../types/graphqlTypesGenerated'
+import StressData from '../../../../models/StressDataModel'
 
 export const onboardResolver = async (
     _: unknown,
@@ -19,6 +20,20 @@ export const onboardResolver = async (
             })
         }
         Object.assign(user, onboardData)
+
+        await StressData.findOneAndUpdate(
+            { _id: user._id },
+            {
+                $set: {
+                    records: {
+                        timestamp: onboardData.stress?.timestamp,
+                        value: onboardData.stress?.value,
+                        note: onboardData.stress?.note,
+                    },
+                },
+            },
+            { new: true, upsert: true }
+        )
 
         user.onboarded = true
         const onboardedUser = await user.save()

@@ -153,6 +153,7 @@ export type OnboardData = {
   gender: Scalars["String"]["input"];
   lastName: Scalars["String"]["input"];
   plan?: InputMaybe<Array<PlannedMealInput>>;
+  stress?: InputMaybe<StressRecordDataInput>;
   username: Scalars["String"]["input"];
 };
 
@@ -251,14 +252,12 @@ export type StressRecordData = {
 export type StressRecordDataInput = {
   note?: InputMaybe<Scalars["String"]["input"]>;
   timestamp: Scalars["String"]["input"];
-  userEmail: Scalars["String"]["input"];
   value: Scalars["Int"]["input"];
 };
 
 export type StressRecords = {
   __typename?: "StressRecords";
   stressRecords?: Maybe<Array<StressRecordData>>;
-  userEmail: Scalars["String"]["output"];
 };
 
 export type User = {

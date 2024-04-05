@@ -1,91 +1,178 @@
 {
-    "sign in to":"Sign in to ",
-    "sign up to":"Sign up to ",
-    "your@mail.cz":"your@mail.com",
-    "password":"password",
-    "Sign in":"Sign in",
-    "Sign up":"Sign up",
-    "or use":"or use",
-    "Don't have an account?":"Don't have an account? ",
-    "Already signed up?":"Already signed up?",
-    "User already exists with given email!":"User already exists with given email!",
-    "Passwords do not match!":"Passwords do not match!",
-    "Password is too short!":"Password is too short!",
-
-    "Oops..":"Oops... 🥺",
-    "The google authentication is not supported yet!":"The google authentication is not supported yet!",
-
-
-    "User with this email doesnt exist!":"User with this email doesnt exist!",
-    "Invalid password!":"Invalid password!",
-    "Incorect Email!":"Incorect Email!",
-    "Password must be filled!":"Password must be filled!",
-
-
-
-    "general.cancel":"Cancel",
-    
-    "dashboard.today":"Today - ",
-    "dashboard.dateFormat":"MMMM DD, YYYY",
-
-    "navigation.viewProfile":"View your profile",
-    "navigation.dashboard":"Dashboard",
-    "navigation.stressRelief":"Stress journal",
-    "navigation.shoppingList":"Shopping list",
-    "navigation.recipes":"Recipes",
-    "navigation.settings":"Settings",
-    "navigation.appSettings":"App settings",
-    "navigation.about":"About",
-    "navigation.aboutApp":"About app",
-    "navigation.signOut":"Sign out",
-
-    "navigation.Home":"Dashboard",
-    "navigation.Planner":"Planner",
-    "navigation.Insights":"Insights",
-    "navigation.Profile":"Profile",
-    "navigation.myProfile":"My Profile",
-
-
-    "settings.applicationLanguage":"Application's language",
-    "settings.colorsTheme":"Colors theme",
-    "settings.colorsTheme.light":"Light",
-    "settings.colorsTheme.dark":"Dark",
-    "settings.notMuch":"Well, not much yet. But don't be sad because the app is still growing!",
-
-    "about.description":"The aChive application was created as a final product of the diploma thesis named:",
-    "about.thesisName":"\"Design and implementation of a mobile application to improve eating habits using Design Thinking methodology\"",
-    "about.feedback":"Your feedback is welcomed at",
-    "about.byAuthor":"by Václav Štrba",
-
-    "profile.editByTouch":"Edit by touching the info tiles",
-    "profile.aboutMe":"About me",
-    "profile.username":"Username",
-    "profile.firstName":"First name",
-    "profile.lastName":"Last name",
-    "profile.gender":"Gender",
-    "profile.bornDate":"Born date",
-    "profile.myBody":"My body",
-    "profile.height":"Height",
-    "profile.weight":"Weight",
-    "profile.contact":"Contact",
-    "profile.email":"Email",
-    "profile.goals":"Goals",
-    "profile.eatingGoal":"Eating goal",
-    "profile.changePlans":"Change plans",
-    "profile.changeEatingPlan":"meal's plan",
-    "profile.changeShoppingPlan":"shopping schedule",
-    "profile.dangeZone":"Danger zone",
-    "profile.deleteAllRecords":"Earse all records",
-    "profile.earseData":"Earse data",
-    "profile.deleteAllRecordsDescription":"Starting again? Ok, but be careful using this button. The operation is irreversible!",
-    "profile.deleteAllRecordsAlert":"This operation will delete all meal and stress journal records from your user profile. The operation is irreversible. Are you sure you want to do it?",
-
-
-    "gender.Male":"Male",
-    "gender.Female":"Female",
-    "gender.Other":"Other",
-
-    "eatingGoal.more":"Eat more",
-    "eatingGoal.less":"Eat less",
-    "eatingGoal.consistent":"Be consistent"
+    "sign in to": "Sign in to ",
+    "sign up to": "Sign up to ",
+    "your@mail.cz": "your@mail.com",
+    "password": "password",
+    "Sign in": "Sign in",
+    "Sign up": "Sign up",
+    "or use": "or use",
+    "Don't have an account?": "Don't have an account? ",
+    "Already signed up?": "Already signed up?",
+    "User already exists with given email!": "User already exists with given email!",
+    "Passwords do not match!": "Passwords do not match!",
+    "Password is too short!": "Password is too short!",
+    "Oops..": "Oops... 🥺",
+    "The google authentication is not supported yet!": "The google authentication is not supported yet!",
+    "User with this email doesnt exist!": "User with this email doesnt exist!",
+    "Invalid password!": "Invalid password!",
+    "Incorect Email!": "Incorect Email!",
+    "Password must be filled!": "Password must be filled!",
+    "onboarding": {
+        "step1": {
+            "title1": "Tell us more about",
+            "title2": " you!",
+            "label": {
+                "firstName": "What's your first name?",
+                "lastName": "And your last name?",
+                "username": "How should we call you?",
+                "gender": "What's your gender?",
+                "born": "When were you born?",
+                "weight": "What's your weight?",
+                "height": "What's your height?"
+            },
+            "error": {
+                "required": "This information is required!",
+                "shortUsername": "Username musth have at least 5 characters!"
+            }
+        },
+        "step2": {
+            "title1": "Describe your",
+            "title2": " goals!",
+            "label": {
+                "eatingGoal": "I would like to...",
+                "stress":"Could you elaborate on it?",
+                "stressNote":"I feel stressed because of..."
+            },
+            "error":{
+                "eatingGoal":"Goal must be selected!"
+            },
+            "text": {
+                "eatingGoal": "First wen need to lay out your eating habit goal!",
+                "stress1": "Stress in our life has a big effect on how we eat. In this step you will determine how stressed you feel at the moment.",
+                "stress2": "On the scale 0 (no stress at all) - 10 (extreme stress) how much stress are we facing together?"
+            }
+        },
+        "step3":{
+            "title1": "Set up your",
+            "title2": " plan!",
+            "text":{
+                "plan1":"This last step is the most important one. We need to make a schedule for your plan to be able to track and improve your eating habits.",
+                "plan2":"How many meals you would like to eat per day, at what time and what meal sizes?",
+                "sizes":"Feel lost? This will help you to understand the T-shirt sizes meals association quickly.",
+                "xs":"Minimal yet satisfying, for light appetite moments.",
+                "s":"Small portion, perfectly sufficient for quick, light meals.",
+                "m":"Moderately sized, ideal for regular hunger satisfaction.",
+                "l":"Large serving, for when hunger demands more."
+            },
+            "tips":{
+                "label1":"How many meals per day is optimal?",
+                "value1":"Nutrition experts tend to recommend eating 3 balanced meals and 1 to 3 snacks per day.",
+                "label2":"When to eat my meals?",
+                "value2":"There are a few principles that are good to follow. Eat your breakfast between 7:00 AM and 9:00 AM to kickstart your metabolism, and aim for lunch and dinner at 12:00 PM to 2:00 PM and 6:00 PM to 8:00 PM, respectively, to align with your body's natural rhythms.",
+                "label3":"What is a meal size?",
+                "value3":"We are going to measure the meal sizes similar to the T-Shirts (XS, S, M, L). This approach helps to generalize the measuring process concept.",
+                "learnMore":"Learn more."
+            },
+            "action":{
+                "add":"Add",
+                "edit":"Edit",
+                "delete":"Earse",
+                "gotIt":"Got it!"
+            },
+            "labels":{
+                "breakfast":"Breakfast",
+                "size":"SIZE",
+                "timeRange":"Choose time range",
+                "addMeal":"Add meal to plan",
+                "mealSizesExplained":"Meal sizes explained"
+            },
+            "placeholders":{
+                "mealName":"eg. Breakfast",
+                "mealSize":"Select meal size"
+            },
+            "error": {
+                "required": "This information is required!"
+            }
+        },
+        "action": {
+            "back": "Back",
+            "next": "Next step",
+            "start":"Start"
+        }
+    },
+    "components": {
+        "stressFormSlider": {
+            "label": "Slide the knob to select the level of stress",
+            "stress": "Stressful",
+            "peace": "Peaceful",
+            "value": {
+                "0": "Peace",
+                "1": "Very Relaxed",
+                "2": "Moderately Relaxed",
+                "3": "Somewhat Relaxed",
+                "4": "Slightly Relaxed",
+                "5": "Neutral",
+                "6": "Somewhat Stressed",
+                "7": "Moderately Stressed",
+                "8": "Quite Stressed",
+                "9": "Very Stressed",
+                "10": "Stressed Out"
+            }
+        }
+    },
+    "general.cancel": "Cancel",
+    "dashboard.today": "Today - ",
+    "dashboard.dateFormat": "MMMM DD, YYYY",
+    "navigation.viewProfile": "View your profile",
+    "navigation.dashboard": "Dashboard",
+    "navigation.stressRelief": "Stress journal",
+    "navigation.shoppingList": "Shopping list",
+    "navigation.recipes": "Recipes",
+    "navigation.settings": "Settings",
+    "navigation.appSettings": "App settings",
+    "navigation.about": "About",
+    "navigation.aboutApp": "About app",
+    "navigation.signOut": "Sign out",
+    "navigation.Home": "Dashboard",
+    "navigation.Planner": "Planner",
+    "navigation.Insights": "Insights",
+    "navigation.Profile": "Profile",
+    "navigation.myProfile": "My Profile",
+    "settings.applicationLanguage": "Application's language",
+    "settings.colorsTheme": "Colors theme",
+    "settings.colorsTheme.light": "Light",
+    "settings.colorsTheme.dark": "Dark",
+    "settings.notMuch": "Well, not much yet. But don't be sad because the app is still growing!",
+    "about.description": "The aChive application was created as a final product of the diploma thesis named:",
+    "about.thesisName": "\"Design and implementation of a mobile application to improve eating habits using Design Thinking methodology\"",
+    "about.feedback": "Your feedback is welcomed at",
+    "about.byAuthor": "by Václav Štrba",
+    "profile.editByTouch": "Edit by touching the info tiles",
+    "profile.aboutMe": "About me",
+    "profile.username": "Username",
+    "profile.firstName": "First name",
+    "profile.lastName": "Last name",
+    "profile.gender": "Gender",
+    "profile.bornDate": "Born date",
+    "profile.myBody": "My body",
+    "profile.height": "Height",
+    "profile.weight": "Weight",
+    "profile.contact": "Contact",
+    "profile.email": "Email",
+    "profile.goals": "Goals",
+    "profile.eatingGoal": "Eating goal",
+    "profile.changePlans": "Change plans",
+    "profile.changeEatingPlan": "meal's plan",
+    "profile.changeShoppingPlan": "shopping schedule",
+    "profile.dangeZone": "Danger zone",
+    "profile.deleteAllRecords": "Earse all records",
+    "profile.earseData": "Earse data",
+    "profile.deleteAllRecordsDescription": "Starting again? Ok, but be careful using this button. The operation is irreversible!",
+    "profile.deleteAllRecordsAlert": "This operation will delete all meal and stress journal records from your user profile. The operation is irreversible. Are you sure you want to do it?",
+    "gender.Male": "Male",
+    "gender.Female": "Female",
+    "gender.Other": "Other",
+    "eatingGoal.more": "Eat more",
+    "eatingGoal.less": "Eat less",
+    "eatingGoal.consistent": "Be consistent"
 }

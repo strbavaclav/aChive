@@ -184,7 +184,6 @@ const ProfileScreen = () => {
             name="email"
             title={t("profile.email")}
             data={userData?.email}
-            onEdit={setEditedData}
             formType="string"
           />
         </VStack>
@@ -241,7 +240,9 @@ const ProfileScreen = () => {
           {t("profile.dangeZone")}
         </Heading>
         <VStack gap={6} marginHorizontal={8}>
-          <Text>{t("profile.deleteAllRecordsDescription")}</Text>
+          <Text textAlign="justify">
+            {t("profile.deleteAllRecordsDescription")}
+          </Text>
 
           <Button
             flex={1}

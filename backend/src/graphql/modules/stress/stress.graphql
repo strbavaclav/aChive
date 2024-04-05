@@ -4,7 +4,7 @@ type Mutation {
 }
 
 type StressRecords {
-    userEmail:String!
+
     stressRecords:[StressRecordData!]
 }
 
@@ -15,7 +15,6 @@ type StressRecordData {
 }
 
 input StressRecordDataInput {
-  userEmail: String!  
   timestamp: String!
   value: Int!
   note: String
