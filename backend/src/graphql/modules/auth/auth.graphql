@@ -75,6 +75,7 @@ input OnboardData {
   body: BodyDataInput!
   eatHabitGoal:String!
   plan: [PlannedMealInput!]
+  stress: StressRecordDataInput
 }
 
 input BodyDataInput {

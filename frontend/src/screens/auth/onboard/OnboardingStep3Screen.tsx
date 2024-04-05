@@ -1,36 +1,29 @@
-import { SafeAreaView, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import {
-  Accordion,
-  AccordionContent,
-  AccordionHeader,
-  AccordionIcon,
-  AccordionItem,
-  AccordionTrigger,
   AddIcon,
   Button,
-  ChevronDownIcon,
-  ChevronUpIcon,
+  ButtonIcon,
+  ButtonText,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  EditIcon,
   FormControlLabel,
   FormControlLabelText,
   HStack,
   Heading,
   KeyboardAvoidingView,
-  Link,
+  SafeAreaView,
   ScrollView,
   Text,
+  TrashIcon,
   VStack,
 } from "@gluestack-ui/themed";
-import { ButtonText } from "@gluestack-ui/themed";
-import { ButtonIcon } from "@gluestack-ui/themed";
+
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ChevronRightIcon } from "@gluestack-ui/themed";
-import { ChevronLeftIcon } from "@gluestack-ui/themed";
-import MealSetupListItem from "components/custom/MealSetupListItem/MealSetupListItem";
+
 import { z } from "zod";
 
-import AppModal from "components/general/AppModal";
 import {
   FormProvider,
   SubmitErrorHandler,
@@ -38,30 +31,22 @@ import {
   useForm,
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormSelect } from "components/form/FormSelect";
+
 import { useOnboard } from "calls/auth/onboard/useOnboard";
 import { useAuth } from "context/authContext";
-import { FormInput } from "components/form/FormInput";
+
 import { PlannedMealType, UserType, useApp } from "context/appContext";
 import { OnboardingStackParams } from "navigation/onboarding";
-import { FormDateTimePicker } from "components/form/FormDateTimePicker";
-
-export const validationSchema = z.object({
-  mealName: z.string().min(1),
-  mealSize: z.string().min(1),
-  startTime: z.date(),
-  endTime: z.date(),
-});
-
-type FormDataType = z.infer<typeof validationSchema>;
-
-export const getDefaultTime = (hours: number, minutes: number) => {
-  const date = new Date();
-  date.setHours(hours, minutes);
-  return date;
-};
+import { FormDateTimePicker, FormInput, FormSelect } from "components/form";
+import TipsAccordion from "components/modules/onboarding/TipsAccordion";
+import { useTranslation } from "react-i18next";
+import { MealPlan } from "components/modules/onboarding/MealPlan";
+import { AppModal } from "components/general/AppModal";
+import moment from "moment";
 
 const OnboardingStep3Screen = () => {
+  const { t } = useTranslation();
+
   const onboardingNavigation =
     useNavigation<NativeStackNavigationProp<OnboardingStackParams>>();
 
@@ -69,19 +54,33 @@ const OnboardingStep3Screen = () => {
   const { setAuthState } = useAuth();
   const { appState, setAppState } = useApp();
 
+  const validationSchema = z.object({
+    mealName: z.string().min(1, t("onboarding.step3.error.required")),
+    mealSize: z.string().min(1, t("onboarding.step3.error.required")),
+    startTime: z.date(),
+    endTime: z.date(),
+  });
+
+  type FormDataType = z.infer<typeof validationSchema>;
+
+  const getDefaultTime = (hours: number, minutes: number) => {
+    const date = new Date();
+    date.setHours(hours, minutes);
+    return date;
+  };
+
   const defaultStartTime = getDefaultTime(7, 30);
   const defaultEndTime = getDefaultTime(8, 0);
 
   const [plannedMeals, setPlannedMeals] = useState<PlannedMealType[]>([
     {
-      mealName: "Breakfast",
+      mealName: t("onboarding.step3.labels.breakfast"),
       mealSize: "M",
       startTime: defaultStartTime,
       endTime: defaultEndTime,
     },
   ]);
   const [showModal, setShowModal] = useState(false);
-  const [showMealSizeModal, setShowMealSizeModal] = useState(false);
   const [selectedMeal, setSelectedMeal] = useState<PlannedMealType | undefined>(
     undefined
   );
@@ -102,20 +101,24 @@ const OnboardingStep3Screen = () => {
     formContext.reset(defaultValues);
   }, [selectedMeal, formContext.reset]);
 
+  const onAddMealHandler = () => {
+    setSelectedMeal(undefined);
+    setShowModal(true);
+  };
+
   const onSelectMealHandler = (selectedMeal: PlannedMealType) => {
     setShowModal(true);
     setSelectedMeal(selectedMeal);
   };
 
   const onCloseModalHandler = () => {
-    setSelectedMeal(undefined);
     setShowModal(false);
   };
 
   const onboardHandler = async () => {
     const { userData, onboardData } = appState;
-    const { email } = userData ?? {};
 
+    const { email } = userData ?? {};
     const {
       firstName,
       lastName,
@@ -124,6 +127,8 @@ const OnboardingStep3Screen = () => {
       bornDate,
       body,
       eatHabitGoal,
+      stressRecordNote,
+      stressRecordValue,
     } = onboardData ?? {};
 
     const plannedMealsConverted = plannedMeals.map((meal) => ({
@@ -133,6 +138,8 @@ const OnboardingStep3Screen = () => {
       mealSize: meal.mealSize || "Default Meal Size",
       startTime: meal.startTime ? meal.startTime.toISOString() : "",
     }));
+
+    console.log(stressRecordNote, stressRecordValue, moment().format());
 
     try {
       const response = await onboardMutation({
@@ -150,6 +157,11 @@ const OnboardingStep3Screen = () => {
             },
             eatHabitGoal: eatHabitGoal!,
             plan: plannedMealsConverted,
+            stress: {
+              timestamp: moment().format(),
+              note: stressRecordNote,
+              value: stressRecordValue!,
+            },
           },
         },
       });
@@ -171,7 +183,7 @@ const OnboardingStep3Screen = () => {
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
     if (selectedMeal) {
       setPlannedMeals((prevState) =>
-        prevState.map((meal, index) =>
+        prevState.map((meal) =>
           meal === selectedMeal
             ? {
                 ...meal,
@@ -197,16 +209,27 @@ const OnboardingStep3Screen = () => {
     setShowModal(false);
   };
 
+  const onDelete = () => {
+    if (selectedMeal) {
+      setPlannedMeals((prevState) =>
+        prevState.filter((meal) => meal !== selectedMeal)
+      );
+      setSelectedMeal(undefined);
+      setShowModal(false);
+    }
+  };
+
   const onError: SubmitErrorHandler<FormDataType> = (errors, e) =>
     console.log(errors);
 
   const onPress = formContext.handleSubmit(onSubmit, onError);
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <KeyboardAvoidingView alignItems="center" flex={1}>
         <Heading>
-          Set up your <Heading color="#10b981">plan!</Heading>
+          {t("onboarding.step3.title1")}
+          <Heading color="$primary500">{t("onboarding.step3.title2")}</Heading>
         </Heading>
         <VStack
           w={"90%"}
@@ -216,141 +239,14 @@ const OnboardingStep3Screen = () => {
         >
           <ScrollView w={"100%"} showsVerticalScrollIndicator={false}>
             <VStack w={"100%"} mt={20} gap={10}>
-              <Text>
-                This last step is the most important one. We need to make a
-                schedule for your plan to be able to track and improve your
-                eating habits.
-              </Text>
-              <Text>
-                How many meals you would like to eat per day, at what time and
-                what meal sizes?
-              </Text>
-              <Accordion width="100%" type="single" isCollapsible={true}>
-                <AccordionItem value="NoMeals">
-                  <AccordionHeader>
-                    <AccordionTrigger>
-                      {({ isExpanded }) => {
-                        return (
-                          <HStack alignItems="center">
-                            <Text bold size="sm">
-                              How many meals per day is optimal?
-                            </Text>
-                            {isExpanded ? (
-                              <AccordionIcon as={ChevronUpIcon} />
-                            ) : (
-                              <AccordionIcon as={ChevronDownIcon} />
-                            )}
-                          </HStack>
-                        );
-                      }}
-                    </AccordionTrigger>
-                  </AccordionHeader>
-                  <AccordionContent>
-                    <Text size="xs">
-                      Nutrition experts tend to recommend eating 3 balanced
-                      meals and 1 to 3 snacks per day.
-                    </Text>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="timeMeal">
-                  <AccordionHeader>
-                    <AccordionTrigger>
-                      {({ isExpanded }) => {
-                        return (
-                          <HStack alignItems="center">
-                            <Text bold size="sm">
-                              When to eat my meals?
-                            </Text>
-                            {isExpanded ? (
-                              <AccordionIcon as={ChevronUpIcon} />
-                            ) : (
-                              <AccordionIcon as={ChevronDownIcon} />
-                            )}
-                          </HStack>
-                        );
-                      }}
-                    </AccordionTrigger>
-                  </AccordionHeader>
-                  <AccordionContent>
-                    <Text size="xs">
-                      There are a few principles that are good to follow. Eat
-                      your breakfast between 7:00 AM and 9:00 AM to kickstart
-                      your metabolism, and aim for lunch and dinner at 12:00 PM
-                      to 2:00 PM and 6:00 PM to 8:00 PM, respectively, to align
-                      with your body's natural rhythms.
-                    </Text>
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="sizeMeal">
-                  <AccordionHeader>
-                    <AccordionTrigger>
-                      {({ isExpanded }) => {
-                        return (
-                          <HStack alignItems="center">
-                            <Text bold size="sm">
-                              What is a meal size?
-                            </Text>
-                            {isExpanded ? (
-                              <AccordionIcon as={ChevronUpIcon} />
-                            ) : (
-                              <AccordionIcon as={ChevronDownIcon} />
-                            )}
-                          </HStack>
-                        );
-                      }}
-                    </AccordionTrigger>
-                  </AccordionHeader>
-                  <AccordionContent>
-                    <Text size="xs">
-                      We are going to measure the meal sizes similar to the
-                      T-Shirts (XS, S, M, L). This approach helps to generalize
-                      the measuring process concept.
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => setShowMealSizeModal(true)}
-                    >
-                      <Text size="xs" bold color="#10b981">
-                        Learn more.
-                      </Text>
-                    </TouchableOpacity>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-              <VStack w={"100%"} mt={10} gap={4}>
-                {plannedMeals.map((plannedMeal: PlannedMealType, i) => (
-                  <MealSetupListItem
-                    key={i}
-                    mealName={plannedMeal.mealName!}
-                    mealTime={
-                      plannedMeal.startTime?.getHours() +
-                      ":" +
-                      (plannedMeal.startTime?.getMinutes() === 0
-                        ? "00"
-                        : plannedMeal.startTime?.getMinutes()) +
-                      " - " +
-                      (plannedMeal.endTime?.getHours() +
-                        ":" +
-                        (plannedMeal.endTime?.getMinutes() === 0
-                          ? "00"
-                          : plannedMeal.endTime?.getMinutes()))
-                    }
-                    mealSize={plannedMeal.mealSize!}
-                    onPress={() => {
-                      onSelectMealHandler(plannedMeal);
-                    }}
-                  />
-                ))}
-                <HStack w={"100%"} alignItems="center" justifyContent="center">
-                  <Button
-                    w={"20%"}
-                    size="sm"
-                    onPress={() => setShowModal(true)}
-                  >
-                    <ButtonText>Add</ButtonText>
-                    <ButtonIcon as={AddIcon} />
-                  </Button>
-                </HStack>
-              </VStack>
+              <Text>{t("onboarding.step3.text.plan1")}</Text>
+              <Text>{t("onboarding.step3.text.plan2")}</Text>
+              <TipsAccordion />
+              <MealPlan
+                plannedMeals={plannedMeals}
+                onAddMeal={onAddMealHandler}
+                onSelectMeal={onSelectMealHandler}
+              />
             </VStack>
           </ScrollView>
 
@@ -361,30 +257,55 @@ const OnboardingStep3Screen = () => {
               onPress={() => onboardingNavigation.navigate("Step2")}
             >
               <ButtonIcon as={ChevronLeftIcon} />
-              <ButtonText>Back</ButtonText>
+              <ButtonText>{t("onboarding.action.back")}</ButtonText>
             </Button>
             <Button w={"30%"} onPress={onboardHandler}>
-              <ButtonText>Start</ButtonText>
+              <ButtonText>{t("onboarding.action.start")}</ButtonText>
               <ButtonIcon as={ChevronRightIcon} />
             </Button>
           </HStack>
         </VStack>
+
         <AppModal
-          title="Add meal to plan"
-          buttonTitle={selectedMeal ? "Save" : "Add"}
+          title={t("onboarding.step3.labels.addMeal")}
           open={showModal}
           onClose={onCloseModalHandler}
-          onSubmit={onPress}
+          footer={
+            <HStack
+              w={"100%"}
+              justifyContent={selectedMeal ? "space-between" : "flex-end"}
+            >
+              {selectedMeal && (
+                <Button
+                  size="sm"
+                  borderWidth="$0"
+                  onPress={onDelete}
+                  action="negative"
+                >
+                  <ButtonIcon as={TrashIcon} mr={4} />
+                  <ButtonText>{t("onboarding.step3.action.delete")}</ButtonText>
+                </Button>
+              )}
+              <Button size="sm" borderWidth="$0" onPress={onPress}>
+                {selectedMeal && <ButtonIcon as={EditIcon} mr={4} />}
+                <ButtonText>
+                  {selectedMeal
+                    ? t("onboarding.step3.action.edit")
+                    : t("onboarding.step3.action.add")}
+                </ButtonText>
+                {!selectedMeal && <ButtonIcon as={AddIcon} mr={4} />}
+              </Button>
+            </HStack>
+          }
         >
           <FormProvider {...formContext}>
             <FormInput
-              label="Insert meal name"
               name="mealName"
-              placeholder="eg. Breakfast"
+              placeholder={t("onboarding.step3.placeholders.mealName")}
             />
             <FormSelect
               name="mealSize"
-              placeholder="Select meal size"
+              placeholder={t("onboarding.step3.placeholders.mealSize")}
               options={[
                 { label: "XS", value: "XS" },
                 { label: "S", value: "S" },
@@ -394,7 +315,9 @@ const OnboardingStep3Screen = () => {
             />
 
             <FormControlLabel>
-              <FormControlLabelText>Choose time range</FormControlLabelText>
+              <FormControlLabelText>
+                {t("onboarding.step3.labels.timeRange")}
+              </FormControlLabelText>
             </FormControlLabel>
             <HStack
               width={"100%"}
@@ -404,23 +327,12 @@ const OnboardingStep3Screen = () => {
               p={5}
             >
               <FormDateTimePicker name="startTime" mode="time" />
-              <Heading ml={8}>-</Heading>
+              <Heading ml={8} top={8}>
+                -
+              </Heading>
               <FormDateTimePicker name="endTime" mode="time" />
             </HStack>
           </FormProvider>
-        </AppModal>
-
-        <AppModal
-          title="Meal sizes explained"
-          buttonTitle={"Got it!"}
-          open={showMealSizeModal}
-          onClose={() => setShowMealSizeModal(false)}
-          onSubmit={() => setShowMealSizeModal(false)}
-        >
-          <Text>
-            This table will help you to understand the T-shirt sizes for the
-            meals
-          </Text>
         </AppModal>
       </KeyboardAvoidingView>
     </SafeAreaView>

@@ -1,8 +1,5 @@
 import {
-  Box,
-  FavouriteIcon,
   HStack,
-  Icon,
   Slider,
   SliderFilledTrack,
   SliderThumb,
@@ -12,36 +9,19 @@ import {
 } from "@gluestack-ui/themed";
 import React, { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { RulerPicker } from "react-native-ruler-picker";
-import { Dimensions } from "react-native";
+
 import { Ionicons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   name: string;
   label?: string;
 };
 
-const stressLevel = [
-  "Peace",
-  "Very Relaxed",
-  "Moderately Relaxed",
-  "Somewhat Relaxed",
-  "Slightly Relaxed",
-  "Neutral",
-  "Somewhat Stressed",
-  "Moderately Stressed",
-  "Quite Stressed",
-  "Very Stressed",
-  "Stressed Out",
-];
+export const StressSlider: FC<Props> = (props) => {
+  const { t } = useTranslation();
 
-export const FormSlider: FC<Props> = (props) => {
-  const {
-    name,
-    label,
-
-    ...rest
-  } = props;
+  const { name } = props;
   const { control } = useFormContext();
 
   return (
@@ -51,7 +31,7 @@ export const FormSlider: FC<Props> = (props) => {
         name={name}
         render={({ field: { value, onChange }, fieldState: { error } }) => (
           <>
-            <Text size="xs">Slide the knob to select the level of stress</Text>
+            <Text size="xs">{t("components.stressFormSlider.label")}</Text>
             <HStack w={"100%"} justifyContent="center" alignItems="center">
               <Slider
                 w={"85%"}
@@ -82,12 +62,14 @@ export const FormSlider: FC<Props> = (props) => {
               </Slider>
             </HStack>
             <HStack w={"100%"} justifyContent="space-between">
-              <Text>Peaceful</Text>
+              <Text>{t("components.stressFormSlider.peace")}</Text>
               <VStack justifyContent="center" alignItems="center">
                 <Text bold>{value}</Text>
-                <Text bold>{stressLevel[value]}</Text>
+                <Text bold>
+                  {t(`components.stressFormSlider.value.${value}`)}
+                </Text>
               </VStack>
-              <Text>Stressful</Text>
+              <Text>{t("components.stressFormSlider.stress")}</Text>
             </HStack>
           </>
         )}

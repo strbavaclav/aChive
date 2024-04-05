@@ -1,92 +1,180 @@
 {
-    "sign in to":"Přihlaš se do ",
-    "sign up to":"Zaregistruj se do ",
-    "your@mail.cz":"tvůj@mail.cz",
-    "password":"heslo",
-    "select password":"zvol heslo",
-    "retype password":"heslo znovu",
-    "Sign up":"Zaregistrovat",
-    "Sign in":"Přihlásit",
-    "or use":"nebo přes",
-    "Don't have an account?":"Nemáte ještě svůj účet? ",
-    "Already signed up?":"Již máš svůj účet?",
-    "User already exists with given email!":"Email je již používán!",
-    "Passwords do not match!":"Zadaná hesla se nehodují!",
-    "Password is too short!":"Heslo je příliš krátké",
-
-    "Oops..":"Jejda... 🥺",
-    "The google authentication is not supported yet!":"Přihlašování pomocí Google není zatím možné!",
-
-
-    "User with this email doesnt exist!":"Uživatel neexistuje!",
-    "Invalid password!":"Nesprávné heslo!",
-    "Incorect Email!":"Neplatný email!",
-    "Password must be filled!":"Heslo musí být vyplněno!",
-
-
-
-    "general.cancel":"Zrušit",
-    
-    "dashboard.today":"Dnes - ",
-    "dashboard.dateFormat":"DD. MMMM YYYY",
-    
-    "navigation.viewProfile":"Zobrazit profil",
-    "navigation.dashboard":"Přehled",
-    "navigation.stressRelief":"Deník stresu",
-    "navigation.shoppingList":"Nákupní seznam",
-    "navigation.recipes":"Recepty",
-    "navigation.settings":"Nastavení",
-    "navigation.appSettings":"Nastavení",
-    "navigation.about":"O aplikaci",
-    "navigation.aboutApp":"O aplikaci",
-    "navigation.signOut":"Odhlásit se",
-
-    "navigation.Home":"Přehled",
-    "navigation.Planner":"Plánovač",
-    "navigation.Insights":"Tipy",
-    "navigation.Profile":"Profil",
-    "navigation.myProfile":"Můj Profil",
-
-    "settings.applicationLanguage":"Jazyk aplikace",
-    "settings.colorsTheme":"Barevné schéma",
-    "settings.colorsTheme.light":"Světlé",
-    "settings.colorsTheme.dark":"Tmavé",
-    "settings.notMuch":"Není toho zatím moc. Ale neboj se, aplikace stále ještě roste!",
-
-    "about.description":"Aplikace aChive vznikla jako výsledný produkt diplomové práce nesoucí název:",
-    "about.thesisName":"Návrh a implementace mobilní aplikace pro zlepšení stravovacích návyků za využití metodiky Design Thinking",
-    "about.feedback":"Vaši zpětnou vazbu rád uvítám na",
-    "about.byAuthor":"Václav Štrba",
-
-    "profile.editByTouch":"Klepnutím na informace je můžeš upravit",
-    "profile.aboutMe":"O mně",
-    "profile.username":"Přezdívka",
-    "profile.firstName":"Jméno",
-    "profile.lastName":"Příjmení",
-    "profile.gender":"Pohlaví",
-    "profile.bornDate":"Narozen/a",
-    "profile.myBody":"Tělesné údaje",
-    "profile.height":"Výška",
-    "profile.weight":"Hmotnost",
-    "profile.contact":"Kontakt",
-    "profile.email":"Email",
-    "profile.goals":"Cíle",
-    "profile.eatingGoal":"Stravovací cíl",
-    "profile.changePlans":"Změna plánů",
-    "profile.changeEatingPlan":"Stravovací plán",
-    "profile.changeShoppingPlan":"Plán nákupů",
-    "profile.dangeZone":"Riziková nastavení",
-    "profile.deleteAllRecords":"Vymazat veškeré záznamy",
-    "profile.earseData":"Vymazat data",
-    "profile.deleteAllRecordsDescription":"Rádi byste začali od znova? Dobrá, ale buďte s touto volbou opatrní. Tato akce je nenávratná!",
-    "profile.deleteAllRecordsAlert":"Tato operace odstraní z vašeho uživatelského profilu všechny záznamy z jídelního a stresového deníku. Operace je nevratná. Jste si jisti, že ji chcete provést?",
-
-
-    "gender.Male":"Muž",
-    "gender.Female":"Žena",
-    "gender.Other":"Jiné",
-
-    "eatingGoal.more":"Jíst více",
-    "eatingGoal.less":"Jíst méně",
-    "eatingGoal.consistent":"Jíst konzistentně"
+    "sign in to": "Přihlas se do ",
+    "sign up to": "Zaregistruj se do ",
+    "your@mail.cz": "tvůj@mail.cz",
+    "password": "heslo",
+    "select password": "zvol heslo",
+    "retype password": "heslo znovu",
+    "Sign up": "Zaregistrovat",
+    "Sign in": "Přihlásit",
+    "or use": "nebo přes",
+    "Don't have an account?": "Nemáte ještě svůj účet? ",
+    "Already signed up?": "Již máš svůj účet?",
+    "User already exists with given email!": "Email je již používán!",
+    "Passwords do not match!": "Zadaná hesla se nehodují!",
+    "Password is too short!": "Heslo je příliš krátké",
+    "Oops..": "Jejda... 🥺",
+    "The google authentication is not supported yet!": "Přihlašování pomocí Google není zatím možné!",
+    "User with this email doesnt exist!": "Uživatel neexistuje!",
+    "Invalid password!": "Nesprávné heslo!",
+    "Incorect Email!": "Neplatný email!",
+    "Password must be filled!": "Heslo musí být vyplněno!",
+    "onboarding": {
+        "step1": {
+            "title1": "Řekni nám o sobě",
+            "title2": " víc!",
+            "label": {
+                "firstName": "Jak se jmenuješ?",
+                "lastName": "Jaké je tvé příjmení?",
+                "username": "Máš nějakou přezdívku?",
+                "gender": "Jakého jsi pohlaví?",
+                "born": "Kdy jsi se narodil/a?",
+                "weight": "Jaká je tvá tělesná hmontost?",
+                "height": "Jaká je tvá tělesná výška?"
+            },
+            "error": {
+                "required": "Toto pole je povinné!",
+                "shortUsername": "Zadaná přezdívka musí mít alespoň 5 znaků!"
+            }
+        },
+        "step2": {
+            "title1": "Popiš nám své",
+            "title2": " cíle!",
+            "label": {
+                "eatingGoal": "Mým cílem je...",
+                "stress": "Můžeš to rozvést?",
+                "stressNote": "Cítím se být ve stresu protože..."
+            },
+            "error": {
+                "eatingGoal": "Musíte zvolit cíl!"
+            },
+            "text": {
+                "eatingGoal": "Nejdříve musíme zjistit tvůj stravovací cíl!",
+                "stress1": "Stres v našem životě má velký vliv na to, jak se stravujeme. V tomto kroku zjistíme, jak moc se momentálně cítíte být ve stresu.",
+                "stress2": "Na stupnici 0 (žádný stres) - 10 (extrémní stres) jak velkému stresu společně čelíme?"
+            }
+        },
+        "step3": {
+            "title1": "Sestav si svůj",
+            "title2": " plán!",
+            "text": {
+                "plan1": "Tento poslední krok je nejdůležitější. Musíme si sestavit plán, abychom mohli sledovat a zlepšovat své stravovací návyky.",
+                "plan2": "Kolik jídel denně, v kolik hodin a v jakých velikostech byste chtěli jíst?",
+                "sizes": "Ztrácíte se? Tohle vám pomůže rychle pochopit asociaci velikostí jídel s velikostmi triček.",
+                "xs": "Minimální, ale uspokojivé, pro momenty lehkého hladu.",
+                "s": "Malá porce, naprosto dostačující pro rychlá, lehká jídla.",
+                "m": "Středně velké, ideální pro pravidelné uspokojení hladu.",
+                "l": "Velká porce, pro chvíle, kdy hlad žádá více."
+            },
+            "tips": {
+                "label1": "Kolik jídel denně je optimální?",
+                "value1": "Odborníci na výživu obvykle doporučují jíst 3 vyvážená jídla a 1 až 3 svačiny denně.",
+                "label2": "Kdy mám jíst svá jídla?",
+                "value2": "Existuje několik principů, které je dobré dodržovat. Snídejte mezi 7:00 a 9:00, abyste nastartovali metabolismus, a snažte se jíst oběd a večeři mezi 12:00 a 14:00, resp. 18:00 a 20:00, aby to odpovídalo přirozeným rytmům vašeho těla.",
+                "label3": "Co je to velikost jídla?",
+                "value3": "Velikosti jídel budeme měřit podobně jako velikosti triček (XS, S, M, L). Tento přístup pomáhá zobecnit koncept měření.",
+                "learnMore": "Zjistěte více."
+            },
+            "action": {
+                "add": "Přidat",
+                "edit": "Upravit",
+                "delete": "Smazat",
+                "gotIt":"Rozumím!"
+            },
+            "labels":{
+                "breakfast":"Snídaně",
+                "size":"VELIKOST",
+                "timeRange":"Vyber časový úsek",
+                "addMeal":"Přidej jídlo do plánu",
+                "mealSizesExplained":"Velikosti jídel 101"
+            },
+            "placeholders":{
+                "mealName":"např. Snídaně",
+                "mealSize":"Vyber velikost jídla"
+            },
+            "error": {
+                "required": "Toto pole je povinné!"
+            }
+        },
+        "action": {
+            "back": "Zpět",
+            "next": "Další krok",
+            "start": "Začít"
+        }
+    },
+    "components": {
+        "stressFormSlider": {
+            "label": "Posuňte knoflík pro výběr úrovně stresu",
+            "stress": "Stress",
+            "peace": "Klid",
+            "value": {
+                "0": "Zen",
+                "1": "Velmi uvolněný",
+                "2": "Mírně uvolněný",
+                "3": "Poněkud uvolněný",
+                "4": "Slabě uvolněný",
+                "5": "Neutrální",
+                "6": "Poněkud stresový",
+                "7": "Mírně stresový",
+                "8": "Dost stresový",
+                "9": "Velmi stresový",
+                "10": "Vyhořelý"
+            }
+        }
+    },
+    "general.cancel": "Zrušit",
+    "dashboard.today": "Dnes - ",
+    "dashboard.dateFormat": "DD. MMMM YYYY",
+    "navigation.viewProfile": "Zobrazit profil",
+    "navigation.dashboard": "Přehled",
+    "navigation.stressRelief": "Deník stresu",
+    "navigation.shoppingList": "Nákupní seznam",
+    "navigation.recipes": "Recepty",
+    "navigation.settings": "Nastavení",
+    "navigation.appSettings": "Nastavení",
+    "navigation.about": "O aplikaci",
+    "navigation.aboutApp": "O aplikaci",
+    "navigation.signOut": "Odhlásit se",
+    "navigation.Home": "Přehled",
+    "navigation.Planner": "Plánovač",
+    "navigation.Insights": "Tipy",
+    "navigation.Profile": "Profil",
+    "navigation.myProfile": "Můj Profil",
+    "settings.applicationLanguage": "Jazyk aplikace",
+    "settings.colorsTheme": "Barevné schéma",
+    "settings.colorsTheme.light": "Světlé",
+    "settings.colorsTheme.dark": "Tmavé",
+    "settings.notMuch": "Není toho zatím moc. Ale neboj se, aplikace stále ještě roste!",
+    "about.description": "Aplikace aChive vznikla jako výsledný produkt diplomové práce nesoucí název:",
+    "about.thesisName": "Návrh a implementace mobilní aplikace pro zlepšení stravovacích návyků za využití metodiky Design Thinking",
+    "about.feedback": "Vaši zpětnou vazbu rád uvítám na",
+    "about.byAuthor": "Václav Štrba",
+    "profile.editByTouch": "Klepnutím na informace je můžeš upravit",
+    "profile.aboutMe": "O mně",
+    "profile.username": "Přezdívka",
+    "profile.firstName": "Jméno",
+    "profile.lastName": "Příjmení",
+    "profile.gender": "Pohlaví",
+    "profile.bornDate": "Narozen/a",
+    "profile.myBody": "Tělesné údaje",
+    "profile.height": "Výška",
+    "profile.weight": "Hmotnost",
+    "profile.contact": "Kontakt",
+    "profile.email": "Email",
+    "profile.goals": "Cíle",
+    "profile.eatingGoal": "Stravovací cíl",
+    "profile.changePlans": "Změna plánů",
+    "profile.changeEatingPlan": "Stravovací plán",
+    "profile.changeShoppingPlan": "Plán nákupů",
+    "profile.dangeZone": "Riziková nastavení",
+    "profile.deleteAllRecords": "Vymazat veškeré záznamy",
+    "profile.earseData": "Vymazat data",
+    "profile.deleteAllRecordsDescription": "Rádi byste začali od znova? Dobrá, ale buďte s touto volbou opatrní. Tato akce je nenávratná!",
+    "profile.deleteAllRecordsAlert": "Tato operace odstraní z vašeho uživatelského profilu všechny záznamy z jídelního a stresového deníku. Operace je nevratná. Jste si jisti, že ji chcete provést?",
+    "gender.Male": "Muž",
+    "gender.Female": "Žena",
+    "gender.Other": "Jiné",
+    "eatingGoal.more": "Jíst více",
+    "eatingGoal.less": "Jíst méně",
+    "eatingGoal.consistent": "Jíst konzistentně"
 }
