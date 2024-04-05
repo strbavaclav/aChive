@@ -62,6 +62,7 @@ input OnboardData {
   gender: String!
   lastName: String!
   plan: [PlannedMealInput!]
+  stress: StressRecordDataInput
   username: String!
 }
 
@@ -145,13 +146,11 @@ type StressRecordData {
 input StressRecordDataInput {
   note: String
   timestamp: String!
-  userEmail: String!
   value: Int!
 }
 
 type StressRecords {
   stressRecords: [StressRecordData!]
-  userEmail: String!
 }
 
 type User {

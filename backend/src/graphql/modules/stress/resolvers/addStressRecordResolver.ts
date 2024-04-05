@@ -17,10 +17,10 @@ export const addStressRecordResolver = async (
         throw new GraphQLError('Unauthorized')
     }
 
-    const { userEmail, timestamp, value, note } = stressRecordData
+    const { timestamp, value, note } = stressRecordData
 
     try {
-        const user = await User.findOne({ email: userEmail })
+        const user = await User.findOne({ email: authUser })
         if (!user) {
             throw new GraphQLError('User not found', {
                 extensions: { code: 'USER_NOT_FOUND' },
@@ -35,7 +35,7 @@ export const addStressRecordResolver = async (
             { new: true, upsert: true }
         )
 
-        const stressRecordsFormatted = updatedStressData.stressJournal.map(
+        const stressRecordsFormatted = updatedStressData.records.map(
             (record) => ({
                 ...record,
                 timestamp: record.timestamp
@@ -47,7 +47,6 @@ export const addStressRecordResolver = async (
         )
 
         return {
-            userEmail: userEmail,
             stressRecords: stressRecordsFormatted as StressRecordData[],
         }
     } catch (error) {

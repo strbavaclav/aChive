@@ -55,6 +55,7 @@ export const ProfileItem: FC<Props> = ({
     <TouchableOpacity
       style={{ paddingVertical: 8, paddingLeft: 10 }}
       onPress={onEditHandler}
+      disabled={!onEdit}
     >
       <HStack>
         <Text bold color="#10b981" flex={1}>
@@ -65,7 +66,7 @@ export const ProfileItem: FC<Props> = ({
         ) : name === "gender" ? (
           <Text flex={2}>{t(`gender.${data}`)}</Text>
         ) : (
-          <Text flex={2}>
+          <Text flex={2} color={!onEdit ? "gray" : undefined}>
             {data} {unit ? unit : null}
           </Text>
         )}

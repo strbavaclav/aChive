@@ -1,8 +1,5 @@
 import React, { FC, ReactNode } from "react";
 import {
-  Button,
-  ButtonText,
-  HStack,
   Heading,
   Modal,
   ModalBackdrop,
@@ -20,18 +17,17 @@ type Props = {
   title: string;
   open?: boolean;
   children: ReactNode;
-  buttonTitle: string;
+  footer?: ReactNode;
+
   onClose?: () => void;
-  onSubmit?: () => void;
 };
 
-const AppModal: FC<Props> = ({
+export const AppModal: FC<Props> = ({
   open,
   onClose,
   title,
   children,
-  buttonTitle,
-  onSubmit,
+  footer,
 }) => {
   return (
     <Modal isOpen={open} onClose={onClose}>
@@ -44,14 +40,8 @@ const AppModal: FC<Props> = ({
           </ModalCloseButton>
         </ModalHeader>
         <ModalBody>{children}</ModalBody>
-        <ModalFooter>
-          <Button size="sm" borderWidth="$0" onPress={onSubmit}>
-            <ButtonText>{buttonTitle}</ButtonText>
-          </Button>
-        </ModalFooter>
+        <ModalFooter>{footer}</ModalFooter>
       </ModalContent>
     </Modal>
   );
 };
-
-export default AppModal;

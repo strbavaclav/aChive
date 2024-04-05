@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   ButtonIcon,
@@ -7,46 +8,48 @@ import {
   HStack,
   Heading,
   KeyboardAvoidingView,
+  SafeAreaView,
+  ScrollView,
   Text,
   VStack,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { FormSelect } from "components/form/FormSelect";
-import { FormSlider } from "components/form/FormSlider";
-import { FormTextArea } from "components/form/FormTextArea";
+import { FormSelect, FormTextArea } from "components/form";
+
 import { useApp } from "context/appContext";
 import { OnboardingStackParams } from "navigation/onboarding";
-import React from "react";
 import {
   FormProvider,
   SubmitErrorHandler,
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { SafeAreaView } from "react-native";
+
 import { z } from "zod";
-
-export const validationSchema = z.object({
-  eatHabitGoal: z.string().min(1, "Goal must be selected!"),
-  stressRecordValue: z.number(),
-  stressRecordNote: z.string(),
-});
-
-type FormDataType = z.infer<typeof validationSchema>;
-
-export const defaultValues: Partial<FormDataType> = {
-  eatHabitGoal: "",
-  stressRecordValue: 5,
-  stressRecordNote: "",
-};
+import { useTranslation } from "react-i18next";
+import { StressSlider } from "components/modules/stress/StressSlider";
 
 const OnboardingStep2Screen = () => {
+  const { setAppState } = useApp();
+  const { t } = useTranslation();
   const navigation =
     useNavigation<NativeStackNavigationProp<OnboardingStackParams>>();
 
-  const { setAppState } = useApp();
+  const validationSchema = z.object({
+    eatHabitGoal: z.string().min(1, t("onboarding.step2.error.eatingGoal")),
+    stressRecordValue: z.number(),
+    stressRecordNote: z.string(),
+  });
+
+  type FormDataType = z.infer<typeof validationSchema>;
+
+  const defaultValues: Partial<FormDataType> = {
+    eatHabitGoal: "",
+    stressRecordValue: 5,
+    stressRecordNote: "",
+  };
 
   const formContext = useForm<FormDataType>({
     defaultValues,
@@ -77,7 +80,8 @@ const OnboardingStep2Screen = () => {
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <KeyboardAvoidingView alignItems="center" flex={1}>
         <Heading>
-          Describe your <Heading color="#10b981">goals!</Heading>
+          {t("onboarding.step2.title1")}
+          <Heading color="$primary500">{t("onboarding.step2.title2")}</Heading>
         </Heading>
         <VStack
           flex={1}
@@ -85,40 +89,37 @@ const OnboardingStep2Screen = () => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <FormProvider {...formContext}>
-            <VStack w={"100%"} space="lg" mt={20}>
-              <Text>First we need to lay out your eating habit goal!</Text>
-              <FormSelect
-                name="eatHabitGoal"
-                options={[
-                  { label: "Eat more", value: "more" },
-                  { label: "Eat more", value: "less" },
-                  { label: "Be consistent", value: "consistent" },
-                ]}
-                placeholder="I would like to..."
-              />
-              <Text>
-                Stress in our life has a big effect on how we eat. In this step
-                you will determine how stressed you feel at the moment.
-              </Text>
-              <Text>
-                On the scale 0 (extreme stress) - 10 (no stress at all) how much
-                stress are we facing together?
-              </Text>
-
-              <FormSlider name="stressRecordValue" label={""} />
-
-              <VStack mt={30} space="md">
-                <FormTextArea
-                  name="stressRecordNote"
-                  label="Could you elaborate on it?"
-                  placeholder="I feel stressed because of..."
+          <ScrollView w={"100%"} showsVerticalScrollIndicator={false}>
+            <FormProvider {...formContext}>
+              <VStack w={"100%"} space="lg" mt={20}>
+                <Text textAlign="center">
+                  {t("onboarding.step2.text.eatingGoal")}
+                </Text>
+                <FormSelect
+                  name="eatHabitGoal"
+                  options={[
+                    { label: t("eatingGoal.more"), value: "more" },
+                    { label: t("eatingGoal.less"), value: "less" },
+                    { label: t("eatingGoal.consistent"), value: "consistent" },
+                  ]}
+                  placeholder={t("onboarding.step2.label.eatingGoal")}
                 />
-              </VStack>
-            </VStack>
-          </FormProvider>
-        </VStack>
+                <Text>{t("onboarding.step2.text.stress1")}</Text>
+                <Text>{t("onboarding.step2.text.stress2")}</Text>
 
+                <StressSlider name="stressRecordValue" label={""} />
+
+                <VStack mt={30} space="md">
+                  <FormTextArea
+                    name="stressRecordNote"
+                    label={t("onboarding.step2.label.stress")}
+                    placeholder={t("onboarding.step2.label.stressNote")}
+                  />
+                </VStack>
+              </VStack>
+            </FormProvider>
+          </ScrollView>
+        </VStack>
         <HStack gap={10}>
           <Button
             w={"30%"}
@@ -126,10 +127,10 @@ const OnboardingStep2Screen = () => {
             onPress={() => navigation.navigate("Step1")}
           >
             <ButtonIcon as={ChevronLeftIcon} />
-            <ButtonText>Back</ButtonText>
+            <ButtonText>{t("onboarding.action.back")}</ButtonText>
           </Button>
           <Button w={"30%"} onPress={onPress}>
-            <ButtonText>Next step</ButtonText>
+            <ButtonText>{t("onboarding.action.next")}</ButtonText>
             <ButtonIcon as={ChevronRightIcon} />
           </Button>
         </HStack>

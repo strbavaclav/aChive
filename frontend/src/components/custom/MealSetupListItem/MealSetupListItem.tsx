@@ -10,6 +10,7 @@ import {
   Icon,
   Text,
 } from "@gluestack-ui/themed";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   mealName: string;
@@ -24,6 +25,7 @@ const MealSetupListItem: FC<Props> = ({
   mealTime,
   onPress,
 }) => {
+  const { t } = useTranslation();
   return (
     <TouchableOpacity onPress={onPress}>
       <View
@@ -42,7 +44,7 @@ const MealSetupListItem: FC<Props> = ({
       >
         <HStack justifyContent="space-evenly" alignItems="center">
           <Box flex={1} alignItems="center">
-            <Heading color="#10b981" size="sm" textAlign="center">
+            <Heading color="$primary500" size="sm" textAlign="center">
               {mealName}
             </Heading>
           </Box>
@@ -50,7 +52,9 @@ const MealSetupListItem: FC<Props> = ({
           <Box flex={1} alignItems="center">
             <HStack alignItems="center">
               <Icon as={ChevronsUpDownIcon} size="xs" mr={"$1"} />
-              <Text size={"xs"}>SIZE {mealSize}</Text>
+              <Text size={"xs"}>
+                {t("onboarding.step3.labels.size")} {mealSize}
+              </Text>
             </HStack>
           </Box>
           <Divider orientation="vertical" />

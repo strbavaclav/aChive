@@ -173,7 +173,7 @@ export const ShoppingListScreen = () => {
                       </Text>
                     </View>
                   </HStack>
-                  <Divider h={3} />
+                  <Divider h={1} />
                 </>
               )}
               renderItem={({ item, section }) => {
