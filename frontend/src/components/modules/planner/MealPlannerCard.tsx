@@ -2,11 +2,8 @@ import {
   Badge,
   BadgeIcon,
   BadgeText,
-  CheckIcon,
   ChevronsUpDownIcon,
   ClockIcon,
-  CloseIcon,
-  GlobeIcon,
   HStack,
   Icon,
   Text,
@@ -21,6 +18,7 @@ import { TouchableOpacity } from "react-native";
 import moment from "moment";
 import { formatTime } from "utils/formatTime";
 import { Ionicons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   logged?: boolean;
@@ -79,7 +77,7 @@ const DateRange: FC<DatRangeProps> = ({ plannedMeal, recordedMeal }) => {
               }
               color={
                 recordedMeal && isWithinRange
-                  ? "#10b981"
+                  ? "$primary500"
                   : recordedMeal && !isWithinRange
                     ? "#cc0000"
                     : "gray"
@@ -108,6 +106,7 @@ export const MealPlannerCard: FC<Props> = ({
 
   onPress,
 }) => {
+  const { t } = useTranslation();
   return (
     <TouchableOpacity onPress={onPress}>
       <View
@@ -125,8 +124,8 @@ export const MealPlannerCard: FC<Props> = ({
         }}
       >
         <HStack justifyContent="space-between" alignItems="center" m={10}>
-          <Text bold color="#10b981">
-            {plannedMeal?.mealName}
+          <Text bold color="$primary500">
+            {plannedMeal?.mealName ?? recordedMeal?.extraMealName ?? ""}
           </Text>
 
           <DateRange plannedMeal={plannedMeal} recordedMeal={recordedMeal} />
@@ -151,11 +150,11 @@ export const MealPlannerCard: FC<Props> = ({
                 recordedMeal && recordedMeal.size !== plannedMeal?.mealSize
                   ? "#cc0000"
                   : recordedMeal?.size === plannedMeal?.mealSize
-                    ? "#10b981"
+                    ? "$primary500"
                     : "grey"
               }
             >
-              SIZE{" "}
+              {t("general.size")}{" "}
               {recordedMeal &&
               plannedMeal &&
               recordedMeal.size !== plannedMeal?.mealSize

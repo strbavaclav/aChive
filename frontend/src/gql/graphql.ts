@@ -43,6 +43,7 @@ export type BodyInfo = {
 export type InputMealRecord = {
   cooked: Scalars["Boolean"]["input"];
   description?: InputMaybe<Scalars["String"]["input"]>;
+  extraMealName?: InputMaybe<Scalars["String"]["input"]>;
   loggedDateTime: Scalars["String"]["input"];
   mealId?: InputMaybe<Scalars["String"]["input"]>;
   size: Scalars["String"]["input"];
@@ -53,6 +54,7 @@ export type MealRecord = {
   _id: Scalars["String"]["output"];
   cooked: Scalars["Boolean"]["output"];
   description?: Maybe<Scalars["String"]["output"]>;
+  extraMealName?: Maybe<Scalars["String"]["output"]>;
   loggedDateTime: Scalars["String"]["output"];
   mealId?: Maybe<Scalars["String"]["output"]>;
   size: Scalars["String"]["output"];
@@ -496,6 +498,7 @@ export type MutationMutation = {
       size: string;
       description?: string | null;
       cooked: boolean;
+      extraMealName?: string | null;
     }>;
   } | null;
 };
@@ -515,6 +518,7 @@ export type GetMealRecordsByDateQuery = {
     size: string;
     description?: string | null;
     cooked: boolean;
+    extraMealName?: string | null;
   } | null> | null;
 };
 
@@ -547,6 +551,7 @@ export type UpdateMealRecordByIdMutation = {
       size: string;
       description?: string | null;
       cooked: boolean;
+      extraMealName?: string | null;
     }>;
   } | null;
 };
@@ -1433,6 +1438,10 @@ export const MutationDocument = {
                         kind: "Field",
                         name: { kind: "Name", value: "cooked" },
                       },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "extraMealName" },
+                      },
                     ],
                   },
                 },
@@ -1514,6 +1523,10 @@ export const GetMealRecordsByDateDocument = {
                 { kind: "Field", name: { kind: "Name", value: "size" } },
                 { kind: "Field", name: { kind: "Name", value: "description" } },
                 { kind: "Field", name: { kind: "Name", value: "cooked" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "extraMealName" },
+                },
               ],
             },
           },
@@ -1705,6 +1718,10 @@ export const UpdateMealRecordByIdDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "cooked" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "extraMealName" },
                       },
                     ],
                   },

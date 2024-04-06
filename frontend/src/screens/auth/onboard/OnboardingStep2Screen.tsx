@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import {
   Button,
   ButtonIcon,
@@ -7,11 +7,9 @@ import {
   ChevronRightIcon,
   HStack,
   Heading,
-  KeyboardAvoidingView,
-  SafeAreaView,
-  ScrollView,
   Text,
   VStack,
+  View,
 } from "@gluestack-ui/themed";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
@@ -30,6 +28,13 @@ import {
 import { z } from "zod";
 import { useTranslation } from "react-i18next";
 import { StressSlider } from "components/modules/stress/StressSlider";
+import {
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
 
 const OnboardingStep2Screen = () => {
   const { setAppState } = useApp();
@@ -76,50 +81,89 @@ const OnboardingStep2Screen = () => {
 
   const onPress = formContext.handleSubmit(onSubmit, onError);
 
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      (e) => {
+        const keyboardHeight = e.endCoordinates.height;
+        const yourDesiredOffset = 100;
+        scrollViewRef.current?.scrollTo({
+          y: yourDesiredOffset,
+          animated: true,
+        });
+      }
+    );
+
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+      }
+    );
+
+    return () => {
+      keyboardDidShowListener.remove();
+      keyboardDidHideListener.remove();
+    };
+  }, []);
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-      <KeyboardAvoidingView alignItems="center" flex={1}>
+      <View style={{ alignItems: "center", flex: 1 }}>
         <Heading>
           {t("onboarding.step2.title1")}
           <Heading color="$primary500">{t("onboarding.step2.title2")}</Heading>
         </Heading>
-        <VStack
-          flex={1}
-          w={"90%"}
-          justifyContent="space-between"
-          alignItems="center"
+
+        <KeyboardAvoidingView
+          style={{ flex: 1, marginTop: 20 }}
+          behavior={"padding"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
         >
-          <ScrollView w={"100%"} showsVerticalScrollIndicator={false}>
-            <FormProvider {...formContext}>
-              <VStack w={"100%"} space="lg" mt={20}>
-                <Text textAlign="center">
-                  {t("onboarding.step2.text.eatingGoal")}
-                </Text>
-                <FormSelect
-                  name="eatHabitGoal"
-                  options={[
-                    { label: t("eatingGoal.more"), value: "more" },
-                    { label: t("eatingGoal.less"), value: "less" },
-                    { label: t("eatingGoal.consistent"), value: "consistent" },
-                  ]}
-                  placeholder={t("onboarding.step2.label.eatingGoal")}
-                />
-                <Text>{t("onboarding.step2.text.stress1")}</Text>
-                <Text>{t("onboarding.step2.text.stress2")}</Text>
-
-                <StressSlider name="stressRecordValue" label={""} />
-
-                <VStack mt={30} space="md">
-                  <FormTextArea
-                    name="stressRecordNote"
-                    label={t("onboarding.step2.label.stress")}
-                    placeholder={t("onboarding.step2.label.stressNote")}
+          <ScrollView
+            contentContainerStyle={{ alignItems: "center" }}
+            ref={scrollViewRef}
+          >
+            <VStack flex={1} w={"90%"} alignItems="center" mt={10}>
+              <FormProvider {...formContext}>
+                <VStack flex={1} w={"100%"}>
+                  <Text textAlign="center">
+                    {t("onboarding.step2.text.eatingGoal")}
+                  </Text>
+                  <FormSelect
+                    name="eatHabitGoal"
+                    options={[
+                      { label: t("eatingGoal.more"), value: "more" },
+                      { label: t("eatingGoal.less"), value: "less" },
+                      {
+                        label: t("eatingGoal.consistent"),
+                        value: "consistent",
+                      },
+                    ]}
+                    placeholder={t("onboarding.step2.label.eatingGoal")}
                   />
+
+                  <VStack gap={6}>
+                    <Text>{t("onboarding.step2.text.stress1")}</Text>
+                    <Text>{t("onboarding.step2.text.stress2")}</Text>
+                  </VStack>
+
+                  <StressSlider name="stressRecordValue" label={""} />
+
+                  <View mt={20}>
+                    <FormTextArea
+                      name="stressRecordNote"
+                      label={t("onboarding.step2.label.stress")}
+                      placeholder={t("onboarding.step2.label.stressNote")}
+                    />
+                  </View>
                 </VStack>
-              </VStack>
-            </FormProvider>
+              </FormProvider>
+            </VStack>
           </ScrollView>
-        </VStack>
+        </KeyboardAvoidingView>
         <HStack gap={10}>
           <Button
             w={"30%"}
@@ -134,7 +178,7 @@ const OnboardingStep2Screen = () => {
             <ButtonIcon as={ChevronRightIcon} />
           </Button>
         </HStack>
-      </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 };

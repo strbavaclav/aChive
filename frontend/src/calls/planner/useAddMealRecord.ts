@@ -11,6 +11,7 @@ mutation Mutation($userId: String!, $mealRecord: InputMealRecord!) {
       size
       description
       cooked
+      extraMealName
     }
   }
 }

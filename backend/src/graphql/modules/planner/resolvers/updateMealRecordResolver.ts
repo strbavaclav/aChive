@@ -40,6 +40,7 @@ export const updateMealRecordByIdResolver = async (
                 size: record.size,
                 cooked: record.cooked,
                 loggedDateTime: record.loggedDateTime.toISOString(),
+                extraMealName: record.extraMealName,
             })),
         } as MealRecordDataType
     } catch (error) {

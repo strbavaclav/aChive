@@ -23,13 +23,13 @@ const documents = {
     types.AppleSignUpDocument,
   "\n  mutation SignUp($authData: SignUpInput!) {\n    signUp(authData: $authData) {\n      _id\n      email\n      token\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n    }\n  }\n":
     types.SignUpDocument,
-  "\nmutation Mutation($userId: String!, $mealRecord: InputMealRecord!) {\n  addMealRecord(userId: $userId, mealRecord: $mealRecord) {\n    userId\n    records {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n":
+  "\nmutation Mutation($userId: String!, $mealRecord: InputMealRecord!) {\n  addMealRecord(userId: $userId, mealRecord: $mealRecord) {\n    userId\n    records {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n}\n":
     types.MutationDocument,
-  "\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n":
+  "\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n":
     types.GetMealRecordsByDateDocument,
   "\nmutation RemoveMealRecordById($recordId: String!, $userId: String!) {\n  removeMealRecordById(recordId: $recordId, userId: $userId)\n}\n":
     types.RemoveMealRecordByIdDocument,
-  "\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n":
+  "\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n}\n":
     types.UpdateMealRecordByIdDocument,
   "\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n":
     types.GetShoppingListDocument,
@@ -89,14 +89,14 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\nmutation Mutation($userId: String!, $mealRecord: InputMealRecord!) {\n  addMealRecord(userId: $userId, mealRecord: $mealRecord) {\n    userId\n    records {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n",
-): (typeof documents)["\nmutation Mutation($userId: String!, $mealRecord: InputMealRecord!) {\n  addMealRecord(userId: $userId, mealRecord: $mealRecord) {\n    userId\n    records {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n"];
+  source: "\nmutation Mutation($userId: String!, $mealRecord: InputMealRecord!) {\n  addMealRecord(userId: $userId, mealRecord: $mealRecord) {\n    userId\n    records {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n}\n",
+): (typeof documents)["\nmutation Mutation($userId: String!, $mealRecord: InputMealRecord!) {\n  addMealRecord(userId: $userId, mealRecord: $mealRecord) {\n    userId\n    records {\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n",
-): (typeof documents)["\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n"];
+  source: "\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n",
+): (typeof documents)["\n  query GetMealRecordsByDate($userId: String!, $date: String!) {\n    getMealRecordsByDate(userId: $userId, date: $date) {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -107,8 +107,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n",
-): (typeof documents)["\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n    }\n  }\n}\n"];
+  source: "\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n}\n",
+): (typeof documents)["\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n}\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

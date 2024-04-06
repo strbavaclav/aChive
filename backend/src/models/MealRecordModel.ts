@@ -21,6 +21,10 @@ const mealRecordSchema = new mongoose.Schema({
         type: Boolean,
         required: true,
     },
+    extraMealName: {
+        type: String,
+        required: false,
+    },
 })
 
 const mealRecordDataSchema = new mongoose.Schema({

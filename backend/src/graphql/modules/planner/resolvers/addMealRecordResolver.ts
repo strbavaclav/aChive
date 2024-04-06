@@ -1,5 +1,4 @@
 import { GraphQLError } from 'graphql'
-import User from '../../../../models/UserModel'
 import {
     MealRecordData as MealRecordDataType,
     MutationAddMealRecordArgs,
@@ -13,15 +12,7 @@ export const addMealRecordResolver = async (
     try {
         let mealRecordData = await MealRecordData.findOne({ userId })
         if (mealRecordData) {
-            if (
-                mealRecordData.records.some(
-                    (meal) => String(meal.mealId) !== mealRecord.mealId
-                )
-            ) {
-                mealRecordData.records.push(mealRecord)
-            } else {
-                throw new Error()
-            }
+            mealRecordData.records.push(mealRecord)
         } else {
             mealRecordData = new MealRecordData({
                 userId,
@@ -40,12 +31,13 @@ export const addMealRecordResolver = async (
                 size: record.size,
                 cooked: record.cooked,
                 loggedDateTime: record.loggedDateTime.toISOString(),
+                extraMealName: record.extraMealName,
             })),
         } as MealRecordDataType
     } catch (error) {
         console.log(error)
-        throw new GraphQLError('ONBOARD_FAIL', {
-            extensions: { code: 'ONBOARD_FAILED' },
+        throw new GraphQLError('ADD_MEAL_FAILED', {
+            extensions: { code: 'ADD_MEAL_FAILED' },
         })
     }
 }

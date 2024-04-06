@@ -15,6 +15,7 @@ type MealRecord {
   size: String!
   description: String
   cooked: Boolean!
+  extraMealName: String
 }
 
 type MealRecordData {
@@ -28,4 +29,5 @@ input InputMealRecord {
   size: String!
   description: String
   cooked: Boolean!
+  extraMealName: String
 }

@@ -6,13 +6,17 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "plugins": ["expo-apple-authentication"],
+    "plugins": [
+      "expo-apple-authentication"
+    ],
     "scheme": [],
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.achive.achive",
-      "buildNumber": "3",
+      "buildNumber": "4",
       "usesAppleSignIn": true
     },
     "android": {

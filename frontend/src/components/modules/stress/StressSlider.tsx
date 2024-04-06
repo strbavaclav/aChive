@@ -61,7 +61,7 @@ export const StressSlider: FC<Props> = (props) => {
                 </SliderThumb>
               </Slider>
             </HStack>
-            <HStack w={"100%"} justifyContent="space-between">
+            <HStack w={"100%"} justifyContent="space-between" mt={20}>
               <Text>{t("components.stressFormSlider.peace")}</Text>
               <VStack justifyContent="center" alignItems="center">
                 <Text bold>{value}</Text>
