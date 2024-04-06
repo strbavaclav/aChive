@@ -43,7 +43,7 @@ const TipsAccordion = () => {
             </AccordionTrigger>
           </AccordionHeader>
           <AccordionContent>
-            <Text size="xs">{t("onboarding.step3.tips.value3")}</Text>
+            <Text size="xs">{t("onboarding.step3.tips.value1")}</Text>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="timeMeal">
