@@ -12,6 +12,7 @@ import {
   subDays,
 } from "date-fns";
 import React, { Dispatch, FC, SetStateAction, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity } from "react-native";
 import PagerView from "react-native-pager-view";
 
@@ -21,6 +22,7 @@ type Props = {
 };
 
 const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
+  const { t } = useTranslation();
   const dates = eachWeekOfInterval(
     {
       start: subDays(new Date(), 28),
@@ -108,16 +110,13 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
                       borderRadius: 8,
                     }}
                     onPress={() => {
-                      // Extract year, month, and day from the selected day
                       const year = day.getFullYear();
-                      const month = day.getMonth(); // Note: January is 0, February is 1, etc.
+                      const month = day.getMonth();
                       const date = day.getDate();
 
-                      // Create a new date object at midnight in the local timezone
                       const localMidnight = new Date(year, month, date);
 
-                      // Adjust for the timezone offset to get to UTC midnight
-                      const offset = localMidnight.getTimezoneOffset() * 60000; // Convert offset to milliseconds
+                      const offset = localMidnight.getTimezoneOffset() * 60000;
                       const utcMidnight = new Date(
                         localMidnight.getTime() - offset
                       );
@@ -132,7 +131,7 @@ const DateSlider: FC<Props> = ({ onDaySelect, daySelected }) => {
                         marginBottom: 5,
                       }}
                     >
-                      {txt}
+                      {t(`date.day.${txt}`)}
                     </Text>
                     <Text
                       style={{

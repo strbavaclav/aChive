@@ -12,6 +12,7 @@ import {
   VStack,
 } from "@gluestack-ui/themed";
 import { useApp } from "context/appContext";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   loading: boolean;
@@ -23,6 +24,7 @@ export const MealPlannerProgressBar: FC<Props> = ({
   recordedMealsCount,
 }) => {
   const { appState } = useApp();
+  const { t } = useTranslation();
 
   const planLength = appState.userData?.plan?.length ?? 0;
 
@@ -43,10 +45,10 @@ export const MealPlannerProgressBar: FC<Props> = ({
       }}
     >
       {loading ? (
-        <Text>Loading...</Text>
+        <Text>{t("general.loading...")}.</Text>
       ) : (
         <VStack w={"75%"} justifyContent="center" alignItems="center">
-          <Heading size="sm">Daily progress</Heading>
+          <Heading size="sm">{t("mealPlanner.footer.dailyProgress")}</Heading>
           <HStack justifyContent="center" alignItems="center" gap={10}>
             {recordedMealsCount < planLength && (
               <Progress
@@ -67,15 +69,15 @@ export const MealPlannerProgressBar: FC<Props> = ({
                   : CloseCircleIcon
               }
               size="xl"
-              color={recordedMealsCount >= planLength ? "#10b981" : "gray"}
+              color={recordedMealsCount >= planLength ? "$primary500" : "gray"}
             />
           </HStack>
           <Text size="md">
-            {recordedMealsCount} of{" "}
+            {recordedMealsCount} {t("mealPlanner.footer.of")}{" "}
             {appState.userData && appState.userData.plan
               ? appState.userData.plan.length
               : 0}{" "}
-            meals
+            {t("mealPlanner.footer.meals")}
           </Text>
         </VStack>
       )}

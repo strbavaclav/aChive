@@ -24,8 +24,6 @@ export const getMealRecordsByDate = async (
             return []
         }
 
-        console.log(dayStart, adjustedDayEnd)
-
         const filteredRecords: MealRecord[] = document.records
             .filter((record) => {
                 const recordDate = record.loggedDateTime
@@ -39,6 +37,7 @@ export const getMealRecordsByDate = async (
                 description: record.description,
                 size: record.size,
                 cooked: record.cooked,
+                extraMealName: record.extraMealName,
             }))
 
         return filteredRecords

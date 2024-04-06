@@ -6,8 +6,6 @@ export const removeMealRecordByIdResolver = async (
     _: unknown,
     { userId, recordId }: MutationRemoveMealRecordByIdArgs
 ): Promise<string> => {
-    const userIdObjectId = new mongoose.Types.ObjectId(userId)
-    const recordIdObject = new mongoose.Types.ObjectId(recordId)
     try {
         const user = await MealRecordData.findOne({
             userId,

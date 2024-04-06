@@ -17,6 +17,7 @@ import {
   HStack,
   Heading,
   Icon,
+  KeyboardAvoidingView,
   Modal,
   ModalBackdrop,
   ModalBody,
@@ -27,8 +28,9 @@ import {
   Text,
   TrashIcon,
   VStack,
+  View,
+  ModalContent,
 } from "@gluestack-ui/themed";
-import { ModalContent } from "@gluestack-ui/themed";
 import { PlannedMealType, useApp } from "context/appContext";
 import { MealRecord } from "gql/graphql";
 
@@ -45,16 +47,19 @@ import { FormTextArea } from "components/form/FormTextArea";
 import { useAddMealRecord } from "calls/planner/useAddMealRecord";
 import { FormSwitch } from "components/form/FormSwitch";
 import { FormDateTimePicker } from "components/form/FormDateTimePicker";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 import { useRemoveMealRecordById } from "calls/planner/useRemoveMealRecordById";
 import moment from "moment";
 import { useUpdateMealRecordById } from "calls/planner/useUpdateMealRecordById";
+import { FormInput } from "components/form";
+import { useTranslation } from "react-i18next";
 
 export const validationSchema = z.object({
   loggedTime: z.date(),
   cooked: z.boolean(),
   size: z.string().min(1, "Meal size has to be selected!"),
   description: z.string().optional(),
+  extraMealName: z.string(),
 });
 
 type FormDataType = z.infer<typeof validationSchema>;
@@ -82,6 +87,7 @@ export const MealPlannerLogModal: FC<Props> = ({
   const [isEdited, setIsEdited] = useState(false);
 
   const { appState } = useApp();
+  const { t } = useTranslation();
 
   const { addMealRecordMutation } = useAddMealRecord();
   const { removeMealRecordByIdMutation } = useRemoveMealRecordById();
@@ -100,15 +106,20 @@ export const MealPlannerLogModal: FC<Props> = ({
       loggedTime: recordedMeal
         ? new Date(recordedMeal.loggedDateTime)
         : new Date(),
+      extraMealName: !recordedMeal
+        ? ""
+        : recordedMeal.extraMealName
+          ? recordedMeal.extraMealName
+          : "",
     };
 
     formContext.reset(defaultValues);
-  }, [plannedMeal, formContext.reset]);
+  }, [plannedMeal, isEdited, recordedMeal, formContext.reset]);
 
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
     setIsLoading(true);
 
-    const { size, description, cooked, loggedTime } = values;
+    const { size, description, cooked, loggedTime, extraMealName } = values;
     try {
       const selectedDate = new Date(selectedDay);
 
@@ -126,6 +137,7 @@ export const MealPlannerLogModal: FC<Props> = ({
             loggedDateTime: loggedDateTime,
             description,
             cooked,
+            extraMealName: extraMealName,
           },
         },
       });
@@ -147,7 +159,7 @@ export const MealPlannerLogModal: FC<Props> = ({
     setIsLoading(true);
     try {
       const values = formContext.getValues();
-      const { size, description, cooked, loggedTime } = values;
+      const { size, description, cooked, loggedTime, extraMealName } = values;
 
       const selectedDate = new Date(selectedDay);
 
@@ -166,6 +178,7 @@ export const MealPlannerLogModal: FC<Props> = ({
             loggedDateTime: loggedDateTime,
             description,
             cooked,
+            extraMealName,
           },
         },
       });
@@ -197,14 +210,14 @@ export const MealPlannerLogModal: FC<Props> = ({
     };
 
     Alert.alert(
-      "Removing record",
-      "Are you sure you want to delete this record?",
+      t("mealPlanner.remove.removing"),
+      t("mealPlanner.remove.description"),
       [
         {
-          text: "No",
+          text: t("general.no"),
         },
         {
-          text: "Yes",
+          text: t("general.yes"),
           onPress: deleteRecord,
         },
       ],
@@ -219,156 +232,190 @@ export const MealPlannerLogModal: FC<Props> = ({
 
   return (
     <Modal isOpen={show} onClose={closeModalHandler}>
-      <ModalBackdrop />
-      <ModalContent>
-        <ModalHeader>
-          <Heading size="lg" color="#10b981">
-            {plannedMeal && plannedMeal?.mealName}
-          </Heading>
-          <ModalCloseButton>
-            <Icon as={CloseIcon} />
-          </ModalCloseButton>
-        </ModalHeader>
-        <ModalBody>
+      <KeyboardAvoidingView
+        w={"100%"}
+        h={"100%"}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? -100 : undefined}
+        style={{ justifyContent: "center", alignItems: "center" }}
+      >
+        <ModalBackdrop />
+        <ModalContent>
           <FormProvider {...formContext}>
-            <VStack>
-              {recordedMeal && !isEdited && (
-                <>
-                  <VStack mb={6}>
-                    <Text mb={4} bold>
-                      Meal time
-                    </Text>
-                    <HStack alignItems="center">
-                      <Icon as={ClockIcon} mr={4} />
-                      <Text>
-                        {moment(recordedMeal.loggedDateTime).format("HH:mm")}
-                      </Text>
-                    </HStack>
-                  </VStack>
-                  <HStack mb={6} justifyContent="space-between">
-                    <VStack>
-                      <Text mb={4} bold>
-                        Meal size
-                      </Text>
-                      <HStack alignItems="center">
-                        <Icon as={ChevronsUpDownIcon} mr={4} />
-                        <Text>{recordedMeal.size}</Text>
-                      </HStack>
-                    </VStack>
+            <ModalHeader>
+              {plannedMeal ? (
+                <Heading size="lg" color="$primary500">
+                  {plannedMeal?.mealName}
+                </Heading>
+              ) : isEdited || !recordedMeal ? (
+                <View w={"80%"} mb={10}>
+                  <FormInput
+                    name="extraMealName"
+                    label={t("mealPlanner.modal.extraMealName")}
+                    placeholder={t("mealPlanner.modal.extraMealNamePH")}
+                  />
+                </View>
+              ) : (
+                <Heading size="lg" color="$primary500">
+                  {recordedMeal?.extraMealName}
+                </Heading>
+              )}
+
+              <ModalCloseButton>
+                <Icon as={CloseIcon} />
+              </ModalCloseButton>
+            </ModalHeader>
+            <ModalBody>
+              <VStack>
+                {recordedMeal && !isEdited && (
+                  <>
                     <VStack mb={6}>
                       <Text mb={4} bold>
-                        Self-prepared meal
+                        {t("mealPlanner.modal.mealTime")}
                       </Text>
                       <HStack alignItems="center">
-                        <Icon
-                          as={recordedMeal.cooked ? CheckIcon : CloseIcon}
-                          mr={4}
-                        />
-                        <Text>{recordedMeal.cooked ? "Yes" : "No"}</Text>
+                        <Icon as={ClockIcon} mr={4} />
+                        <Text>
+                          {moment(recordedMeal.loggedDateTime).format("HH:mm")}
+                        </Text>
                       </HStack>
                     </VStack>
-                  </HStack>
-                  <VStack mb={6}>
-                    <Text mb={4} bold>
-                      Note
-                    </Text>
-                    <Text>{recordedMeal.description}</Text>
-                  </VStack>
-                </>
-              )}
+                    <HStack mb={6} justifyContent="space-between">
+                      <VStack>
+                        <Text mb={4} bold>
+                          {t("mealPlanner.modal.mealSize")}
+                        </Text>
+                        <HStack alignItems="center">
+                          <Icon as={ChevronsUpDownIcon} mr={4} />
+                          <Text>{recordedMeal.size}</Text>
+                        </HStack>
+                      </VStack>
+                      <VStack mb={6}>
+                        <Text mb={4} bold>
+                          {t("mealPlanner.modal.selfPrepared")}
+                        </Text>
+                        <HStack alignItems="center">
+                          <Icon
+                            as={recordedMeal.cooked ? CheckIcon : CloseIcon}
+                            mr={4}
+                          />
+                          <Text>
+                            {recordedMeal.cooked
+                              ? t("general.yes")
+                              : t("general.no")}
+                          </Text>
+                        </HStack>
+                      </VStack>
+                    </HStack>
+                    <VStack mb={6}>
+                      <Text mb={4} bold>
+                        {t("mealPlanner.modal.note")}
+                      </Text>
+                      <Text>{recordedMeal.description}</Text>
+                    </VStack>
+                  </>
+                )}
 
-              {(!recordedMeal || (recordedMeal && isEdited)) && (
-                <>
-                  <HStack
-                    alignItems="center"
-                    justifyContent="space-between"
-                    gap={4}
-                    mb={20}
-                  >
-                    <FormDateTimePicker
-                      name="loggedTime"
-                      mode="time"
-                      label="Time"
+                {(!recordedMeal || (recordedMeal && isEdited)) && (
+                  <>
+                    <HStack
+                      alignItems="center"
+                      justifyContent="space-between"
+                      gap={4}
+                      mb={20}
+                    >
+                      <FormDateTimePicker
+                        name="loggedTime"
+                        mode="time"
+                        label={t("mealPlanner.modal.time")}
+                      />
+                      <FormSwitch
+                        name="cooked"
+                        label={t("mealPlanner.modal.selfPrepared")}
+                      />
+                    </HStack>
+                    <FormSelect
+                      name="size"
+                      options={[
+                        { label: "XS", value: "XS" },
+                        { label: "S", value: "S" },
+                        { label: "M", value: "M" },
+                        { label: "L", value: "L" },
+                      ]}
+                      placeholder={t("mealPlanner.modal.actualSizePH")}
                     />
-                    <FormSwitch name="cooked" label="Self-prepared meal" />
-                  </HStack>
-                  <FormSelect
-                    name="size"
-                    options={[
-                      { label: "XS", value: "XS" },
-                      { label: "S", value: "S" },
-                      { label: "M", value: "M" },
-                      { label: "L", value: "L" },
-                    ]}
-                    placeholder="The actual meal size?"
-                  />
 
-                  <FormTextArea
-                    name="description"
-                    placeholder={
-                      recordedMeal ? "No note..." : "Describe you meal..."
-                    }
-                  />
-                </>
-              )}
-            </VStack>
-          </FormProvider>
-        </ModalBody>
-        <ModalFooter>
-          <HStack
-            flex={1}
-            justifyContent={
-              !recordedMeal || isEdited ? "flex-end" : "space-between"
-            }
-          >
-            {recordedMeal && !isEdited ? (
-              <Button
-                size="sm"
-                action="secondary"
-                onPress={deleteRecordHandler}
+                    <FormTextArea
+                      name="description"
+                      placeholder={
+                        recordedMeal
+                          ? t("mealPlanner.modal.noNote")
+                          : t("mealPlanner.modal.describeMeal")
+                      }
+                    />
+                  </>
+                )}
+              </VStack>
+            </ModalBody>
+            <ModalFooter>
+              <HStack
+                flex={1}
+                justifyContent={
+                  !recordedMeal || isEdited ? "flex-end" : "space-between"
+                }
               >
-                {isLoading ? (
-                  <Spinner size={"small"} color="#fff" />
-                ) : (
-                  <>
-                    <ButtonIcon as={TrashIcon} mr={4} />
-                    <ButtonText>Earse</ButtonText>
-                  </>
-                )}
-              </Button>
-            ) : !isEdited ? (
-              <Button size="sm" onPress={onPress} disabled={isLoading}>
-                {isLoading ? (
-                  <Spinner size={"small"} color="#fff" />
-                ) : (
-                  <>
-                    <ButtonIcon as={CheckIcon} mr={4} />
-                    <ButtonText>Log</ButtonText>
-                  </>
-                )}
-              </Button>
-            ) : null}
-            {recordedMeal && !isEdited && (
-              <Button size="sm" onPress={() => setIsEdited(true)}>
-                <ButtonIcon as={EditIcon} mr={4} />
-                <ButtonText>Edit</ButtonText>
-              </Button>
-            )}
-            {recordedMeal && isEdited && (
-              <Button size="sm" onPress={updateRecordHandler}>
-                {isLoading ? (
-                  <Spinner size={"small"} color="#fff" />
-                ) : (
-                  <>
+                {recordedMeal && !isEdited ? (
+                  <Button
+                    size="sm"
+                    action="secondary"
+                    onPress={deleteRecordHandler}
+                  >
+                    {isLoading ? (
+                      <Spinner size={"small"} color="#fff" />
+                    ) : (
+                      <>
+                        <ButtonIcon as={TrashIcon} mr={4} />
+                        <ButtonText>{t("mealPlanner.action.earse")}</ButtonText>
+                      </>
+                    )}
+                  </Button>
+                ) : !isEdited ? (
+                  <Button size="sm" onPress={onPress} disabled={isLoading}>
+                    {isLoading ? (
+                      <Spinner size={"small"} color="#fff" />
+                    ) : (
+                      <>
+                        <ButtonIcon as={CheckIcon} mr={4} />
+                        <ButtonText>{t("mealPlanner.action.log")}</ButtonText>
+                      </>
+                    )}
+                  </Button>
+                ) : null}
+                {recordedMeal && !isEdited && (
+                  <Button size="sm" onPress={() => setIsEdited(true)}>
                     <ButtonIcon as={EditIcon} mr={4} />
-                    <ButtonText>Update</ButtonText>
-                  </>
+                    <ButtonText>{t("mealPlanner.action.edit")}</ButtonText>
+                  </Button>
                 )}
-              </Button>
-            )}
-          </HStack>
-        </ModalFooter>
-      </ModalContent>
+                {recordedMeal && isEdited && (
+                  <Button size="sm" onPress={updateRecordHandler}>
+                    {isLoading ? (
+                      <Spinner size={"small"} color="#fff" />
+                    ) : (
+                      <>
+                        <ButtonIcon as={EditIcon} mr={4} />
+                        <ButtonText>
+                          {t("mealPlanner.action.update")}
+                        </ButtonText>
+                      </>
+                    )}
+                  </Button>
+                )}
+              </HStack>
+            </ModalFooter>
+          </FormProvider>
+        </ModalContent>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };

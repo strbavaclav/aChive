@@ -12,6 +12,7 @@ mutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedReco
       size
       description
       cooked
+      extraMealName
     }
   }
 }
