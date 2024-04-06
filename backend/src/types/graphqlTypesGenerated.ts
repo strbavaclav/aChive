@@ -47,6 +47,7 @@ export type BodyInfo = {
 export type InputMealRecord = {
     cooked: Scalars['Boolean']['input']
     description?: InputMaybe<Scalars['String']['input']>
+    extraMealName?: InputMaybe<Scalars['String']['input']>
     loggedDateTime: Scalars['String']['input']
     mealId?: InputMaybe<Scalars['String']['input']>
     size: Scalars['String']['input']
@@ -57,6 +58,7 @@ export type MealRecord = {
     _id: Scalars['String']['output']
     cooked: Scalars['Boolean']['output']
     description?: Maybe<Scalars['String']['output']>
+    extraMealName?: Maybe<Scalars['String']['output']>
     loggedDateTime: Scalars['String']['output']
     mealId?: Maybe<Scalars['String']['output']>
     size: Scalars['String']['output']
@@ -467,6 +469,11 @@ export type MealRecordResolvers<
     _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     cooked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
     description?: Resolver<
+        Maybe<ResolversTypes['String']>,
+        ParentType,
+        ContextType
+    >
+    extraMealName?: Resolver<
         Maybe<ResolversTypes['String']>,
         ParentType,
         ContextType

@@ -40,11 +40,11 @@
             "title2": " goals!",
             "label": {
                 "eatingGoal": "I would like to...",
-                "stress":"Could you elaborate on it?",
-                "stressNote":"I feel stressed because of..."
+                "stress": "Could you elaborate on it?",
+                "stressNote": "I feel stressed because of..."
             },
-            "error":{
-                "eatingGoal":"Goal must be selected!"
+            "error": {
+                "eatingGoal": "Goal must be selected!"
             },
             "text": {
                 "eatingGoal": "First wen need to lay out your eating habit goal!",
@@ -52,43 +52,43 @@
                 "stress2": "On the scale 0 (no stress at all) - 10 (extreme stress) how much stress are we facing together?"
             }
         },
-        "step3":{
+        "step3": {
             "title1": "Set up your",
             "title2": " plan!",
-            "text":{
-                "plan1":"This last step is the most important one. We need to make a schedule for your plan to be able to track and improve your eating habits.",
-                "plan2":"How many meals you would like to eat per day, at what time and what meal sizes?",
-                "sizes":"Feel lost? This will help you to understand the T-shirt sizes meals association quickly.",
-                "xs":"Minimal yet satisfying, for light appetite moments.",
-                "s":"Small portion, perfectly sufficient for quick, light meals.",
-                "m":"Moderately sized, ideal for regular hunger satisfaction.",
-                "l":"Large serving, for when hunger demands more."
+            "text": {
+                "plan1": "This last step is the most important one. We need to make a schedule for your plan to be able to track and improve your eating habits.",
+                "plan2": "How many meals you would like to eat per day, at what time and what meal sizes?",
+                "sizes": "Feel lost? This will help you to understand the T-shirt sizes meals association quickly.",
+                "xs": "Minimal yet satisfying, for light appetite moments.",
+                "s": "Small portion, perfectly sufficient for quick, light meals.",
+                "m": "Moderately sized, ideal for regular hunger satisfaction.",
+                "l": "Large serving, for when hunger demands more."
             },
-            "tips":{
-                "label1":"How many meals per day is optimal?",
-                "value1":"Nutrition experts tend to recommend eating 3 balanced meals and 1 to 3 snacks per day.",
-                "label2":"When to eat my meals?",
-                "value2":"There are a few principles that are good to follow. Eat your breakfast between 7:00 AM and 9:00 AM to kickstart your metabolism, and aim for lunch and dinner at 12:00 PM to 2:00 PM and 6:00 PM to 8:00 PM, respectively, to align with your body's natural rhythms.",
-                "label3":"What is a meal size?",
-                "value3":"We are going to measure the meal sizes similar to the T-Shirts (XS, S, M, L). This approach helps to generalize the measuring process concept.",
-                "learnMore":"Learn more."
+            "tips": {
+                "label1": "How many meals per day is optimal?",
+                "value1": "Nutrition experts tend to recommend eating 3 balanced meals and 1 to 3 snacks per day.",
+                "label2": "When to eat my meals?",
+                "value2": "There are a few principles that are good to follow. Eat your breakfast between 7:00 AM and 9:00 AM to kickstart your metabolism, and aim for lunch and dinner at 12:00 PM to 2:00 PM and 6:00 PM to 8:00 PM, respectively, to align with your body's natural rhythms.",
+                "label3": "What is a meal size?",
+                "value3": "We are going to measure the meal sizes similar to the T-Shirts (XS, S, M, L). This approach helps to generalize the measuring process concept.",
+                "learnMore": "Learn more."
             },
-            "action":{
-                "add":"Add",
-                "edit":"Edit",
-                "delete":"Earse",
-                "gotIt":"Got it!"
+            "action": {
+                "add": "Add",
+                "edit": "Edit",
+                "delete": "Earse",
+                "gotIt": "Got it!"
             },
-            "labels":{
-                "breakfast":"Breakfast",
-                "size":"SIZE",
-                "timeRange":"Choose time range",
-                "addMeal":"Add meal to plan",
-                "mealSizesExplained":"Meal sizes explained"
+            "labels": {
+                "breakfast": "Breakfast",
+                "size": "SIZE",
+                "timeRange": "Choose time range",
+                "addMeal": "Add meal to plan",
+                "mealSizesExplained": "Meal sizes explained"
             },
-            "placeholders":{
-                "mealName":"eg. Breakfast",
-                "mealSize":"Select meal size"
+            "placeholders": {
+                "mealName": "eg. Breakfast",
+                "mealSize": "Select meal size"
             },
             "error": {
                 "required": "This information is required!"
@@ -97,7 +97,42 @@
         "action": {
             "back": "Back",
             "next": "Next step",
-            "start":"Start"
+            "start": "Start"
+        }
+    },
+    "mealPlanner": {
+        "title": "Meal planner",
+        "section": {
+            "dailyPlan": "Your daily plan",
+            "extraMeals": "Extra meals"
+        },
+        "action": {
+            "addExtraMeal": "Add extra meal",
+            "earse":"Earse",
+            "edit":"Edit",
+            "log":"Log",
+            "update":"Update"
+        },
+        "modal": {
+            "mealTime": "Meal time",
+            "time":"Time",
+            "mealSize": "Size",
+            "selfPrepared": "Self-prepared meal",
+            "note":"Note",
+            "noNote":"No note...",
+            "extraMealName":"Extra meal name",
+            "extraMealNamePH":"eg. Quick sandwich",
+            "actualSizePH":"The actual meal size?",
+            "describeMeal":"Describe your meal..."
+        },
+        "remove":{
+            "removing":"Removing record",
+            "description":"Are you sure you want to delete this record?"
+        },
+        "footer": {
+            "dailyProgress": "Daily progress",
+            "of": "of",
+            "meals": "meals"
         }
     },
     "components": {
@@ -121,6 +156,10 @@
         }
     },
     "general.cancel": "Cancel",
+    "general.size": "SIZE",
+    "general.loading...": "Loading...",
+    "general.yes": "Yes",
+    "general.no": "No",
     "dashboard.today": "Today - ",
     "dashboard.dateFormat": "MMMM DD, YYYY",
     "navigation.viewProfile": "View your profile",
@@ -174,5 +213,16 @@
     "gender.Other": "Other",
     "eatingGoal.more": "Eat more",
     "eatingGoal.less": "Eat less",
-    "eatingGoal.consistent": "Be consistent"
+    "eatingGoal.consistent": "Be consistent",
+    "date": {
+        "day": {
+            "Mo": "Mo",
+            "Tu": "Tu",
+            "We": "We",
+            "Th": "Th",
+            "Fr": "Fr",
+            "Sa": "Sa",
+            "Su": "Su"
+        }
+    }
 }

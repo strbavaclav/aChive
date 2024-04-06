@@ -1,18 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
 import DateSlider from "components/custom/DateSlider";
 import {
-  Heading,
   View,
   Text,
-  HStack,
-  ScrollView,
   ButtonText,
   Button,
   ButtonIcon,
   AddIcon,
   Spinner,
-  FlatList,
-  Link,
   SectionList,
   VStack,
 } from "@gluestack-ui/themed";
@@ -21,19 +16,18 @@ import { PlannedMealType, useApp } from "context/appContext";
 import { useQuery } from "@apollo/client";
 
 import { useFocusEffect } from "@react-navigation/native";
-import { useAddMealRecord } from "calls/planner/useAddMealRecord";
 import { MealPlannerProgressBar } from "components/modules/planner/MealPlannerProgressBar";
 import { MealPlannerLogModal } from "components/modules/planner/MealPlannerLogModal";
-import { formatTime } from "utils/formatTime";
 import { ListRenderItem } from "react-native";
 import { GET_MEAL_RECORDS_BY_DATE } from "calls/planner/useGetMealRecordsByDate";
 import { MealRecord } from "gql/graphql";
 import { Image } from "@gluestack-ui/themed";
+import { useTranslation } from "react-i18next";
 
 const MealPlannerScreen = () => {
   const today = new Date();
   const year = today.getFullYear();
-  const month = today.getMonth(); // Note: January is 0, February is 1, etc.
+  const month = today.getMonth();
   const date = today.getDate();
 
   // Create a new date object at midnight in the local timezone
@@ -47,11 +41,13 @@ const MealPlannerScreen = () => {
   const [selectedMeal, setSelectedMeal] = useState<PlannedMealType | undefined>(
     undefined
   );
+  const [extraMeal, setExtraMeal] = useState<MealRecord | undefined>(undefined);
   const [dataSections, setDataSections] = useState([]);
 
   const [showModal, setShowModal] = useState(false);
 
   const { appState } = useApp();
+  const { t } = useTranslation();
 
   const {
     loading: loadingRecords,
@@ -66,21 +62,21 @@ const MealPlannerScreen = () => {
   });
 
   const planData = appState.userData?.plan;
+  const language = appState.userData?.language;
 
   useEffect(() => {
     const sections = [
       {
-        title: "Your Daily Plan",
+        title: t("mealPlanner.section.dailyPlan"),
         data: planData,
         renderItem: renderItem,
       },
       {
-        title: "Extra meals",
+        title: t("mealPlanner.section.extraMeals"),
         data:
           records?.getMealRecordsByDate?.filter(
             (record) => record?.mealId === "undefined"
           ) ?? [],
-        // Wrap records in an array since data expects an array
         //@ts-ignore
         renderItem: renderExtraItem,
       },
@@ -88,7 +84,7 @@ const MealPlannerScreen = () => {
 
     //@ts-ignore
     setDataSections(sections);
-  }, [planData, records]);
+  }, [planData, records, language]);
 
   useEffect(() => {
     refetchRecords();
@@ -100,10 +96,16 @@ const MealPlannerScreen = () => {
     }, [refetchRecords])
   );
 
-  const openMealDetail = (meal?: PlannedMealType) => {
+  const openMealDetail = (
+    plannedMeal?: PlannedMealType,
+    extraMeal?: MealRecord
+  ) => {
     setSelectedMeal(undefined);
-    if (meal) {
-      setSelectedMeal(meal);
+    if (plannedMeal) {
+      setSelectedMeal(plannedMeal);
+    }
+    if (extraMeal) {
+      setExtraMeal(extraMeal);
     }
     setShowModal(true);
   };
@@ -116,6 +118,7 @@ const MealPlannerScreen = () => {
 
   const addExtraMeal = () => {
     setSelectedMeal(undefined);
+    setExtraMeal(undefined);
     setShowModal(true);
   };
 
@@ -136,7 +139,9 @@ const MealPlannerScreen = () => {
         )}
         logged={isLogged}
         selectedDate={selectedDay.toISOString()}
-        onPress={() => openMealDetail(plannedMeal)}
+        onPress={() => {
+          openMealDetail(plannedMeal, undefined);
+        }}
       />
     );
   };
@@ -153,7 +158,7 @@ const MealPlannerScreen = () => {
             recordedMeal={extraMeal}
             logged={isLogged}
             selectedDate={selectedDay.toISOString()}
-            onPress={() => openMealDetail()}
+            onPress={() => openMealDetail(undefined, extraMeal)}
           />
         );
       } else {
@@ -169,7 +174,7 @@ const MealPlannerScreen = () => {
       <DateSlider onDaySelect={setSelectedDay} daySelected={selectedDay} />
       {loadingRecords && (
         <View flex={1} justifyContent="center" alignItems="center">
-          <Spinner size="large" color="#10b981" />
+          <Spinner size="large" color="$primary500" />
         </View>
       )}
 
@@ -180,7 +185,7 @@ const MealPlannerScreen = () => {
           stickySectionHeadersEnabled={false}
           //@ts-ignore
           renderSectionHeader={({ section: { title } }) => (
-            <Text size="sm" color="#10b981" ml={5}>
+            <Text size="sm" color="$primary500" ml={5}>
               {title}
             </Text>
           )}
@@ -196,7 +201,7 @@ const MealPlannerScreen = () => {
                 onPress={addExtraMeal}
               >
                 <ButtonIcon as={AddIcon} size="sm" />
-                <ButtonText>Add extra meal</ButtonText>
+                <ButtonText>{t("mealPlanner.action.addExtraMeal")}</ButtonText>
               </Button>
               <Image
                 w={150}
@@ -214,37 +219,6 @@ const MealPlannerScreen = () => {
         />
       )}
 
-      {/* {!loadingRecords && (
-        <FlatList
-          data={planData}
-          ListHeaderComponent={() => (
-            <HStack justifyContent="space-between">
-              <Text size="sm" color="#10b981" ml={5}>
-                Your daily plan
-              </Text>
-            </HStack>
-          )}
-          renderItem={renderItem}
-          ListFooterComponent={() => (
-            <HStack justifyContent="center" mt={4}>
-              <Button
-                size="sm"
-                justifyContent="center"
-                alignItems="center"
-                gap={2}
-                mb={10}
-                mt={10}
-                onPress={addExtraMeal}
-              >
-                <ButtonIcon as={AddIcon} size="sm" />
-                <ButtonText>Add extra meal</ButtonText>
-              </Button>
-            </HStack>
-          )}
-          contentContainerStyle={{ marginTop: 5 }}
-        />
-      )} */}
-
       <MealPlannerProgressBar
         loading={loadingRecords}
         recordedMealsCount={
@@ -256,10 +230,18 @@ const MealPlannerScreen = () => {
 
       <MealPlannerLogModal
         show={showModal}
-        plannedMeal={selectedMeal!}
-        recordedMeal={records?.getMealRecordsByDate?.find(
-          (record) => record?.mealId === String(selectedMeal?._id)
-        )}
+        plannedMeal={selectedMeal ?? undefined}
+        recordedMeal={
+          selectedMeal
+            ? records?.getMealRecordsByDate?.find(
+                (record) => record?.mealId === String(selectedMeal?._id)
+              )
+            : extraMeal
+              ? records?.getMealRecordsByDate?.find(
+                  (record) => record?._id === String(extraMeal?._id)
+                )
+              : null
+        }
         selectedDay={selectedDay.toISOString()}
         setShow={setShowModal}
         logMeal={onLogMealHandler}

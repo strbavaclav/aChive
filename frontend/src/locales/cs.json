@@ -79,18 +79,18 @@
                 "add": "Přidat",
                 "edit": "Upravit",
                 "delete": "Smazat",
-                "gotIt":"Rozumím!"
+                "gotIt": "Rozumím!"
             },
-            "labels":{
-                "breakfast":"Snídaně",
-                "size":"VELIKOST",
-                "timeRange":"Vyber časový úsek",
-                "addMeal":"Přidej jídlo do plánu",
-                "mealSizesExplained":"Velikosti jídel 101"
+            "labels": {
+                "breakfast": "Snídaně",
+                "size": "VELIKOST",
+                "timeRange": "Vyber časový úsek",
+                "addMeal": "Přidej jídlo do plánu",
+                "mealSizesExplained": "Velikosti jídel 101"
             },
-            "placeholders":{
-                "mealName":"např. Snídaně",
-                "mealSize":"Vyber velikost jídla"
+            "placeholders": {
+                "mealName": "např. Snídaně",
+                "mealSize": "Vyber velikost jídla"
             },
             "error": {
                 "required": "Toto pole je povinné!"
@@ -100,6 +100,42 @@
             "back": "Zpět",
             "next": "Další krok",
             "start": "Začít"
+        }
+    },
+    "mealPlanner": {
+        "title": "Stravovací plán",
+        "section": {
+            "dailyPlan": "Tvůj harmonogram",
+            "extraMeals": "Něco navíc?"
+        },
+        "action": {
+            "addExtraMeal": "Přidat jídlo",
+            "earse":"Smazat",
+            "edit":"Upravit",
+            "log":"Zapsat",
+            "update":"Uložit"
+
+        },
+        "modal": {
+            "mealTime": "Čas jídla",
+            "time":"Čas",
+            "mealSize": "Velikost",
+            "selfPrepared": "Vlastní jídlo",
+            "note":"Poznámka",
+            "noNote":"Bez popisku...",
+            "extraMealName":"Název jídla",
+            "extraMealNamePH":"např. Sendvič",
+            "actualSizePH":"Skutečná velikost jídla?",
+            "describeMeal":"Popiš své jídlo..."
+        },
+        "remove":{
+            "removing":"Smazat záznam",
+            "description":"Opravdu chceš smazat tento záznam?"
+        },
+        "footer": {
+            "dailyProgress": "Denní souhrn",
+            "of": "z",
+            "meals": "jídel"
         }
     },
     "components": {
@@ -123,6 +159,10 @@
         }
     },
     "general.cancel": "Zrušit",
+    "general.size": "Velikost",
+    "general.loading...": "Načítání...",
+    "general.yes": "Ano",
+    "general.no": "Ne",
     "dashboard.today": "Dnes - ",
     "dashboard.dateFormat": "DD. MMMM YYYY",
     "navigation.viewProfile": "Zobrazit profil",
@@ -176,5 +216,16 @@
     "gender.Other": "Jiné",
     "eatingGoal.more": "Jíst více",
     "eatingGoal.less": "Jíst méně",
-    "eatingGoal.consistent": "Jíst konzistentně"
+    "eatingGoal.consistent": "Jíst konzistentně",
+    "date": {
+        "day": {
+            "Mo": "Po",
+            "Tu": "Út",
+            "We": "St",
+            "Th": "Čt",
+            "Fr": "Pá",
+            "Sa": "So",
+            "Su": "Ne"
+        }
+    }
 }

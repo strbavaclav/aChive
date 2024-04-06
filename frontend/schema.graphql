@@ -11,6 +11,7 @@ type BodyInfo {
 input InputMealRecord {
   cooked: Boolean!
   description: String
+  extraMealName: String
   loggedDateTime: String!
   mealId: String
   size: String!
@@ -20,6 +21,7 @@ type MealRecord {
   _id: String!
   cooked: Boolean!
   description: String
+  extraMealName: String
   loggedDateTime: String!
   mealId: String
   size: String!

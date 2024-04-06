@@ -9,6 +9,7 @@ export const GET_MEAL_RECORDS_BY_DATE = gql(/* GraphQL */ `
       size
       description
       cooked
+      extraMealName
     }
   }
 `);

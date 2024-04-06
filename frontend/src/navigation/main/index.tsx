@@ -104,7 +104,7 @@ export const MainTabNavigator = () => {
 
   const screenTitle =
     currentScreen === "Planner"
-      ? "Meal planner"
+      ? t("mealPlanner.title")
       : currentScreen === "Insights"
         ? "Eating hacks"
         : currentScreen === "Profile"
