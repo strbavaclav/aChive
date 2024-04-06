@@ -56,7 +56,7 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
       <View style={{ alignItems: "flex-start", justifyContent: "center" }}>
         <TouchableOpacity
           style={{
-            marginLeft: 10,
+            marginLeft: 6,
           }}
           onPress={() => navigation.closeDrawer()}
         >
@@ -67,7 +67,7 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
             flexDirection: "row",
             marginTop: 20,
             alignItems: "center",
-            marginLeft: 10,
+            marginLeft: 6,
           }}
           onPress={() => navigation.navigate("Profile")}
         >
@@ -86,14 +86,14 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
           </View>
           <View style={{ marginLeft: 10 }}>
             <Text style={{ color: "white", fontWeight: "bold", fontSize: 20 }}>
-              {appState.userData?.firstName + " " + appState.userData?.lastName}
+              {appState.userData?.firstName}
             </Text>
             <Text style={{ color: "white" }}>
               {t("navigation.viewProfile")}
             </Text>
           </View>
         </TouchableOpacity>
-        <View style={{ flex: 1, marginTop: 20, marginLeft: 10 }}>
+        <View style={{ flex: 1, marginTop: 20, marginLeft: 6 }}>
           <CustomDrawerItem
             label={t("navigation.dashboard")}
             icon={"home"}
