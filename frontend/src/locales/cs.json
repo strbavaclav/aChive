@@ -162,6 +162,17 @@
             "description":"Změna nebyla uložena"
         }
     },
+    "notifications":{
+        "title":"Oznámení",
+        "noNotification":"Žádné oznámení...",
+        "body":{
+            "plannerMealTime":"Je čas na",
+            "logMealTime":"Už jsi měl",
+            "listCreationTime":"Je čas na to sepsat si seznam",
+            "shoppingTime":"Je čas jít nakupovat",
+            "logStressTime":"Jak se dnes cítíš"
+        }
+    },
     "components": {
         "stressFormSlider": {
             "label": "Posuňte knoflík pro výběr úrovně stresu",

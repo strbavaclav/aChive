@@ -1,5 +1,6 @@
 import * as Notifications from "expo-notifications";
 import { ShoppingListSettingsType } from "context/appContext";
+import { t } from "i18next";
 
 export const listCreationTimeNotification = async (
   shopping: ShoppingListSettingsType
@@ -16,7 +17,7 @@ export const listCreationTimeNotification = async (
       await Notifications.scheduleNotificationAsync({
         content: {
           title: `aChive`,
-          body: `It's time to prepare your shopping list! 🗒️`,
+          body: `${t("notifications.body.listCreationTime")} 🗒️!`,
           sound: "default",
           data: { type: "listCreationTime" },
         },

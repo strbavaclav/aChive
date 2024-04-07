@@ -73,7 +73,7 @@ const DrawerScreenWrapper: React.FC<Props> = ({
         >
           <Ionicons name={"menu"} size={26} color={"#10b981"} />
         </TouchableOpacity>
-        <Box style={{ flex: 1, justifyContent: "center" }}>
+        <Box style={{ flex: 3, justifyContent: "center" }}>
           <Text
             textAlign="center"
             bold={screenTitle ? false : true}
