@@ -5,14 +5,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { AuthProvider } from "context/authContext";
 import { AppProvider } from "context/appContext";
 import { ApolloProvider } from "@apollo/client";
-import React, { useEffect } from "react";
+import React from "react";
 import { RootStackNavigator } from "navigation/root";
 import { client } from "gql/client";
 import * as Notifications from "expo-notifications";
-import {
-  registerForPushNotificationsAsync,
-  scheduleDailyStressRecord,
-} from "services/notifications";
+import { registerForPushNotificationsAsync } from "services/notifications/registerNotifications";
 
 export default function App() {
   Notifications.setNotificationHandler({
@@ -24,7 +21,6 @@ export default function App() {
   });
 
   registerForPushNotificationsAsync();
-  scheduleDailyStressRecord();
 
   return (
     <GluestackUIProvider config={config}>

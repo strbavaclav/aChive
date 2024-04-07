@@ -89,6 +89,13 @@ const userShema = new mongoose.Schema({
         shopStartTime: Date,
         shopEndTime: Date,
     },
+    notifications: {
+        plannerMealTime: { type: Boolean },
+        logMealTime: { type: Boolean },
+        listCreationTime: { type: Boolean },
+        shoppingTime: { type: Boolean },
+        logStressTime: { type: Boolean },
+    },
 })
 
 const User = mongoose.model('User', userShema)

@@ -141,9 +141,19 @@ export type MutationUpdateUserDataArgs = {
 };
 
 export type NewUserDataInput = {
+  booleanValue?: InputMaybe<Scalars["Boolean"]["input"]>;
   floatValue?: InputMaybe<Scalars["Float"]["input"]>;
   name: Scalars["String"]["input"];
   stringValue?: InputMaybe<Scalars["String"]["input"]>;
+};
+
+export type Notifications = {
+  __typename?: "Notifications";
+  listCreationTime?: Maybe<Scalars["Boolean"]["output"]>;
+  logMealTime?: Maybe<Scalars["Boolean"]["output"]>;
+  logStressTime?: Maybe<Scalars["Boolean"]["output"]>;
+  plannerMealTime?: Maybe<Scalars["Boolean"]["output"]>;
+  shoppingTime?: Maybe<Scalars["Boolean"]["output"]>;
 };
 
 export type OnboardData = {
@@ -273,6 +283,7 @@ export type User = {
   gender?: Maybe<Scalars["String"]["output"]>;
   language: Scalars["String"]["output"];
   lastName?: Maybe<Scalars["String"]["output"]>;
+  notifications?: Maybe<Notifications>;
   onboarded: Scalars["Boolean"]["output"];
   password: Scalars["String"]["output"];
   plan?: Maybe<Array<PlannedMeal>>;
@@ -319,6 +330,14 @@ export type AppleSignInMutation = {
       shopStartTime?: string | null;
       shopEndTime?: string | null;
     } | null;
+    notifications?: {
+      __typename?: "Notifications";
+      plannerMealTime?: boolean | null;
+      logMealTime?: boolean | null;
+      listCreationTime?: boolean | null;
+      shoppingTime?: boolean | null;
+      logStressTime?: boolean | null;
+    } | null;
   };
 };
 
@@ -359,6 +378,14 @@ export type SignInMutation = {
       shopStartTime?: string | null;
       shopEndTime?: string | null;
     } | null;
+    notifications?: {
+      __typename?: "Notifications";
+      plannerMealTime?: boolean | null;
+      logMealTime?: boolean | null;
+      listCreationTime?: boolean | null;
+      shoppingTime?: boolean | null;
+      logStressTime?: boolean | null;
+    } | null;
   };
 };
 
@@ -397,6 +424,14 @@ export type OnboardMutation = {
       shopDays?: Array<number> | null;
       shopStartTime?: string | null;
       shopEndTime?: string | null;
+    } | null;
+    notifications?: {
+      __typename?: "Notifications";
+      plannerMealTime?: boolean | null;
+      logMealTime?: boolean | null;
+      listCreationTime?: boolean | null;
+      shoppingTime?: boolean | null;
+      logStressTime?: boolean | null;
     } | null;
   };
 };
@@ -438,6 +473,14 @@ export type AppleSignUpMutation = {
       shopStartTime?: string | null;
       shopEndTime?: string | null;
     } | null;
+    notifications?: {
+      __typename?: "Notifications";
+      plannerMealTime?: boolean | null;
+      logMealTime?: boolean | null;
+      listCreationTime?: boolean | null;
+      shoppingTime?: boolean | null;
+      logStressTime?: boolean | null;
+    } | null;
   };
 };
 
@@ -477,6 +520,14 @@ export type SignUpMutation = {
       shopDays?: Array<number> | null;
       shopStartTime?: string | null;
       shopEndTime?: string | null;
+    } | null;
+    notifications?: {
+      __typename?: "Notifications";
+      plannerMealTime?: boolean | null;
+      logMealTime?: boolean | null;
+      listCreationTime?: boolean | null;
+      shoppingTime?: boolean | null;
+      logStressTime?: boolean | null;
     } | null;
   };
 };
@@ -627,6 +678,14 @@ export type GetUserDataQuery = {
       shopStartTime?: string | null;
       shopEndTime?: string | null;
     } | null;
+    notifications?: {
+      __typename?: "Notifications";
+      plannerMealTime?: boolean | null;
+      logMealTime?: boolean | null;
+      listCreationTime?: boolean | null;
+      shoppingTime?: boolean | null;
+      logStressTime?: boolean | null;
+    } | null;
   } | null;
 };
 
@@ -648,6 +707,14 @@ export type UpdateUserDataMutation = {
     eatHabitGoal?: string | null;
     _id: string;
     body?: { __typename?: "BodyInfo"; height: number; weight: number } | null;
+    notifications?: {
+      __typename?: "Notifications";
+      plannerMealTime?: boolean | null;
+      logMealTime?: boolean | null;
+      listCreationTime?: boolean | null;
+      shoppingTime?: boolean | null;
+      logStressTime?: boolean | null;
+    } | null;
   };
 };
 
@@ -779,6 +846,35 @@ export const AppleSignInDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "shopEndTime" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "notifications" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "plannerMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "listCreationTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shoppingTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logStressTime" },
                       },
                     ],
                   },
@@ -923,6 +1019,35 @@ export const SignInDocument = {
                     ],
                   },
                 },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "notifications" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "plannerMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "listCreationTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shoppingTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logStressTime" },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -1058,6 +1183,35 @@ export const OnboardDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "shopEndTime" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "notifications" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "plannerMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "listCreationTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shoppingTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logStressTime" },
                       },
                     ],
                   },
@@ -1202,6 +1356,35 @@ export const AppleSignUpDocument = {
                     ],
                   },
                 },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "notifications" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "plannerMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "listCreationTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shoppingTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logStressTime" },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -1338,6 +1521,35 @@ export const SignUpDocument = {
                       {
                         kind: "Field",
                         name: { kind: "Name", value: "shopEndTime" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "notifications" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "plannerMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "listCreationTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shoppingTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logStressTime" },
                       },
                     ],
                   },
@@ -1978,6 +2190,35 @@ export const GetUserDataDocument = {
                     ],
                   },
                 },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "notifications" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "plannerMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "listCreationTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shoppingTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logStressTime" },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -2057,6 +2298,35 @@ export const UpdateUserDataDocument = {
                   name: { kind: "Name", value: "eatHabitGoal" },
                 },
                 { kind: "Field", name: { kind: "Name", value: "_id" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "notifications" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "plannerMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logMealTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "listCreationTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "shoppingTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "logStressTime" },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },

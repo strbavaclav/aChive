@@ -145,9 +145,19 @@ export type MutationUpdateUserDataArgs = {
 }
 
 export type NewUserDataInput = {
+    booleanValue?: InputMaybe<Scalars['Boolean']['input']>
     floatValue?: InputMaybe<Scalars['Float']['input']>
     name: Scalars['String']['input']
     stringValue?: InputMaybe<Scalars['String']['input']>
+}
+
+export type Notifications = {
+    __typename?: 'Notifications'
+    listCreationTime?: Maybe<Scalars['Boolean']['output']>
+    logMealTime?: Maybe<Scalars['Boolean']['output']>
+    logStressTime?: Maybe<Scalars['Boolean']['output']>
+    plannerMealTime?: Maybe<Scalars['Boolean']['output']>
+    shoppingTime?: Maybe<Scalars['Boolean']['output']>
 }
 
 export type OnboardData = {
@@ -277,6 +287,7 @@ export type User = {
     gender?: Maybe<Scalars['String']['output']>
     language: Scalars['String']['output']
     lastName?: Maybe<Scalars['String']['output']>
+    notifications?: Maybe<Notifications>
     onboarded: Scalars['Boolean']['output']
     password: Scalars['String']['output']
     plan?: Maybe<Array<PlannedMeal>>
@@ -404,6 +415,7 @@ export type ResolversTypes = {
     MealRecordData: ResolverTypeWrapper<MealRecordData>
     Mutation: ResolverTypeWrapper<{}>
     NewUserDataInput: NewUserDataInput
+    Notifications: ResolverTypeWrapper<Notifications>
     OnboardData: OnboardData
     PlannedMeal: ResolverTypeWrapper<PlannedMeal>
     PlannedMealInput: PlannedMealInput
@@ -435,6 +447,7 @@ export type ResolversParentTypes = {
     MealRecordData: MealRecordData
     Mutation: {}
     NewUserDataInput: NewUserDataInput
+    Notifications: Notifications
     OnboardData: OnboardData
     PlannedMeal: PlannedMeal
     PlannedMealInput: PlannedMealInput
@@ -583,6 +596,38 @@ export type MutationResolvers<
         ContextType,
         RequireFields<MutationUpdateUserDataArgs, 'newUserData'>
     >
+}
+
+export type NotificationsResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['Notifications'] = ResolversParentTypes['Notifications']
+> = {
+    listCreationTime?: Resolver<
+        Maybe<ResolversTypes['Boolean']>,
+        ParentType,
+        ContextType
+    >
+    logMealTime?: Resolver<
+        Maybe<ResolversTypes['Boolean']>,
+        ParentType,
+        ContextType
+    >
+    logStressTime?: Resolver<
+        Maybe<ResolversTypes['Boolean']>,
+        ParentType,
+        ContextType
+    >
+    plannerMealTime?: Resolver<
+        Maybe<ResolversTypes['Boolean']>,
+        ParentType,
+        ContextType
+    >
+    shoppingTime?: Resolver<
+        Maybe<ResolversTypes['Boolean']>,
+        ParentType,
+        ContextType
+    >
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type PlannedMealResolvers<
@@ -738,6 +783,11 @@ export type UserResolvers<
         ParentType,
         ContextType
     >
+    notifications?: Resolver<
+        Maybe<ResolversTypes['Notifications']>,
+        ParentType,
+        ContextType
+    >
     onboarded?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
     password?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     plan?: Resolver<
@@ -765,6 +815,7 @@ export type Resolvers<ContextType = any> = {
     MealRecord?: MealRecordResolvers<ContextType>
     MealRecordData?: MealRecordDataResolvers<ContextType>
     Mutation?: MutationResolvers<ContextType>
+    Notifications?: NotificationsResolvers<ContextType>
     PlannedMeal?: PlannedMealResolvers<ContextType>
     Query?: QueryResolvers<ContextType>
     ShoppingList?: ShoppingListResolvers<ContextType>

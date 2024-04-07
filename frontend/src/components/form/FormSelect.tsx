@@ -26,7 +26,7 @@ import { Controller, useFormContext } from "react-hook-form";
 
 export type OptionType = {
   label: string;
-  value: string;
+  value: string | boolean;
 };
 
 type Props = {
@@ -54,6 +54,12 @@ export const FormSelect: FC<Props> = (props) => {
 
   const { control } = useFormContext();
 
+  const handleValueChange = (value: string) => {
+    if (value === "true") return true;
+    if (value === "false") return false;
+    return value;
+  };
+
   return (
     <>
       <Controller
@@ -68,7 +74,7 @@ export const FormSelect: FC<Props> = (props) => {
               mb={0}
               pb={0}
               isFocusVisible
-              onValueChange={(value) => onChange(value)}
+              onValueChange={(value) => onChange(handleValueChange(value))}
               isInvalid={!!error}
               isDisabled={disabled}
             >
@@ -77,7 +83,8 @@ export const FormSelect: FC<Props> = (props) => {
                   id={name}
                   placeholder={placeholder}
                   value={
-                    options.find((option) => option.value === value)?.label
+                    options.find((option) => option.value === value)?.label ||
+                    ""
                   }
                   {...rest}
                 />
@@ -93,7 +100,7 @@ export const FormSelect: FC<Props> = (props) => {
                     <SelectItem
                       key={`${option.value}_${i}`}
                       label={option.label}
-                      value={option.value}
+                      value={String(option.value)}
                     />
                   ))}
                 </SelectContent>
