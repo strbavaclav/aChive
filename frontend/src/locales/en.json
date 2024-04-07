@@ -159,6 +159,17 @@
             "description":"Změna nebyla uložena"
         }
     },
+    "notifications":{
+        "title":"Notifications",
+        "noNotification":"No notifications yet...",
+        "body":{
+            "plannerMealTime":"Time for",
+            "logMealTime":"Did you eat",
+            "listCreationTime":"It's time to prepare your shopping list",
+            "shoppingTime":"It's shopping time",
+            "logStressTime":"How do you feel today"
+        }
+    },
     "components": {
         "stressFormSlider": {
             "label": "Slide the knob to select the level of stress",

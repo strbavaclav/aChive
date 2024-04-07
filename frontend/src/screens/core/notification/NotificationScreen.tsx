@@ -1,10 +1,12 @@
-import { Text, View, Image, Heading } from "@gluestack-ui/themed";
+import { View, Image, Heading } from "@gluestack-ui/themed";
 import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const NotificationScreen = () => {
+  const { t } = useTranslation();
   return (
-    <DrawerScreenWrapper isBack screenTitle="Notifications">
+    <DrawerScreenWrapper isBack screenTitle={t("notifications.title")}>
       <View flex={1} justifyContent="center" alignItems="center">
         <Image
           w={300}
@@ -13,7 +15,7 @@ const NotificationScreen = () => {
           resizeMode="contain"
           alt="about"
         />
-        <Heading color="gray">No notifications yet...</Heading>
+        <Heading color="gray">{t("notifications.noNotification")}</Heading>
       </View>
     </DrawerScreenWrapper>
   );

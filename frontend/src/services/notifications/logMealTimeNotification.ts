@@ -1,6 +1,7 @@
 import * as Notifications from "expo-notifications";
 
 import { PlannedMealType } from "context/appContext";
+import { t } from "i18next";
 
 export const logMealTimeNotification = async (meal: PlannedMealType) => {
   const mealTimestamp = meal.endTime;
@@ -12,7 +13,7 @@ export const logMealTimeNotification = async (meal: PlannedMealType) => {
   await Notifications.scheduleNotificationAsync({
     content: {
       title: `aChive`,
-      body: `Did you eat ${meal.mealName} 👀!`,
+      body: `${t("notifications.body.logMealTime")} ${meal.mealName} 👀!`,
       sound: "default",
       data: { type: "logMealTime" },
     },
