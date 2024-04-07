@@ -20,18 +20,25 @@ export const updateUserDataResolver = async (
             throw new GraphQLError('User not exist')
         }
 
-        const { name: changeName, stringValue, floatValue } = newUserData
+        const {
+            name: changeName,
+            stringValue,
+            floatValue,
+            booleanValue,
+        } = newUserData
 
         const updateData = stringValue
             ? { [changeName]: stringValue }
+            : booleanValue !== null || booleanValue !== undefined
+            ? { [changeName]: booleanValue }
             : { [changeName]: floatValue }
 
         const updatedUser = await User.findOneAndUpdate(
             { _id: user._id },
             { $set: updateData },
             {
-                new: true, // Return the updated document
-                runValidators: true, // Ensure that the update operation follows your schema's validation rules
+                new: true,
+                runValidators: true,
             }
         )
 

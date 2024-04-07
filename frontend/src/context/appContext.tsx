@@ -8,10 +8,14 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { scheduleMealNotification } from "services/notifications";
 import * as Notifications from "expo-notifications";
 import { client } from "gql/client";
 import { GET_USER_DATA_QUERY } from "calls/user/useGetUserData";
+import { schedulePlannerMealTimeNotification } from "services/notifications/plannerMealTimeNotification";
+import { logStressTimeNotification } from "services/notifications/logStressTimeNotification";
+import { listCreationTimeNotification } from "services/notifications/listCreationTimeNotification";
+import { shoppingTimeNotification } from "services/notifications/shoppingTimeNotification";
+import { logMealTimeNotification } from "services/notifications/logMealTimeNotification";
 
 type OnboardDataType = {
   body?: { height?: number; weight?: number };
@@ -40,6 +44,15 @@ export type UserType = {
   shopping?: ShoppingListSettingsType;
   username?: string;
   language?: string;
+  notifications?: NotificationsType;
+};
+
+export type NotificationsType = {
+  plannerMealTime: boolean;
+  logMealTime: boolean;
+  listCreationTime: boolean;
+  shoppingTime: boolean;
+  logStressTime: boolean;
 };
 
 export type PlannedMealType = {
@@ -95,14 +108,22 @@ export const AppProvider = ({
 
   useEffect(() => {
     Notifications.cancelAllScheduledNotificationsAsync();
+    if (appState.userData?.notifications?.logStressTime) {
+      logStressTimeNotification();
+    }
+    if (appState.userData?.shopping) {
+      listCreationTimeNotification(appState.userData?.shopping);
+      shoppingTimeNotification(appState.userData?.shopping);
+    }
 
     console.log("App state changed and notifications cleared: []");
     appState.userData &&
       appState.userData?.plan &&
       appState?.userData?.plan.forEach((meal) => {
-        scheduleMealNotification(meal).catch(console.error);
+        schedulePlannerMealTimeNotification(meal).catch(console.error);
+        logMealTimeNotification(meal).catch(console.error);
       });
-  }, [appState?.userData?.plan]);
+  }, [appState?.userData?.plan, appState.userData?.shopping]);
 
   const refetchUserData = async () => {
     try {

@@ -30,6 +30,16 @@ type User {
   shopping: ShoppingListSettings
 
   streak: Int
+
+  notifications: Notifications
+}
+
+type Notifications {
+  plannerMealTime:Boolean,
+  logMealTime: Boolean,
+  listCreationTime: Boolean,
+  shoppingTime: Boolean,
+  logStressTime: Boolean
 }
 
 type BodyInfo {

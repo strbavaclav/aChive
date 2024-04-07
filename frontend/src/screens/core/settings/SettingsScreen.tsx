@@ -19,15 +19,17 @@ import { useTranslation } from "react-i18next";
 import { useApp } from "context/appContext";
 import { useUpdateUserData } from "calls/user/useUpdateUserData";
 import { changeLanguage } from "utils/changeLanguage";
+import { cancelNotificationsGroup } from "services/notifications/cancelNotifications";
+import { scheduleNotifications } from "services/notifications/scheduleNotifications";
 
 export const validationSchema = z.object({
   language: z.string(),
   schema: z.string(),
-  plannerMealTime: z.string(),
-  logMealTime: z.string(),
-  listCreationTime: z.string(),
-  shoppingTime: z.string(),
-  logStressTime: z.string(),
+  "notifications.plannerMealTime": z.boolean(),
+  "notifications.logMealTime": z.boolean(),
+  "notifications.listCreationTime": z.boolean(),
+  "notifications.shoppingTime": z.boolean(),
+  "notifications.logStressTime": z.boolean(),
 });
 
 type FormDataType = z.infer<typeof validationSchema>;
@@ -39,15 +41,20 @@ export const SettingsScreen = () => {
   const { updateUserDataMutation } = useUpdateUserData();
 
   const language = appState.userData?.language;
+  const plannerMealTime = appState.userData?.notifications?.plannerMealTime;
+  const logMealTime = appState.userData?.notifications?.logMealTime;
+  const listCreationTime = appState.userData?.notifications?.listCreationTime;
+  const shoppingTime = appState.userData?.notifications?.shoppingTime;
+  const logStressTime = appState.userData?.notifications?.logStressTime;
 
   const defaultValues: Partial<FormDataType> = {
-    language: language ? language : "en",
+    language: language ?? "en",
     schema: "Light",
-    plannerMealTime: "true",
-    logMealTime: "true",
-    listCreationTime: "true",
-    shoppingTime: "true",
-    logStressTime: "true",
+    "notifications.plannerMealTime": plannerMealTime ?? true,
+    "notifications.logMealTime": logMealTime ?? true,
+    "notifications.listCreationTime": listCreationTime ?? true,
+    "notifications.shoppingTime": shoppingTime ?? true,
+    "notifications.logStressTime": logStressTime ?? true,
   };
 
   const formContext = useForm<FormDataType>({
@@ -56,42 +63,61 @@ export const SettingsScreen = () => {
     resolver: zodResolver(validationSchema),
   });
 
-  const selectedLanguage = formContext.watch("language");
+  const { watch } = formContext;
 
   useEffect(() => {
-    const updateLanguage = async () => {
-      changeLanguage(selectedLanguage);
-      try {
-        await updateUserDataMutation({
+    const subscription = watch((value, { name, type }) => {
+      if (name === "language") {
+        changeLanguage(formContext.watch(name));
+      }
+      if (typeof name === "undefined") return;
+
+      if (typeof value !== "undefined") {
+        const payloadBoolean = name.includes("notifications");
+
+        const datValue = formContext.watch(name);
+        const payload = {
           variables: {
             newUserData: {
-              name: "language",
-              stringValue: selectedLanguage,
+              name,
+              ...(payloadBoolean
+                ? { booleanValue: datValue as unknown as boolean }
+                : { stringValue: datValue }),
             },
           },
-        });
-      } catch (error) {
-        toast.show({
-          placement: "top",
-          render: ({ id }) => {
-            const toastId = "toast-" + id;
-            return (
-              <Toast nativeID={toastId} action="error" variant="accent">
+        };
+
+        if (payloadBoolean) {
+          const notificationName = name.split(".")[1];
+          const datValue = formContext.watch(name);
+          if (datValue) {
+            scheduleNotifications(notificationName, appState.userData!);
+          } else {
+            cancelNotificationsGroup(notificationName);
+          }
+        }
+
+        updateUserDataMutation(payload).catch((error) => {
+          console.log(error);
+          toast.show({
+            placement: "top",
+            render: ({ id }) => (
+              <Toast nativeID={`toast-${id}`} action="error" variant="accent">
                 <VStack space="xs">
-                  <ToastTitle>Oops... Something went wrong!</ToastTitle>
+                  <ToastTitle>{t("settings.error.oops")}</ToastTitle>
                   <ToastDescription>
-                    Yout language change couldn't be saved.
+                    {t("settings.error.description")}
                   </ToastDescription>
                 </VStack>
               </Toast>
-            );
-          },
+            ),
+          });
         });
       }
-    };
+    });
 
-    updateLanguage();
-  }, [selectedLanguage]);
+    return () => subscription.unsubscribe();
+  }, [watch, updateUserDataMutation, toast]);
 
   return (
     <DrawerScreenWrapper isBack screenTitle={t("navigation.appSettings")}>
@@ -112,8 +138,8 @@ export const SettingsScreen = () => {
         />
         <VStack w={"90%"}>
           <FormProvider {...formContext}>
-            <Heading color="#10b981" mb={6}>
-              Appearance
+            <Heading color="$primary500" mb={6}>
+              {t("settings.section.appearance")}
             </Heading>
             <FormSelect
               name="language"
@@ -126,7 +152,7 @@ export const SettingsScreen = () => {
 
             <FormSelect
               name="schema"
-              helperLabel="This feature is still in progress"
+              helperLabel={t("settings.text.inProgress")}
               options={[
                 { value: "Light", label: t("settings.colorsTheme.light") },
                 { value: "Dark", label: t("settings.colorsTheme.dark") },
@@ -134,48 +160,48 @@ export const SettingsScreen = () => {
               label={t("settings.colorsTheme")}
               disabled
             />
-            <Heading color="#10b981" marginVertical={6}>
-              Notifications
+            <Heading color="$primary500" marginVertical={6}>
+              {t("settings.section.notifications")}
             </Heading>
             <FormSelect
-              name="plannerMealTime"
+              name="notifications.plannerMealTime"
               options={[
-                { value: "true", label: "Turned on" },
-                { value: "false", label: "off" },
+                { value: true, label: t("settings.value.on") },
+                { value: false, label: t("settings.value.off") },
               ]}
-              label={"Planned meal time"}
+              label={t("settings.label.plannerMealTime")}
             />
             <FormSelect
-              name="logMealTime"
+              name="notifications.logMealTime"
               options={[
-                { value: "true", label: "Turned on" },
-                { value: "false", label: "off" },
+                { value: true, label: t("settings.value.on") },
+                { value: false, label: t("settings.value.off") },
               ]}
-              label={"Log meal reminder"}
+              label={t("settings.label.logMealTime")}
             />
             <FormSelect
-              name="listCreationTime"
+              name="notifications.listCreationTime"
               options={[
-                { value: "true", label: "Turned on" },
-                { value: "false", label: "off" },
+                { value: true, label: t("settings.value.on") },
+                { value: false, label: t("settings.value.off") },
               ]}
-              label={"Shopping list creation reminder"}
+              label={t("settings.label.listCreationTime")}
             />
             <FormSelect
-              name="shoppingTime"
+              name="notifications.shoppingTime"
               options={[
-                { value: "true", label: "Turned on" },
-                { value: "false", label: "off" },
+                { value: true, label: t("settings.value.on") },
+                { value: false, label: t("settings.value.off") },
               ]}
-              label={"Shopping time reminder"}
+              label={t("settings.label.shoppingTime")}
             />
             <FormSelect
-              name="logStressTime"
+              name="notifications.logStressTime"
               options={[
-                { value: "true", label: "Turned on" },
-                { value: "false", label: "off" },
+                { value: true, label: t("settings.value.on") },
+                { value: false, label: t("settings.value.off") },
               ]}
-              label={"Stress journal record"}
+              label={t("settings.label.logStressTime")}
             />
           </FormProvider>
         </VStack>

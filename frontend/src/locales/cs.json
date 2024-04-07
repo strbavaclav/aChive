@@ -138,6 +138,30 @@
             "meals": "jídel"
         }
     },
+    "settings":{
+        "section":{
+            "appearance":"Rozhraní",
+            "notifications":"Oznámení"
+        },
+        "text":{
+            "inProgress":"Na této možnosti ještě pracujeme"
+        },
+        "label":{
+            "plannerMealTime":"Čas plánovaného jídla",
+            "logMealTime":"Připomenout zápis jídla",
+            "listCreationTime":"Připomenout vytvoření seznamu",
+            "shoppingTime":"Čas na nákup",
+            "logStressTime":"Připomenout záznam stresu"
+        },
+        "value":{
+            "on":"zapnuto",
+            "off":"vypnuto"
+        },
+        "error":{
+            "oops":"Jejda... něco se nepovedlo!",
+            "description":"Změna nebyla uložena"
+        }
+    },
     "components": {
         "stressFormSlider": {
             "label": "Posuňte knoflík pro výběr úrovně stresu",
@@ -176,7 +200,7 @@
     "navigation.aboutApp": "O aplikaci",
     "navigation.signOut": "Odhlásit se",
     "navigation.Home": "Přehled",
-    "navigation.Planner": "Plánovač",
+    "navigation.Planner": "Plán",
     "navigation.Insights": "Tipy",
     "navigation.Profile": "Profil",
     "navigation.myProfile": "Můj Profil",
