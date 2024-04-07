@@ -17,6 +17,13 @@ mutation UpdateUserData($newUserData: NewUserDataInput!) {
     }
     eatHabitGoal
     _id
+    notifications {
+      plannerMealTime
+      logMealTime
+      listCreationTime
+      shoppingTime
+      logStressTime
+    }
   }
 }
 `);

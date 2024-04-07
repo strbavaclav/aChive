@@ -50,9 +50,18 @@ type Mutation {
 }
 
 input NewUserDataInput {
+  booleanValue: Boolean
   floatValue: Float
   name: String!
   stringValue: String
+}
+
+type Notifications {
+  listCreationTime: Boolean
+  logMealTime: Boolean
+  logStressTime: Boolean
+  plannerMealTime: Boolean
+  shoppingTime: Boolean
 }
 
 input OnboardData {
@@ -165,6 +174,7 @@ type User {
   gender: String
   language: String!
   lastName: String
+  notifications: Notifications
   onboarded: Boolean!
   password: String!
   plan: [PlannedMeal!]

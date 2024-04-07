@@ -46,7 +46,7 @@ const renderItem = ({ item }: { item: ShopItemProps }) => (
 export const ShoppingListScreen = () => {
   const { appState, refetchUserData } = useApp();
 
-  const [activeShoppingList, setActiveShoppingList] = useState(true);
+  const [activeShoppingList, setActiveShoppingList] = useState(false);
   const [itemsToBuy, setItemsToBuy] = useState<ShopItemProps[]>([]);
   const [itemsGot, setItemsGot] = useState<ShopItemProps[]>([]);
   const [dataSections, setDataSections] = useState([]);

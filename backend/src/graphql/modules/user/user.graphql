@@ -11,4 +11,5 @@ input NewUserDataInput {
 name: String!
 stringValue: String
 floatValue: Float
+booleanValue: Boolean
 }

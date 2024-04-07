@@ -33,6 +33,13 @@ export const SIGN_IN_MUTATION = gql(/* GraphQL */ `
         shopStartTime
         shopEndTime
       }
+      notifications {
+        plannerMealTime
+        logMealTime
+        listCreationTime
+        shoppingTime
+        logStressTime
+      }
     }
   }
 `);

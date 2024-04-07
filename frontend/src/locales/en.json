@@ -135,6 +135,30 @@
             "meals": "meals"
         }
     },
+    "settings":{
+        "section":{
+            "appearance":"Appearance",
+            "notifications":"Notifications"
+        },
+        "text":{
+            "inProgress":"This feature is still in progress"
+        },
+        "label":{
+            "plannerMealTime":"Planned meal time",
+            "logMealTime":"Log meal reminder",
+            "listCreationTime":"Shopping list creatin reminder",
+            "shoppingTime":"Shopping time reminder",
+            "logStressTime":"Stress journal record reminder"
+        },
+        "value":{
+            "on":"Turned on",
+            "off":"Turned off"
+        },
+        "error":{
+            "oops":"Jejda... něco se nepovedlo!",
+            "description":"Změna nebyla uložena"
+        }
+    },
     "components": {
         "stressFormSlider": {
             "label": "Slide the knob to select the level of stress",
