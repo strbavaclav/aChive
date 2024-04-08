@@ -127,7 +127,10 @@ export const AppProvider = ({
 
   const refetchUserData = async () => {
     try {
-      const response = await client.query({ query: GET_USER_DATA_QUERY });
+      const response = await client.query({
+        query: GET_USER_DATA_QUERY,
+        fetchPolicy: "no-cache",
+      });
       const { data } = response;
       setAppState((prevState) => ({
         ...prevState,

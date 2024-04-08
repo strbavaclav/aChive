@@ -4,7 +4,8 @@ type Query {
 
 type Mutation {
   updateUserData(newUserData:NewUserDataInput!):User!
-  resetUserRecords:User!
+  resetUserRecords:String!
+  changeMealPlan(newPlan:[PlannedMealInput!]):User!
 }
 
 input NewUserDataInput {

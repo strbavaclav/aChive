@@ -90,11 +90,11 @@ const userShema = new mongoose.Schema({
         shopEndTime: Date,
     },
     notifications: {
-        plannerMealTime: { type: Boolean },
-        logMealTime: { type: Boolean },
-        listCreationTime: { type: Boolean },
-        shoppingTime: { type: Boolean },
-        logStressTime: { type: Boolean },
+        plannerMealTime: { type: Boolean, default: true },
+        logMealTime: { type: Boolean, default: true },
+        listCreationTime: { type: Boolean, default: true },
+        shoppingTime: { type: Boolean, default: true },
+        logStressTime: { type: Boolean, default: true },
     },
 })
 
