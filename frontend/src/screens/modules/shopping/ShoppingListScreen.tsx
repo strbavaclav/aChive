@@ -77,6 +77,12 @@ export const ShoppingListScreen = () => {
   }, [loadingShoppingList, shoppingList]);
 
   useEffect(() => {
+    if (appState.userData?.shopping?.prepStartTime) {
+      setActiveShoppingList(true);
+    }
+  }, [appState.userData?.shopping]);
+
+  useEffect(() => {
     const sections = [
       {
         count: itemsToBuy.length,
@@ -103,10 +109,6 @@ export const ShoppingListScreen = () => {
       await refetchUserData();
     } catch (error) {
       Alert.alert("Error", "Failed to refresh profile data.");
-    } finally {
-      if (appState.userData?.shopping?.prepStartTime) {
-        setActiveShoppingList(true);
-      }
     }
   };
 

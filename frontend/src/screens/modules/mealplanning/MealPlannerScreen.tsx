@@ -49,6 +49,12 @@ const MealPlannerScreen = () => {
   const { appState } = useApp();
   const { t } = useTranslation();
 
+  const [planData, setPlanData] = useState(appState.userData?.plan);
+
+  useEffect(() => {
+    setPlanData(appState.userData?.plan);
+  }, [appState.userData?.plan]);
+
   const {
     loading: loadingRecords,
     error: recordsError,
@@ -61,7 +67,6 @@ const MealPlannerScreen = () => {
     },
   });
 
-  const planData = appState.userData?.plan;
   const language = appState.userData?.language;
 
   useEffect(() => {

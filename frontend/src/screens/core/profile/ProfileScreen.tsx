@@ -11,6 +11,10 @@ import {
   Text,
   Divider,
   ScrollView,
+  useToast,
+  Toast,
+  ToastTitle,
+  ToastDescription,
 } from "@gluestack-ui/themed";
 import { ProfileItem } from "components/modules/profile/ProfileItem";
 import moment from "moment";
@@ -19,6 +23,11 @@ import { ProfileEditActionSheet } from "components/modules/profile/ProfileEditAc
 import { OptionType } from "components/form/FormSelect";
 import { AppAlertDialog } from "components/general/AppAlertDialog";
 import { useTranslation } from "react-i18next";
+import { RESET_USER_RECORDS_MUTATION } from "calls/user/useResetUserRecords";
+import { useMutation } from "@apollo/client";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { MainDrawerParams } from "navigation/main";
+import { useNavigation } from "@react-navigation/native";
 
 export type EditedDataType = {
   label: string;
@@ -35,6 +44,9 @@ export type EditedDataType = {
 };
 
 const ProfileScreen = () => {
+  const navigation = useNavigation<DrawerNavigationProp<MainDrawerParams>>();
+  const toast = useToast();
+
   const { t } = useTranslation();
 
   const { appState, refetchUserData } = useApp();
@@ -46,11 +58,53 @@ const ProfileScreen = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const userData = appState.userData;
 
+  const [resetUserRecords] = useMutation(RESET_USER_RECORDS_MUTATION);
+
   const handleRefresh = async () => {
     try {
       await refetchUserData();
     } catch (error) {
       Alert.alert("Error", "Failed to refresh profile data.");
+    }
+  };
+
+  const onResetRecordsHadnler = async () => {
+    try {
+      await resetUserRecords();
+      setAlertOpen(false);
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          const toastId = "toast-" + id;
+          return (
+            <Toast nativeID={toastId} action="success" variant="accent">
+              <VStack space="xs">
+                <ToastTitle>{t("profile.message.succes.title")}</ToastTitle>
+                <ToastDescription>
+                  {t("profile.message.succes.description")}
+                </ToastDescription>
+              </VStack>
+            </Toast>
+          );
+        },
+      });
+    } catch (e) {
+      toast.show({
+        placement: "top",
+        render: ({ id }) => {
+          const toastId = "toast-" + id;
+          return (
+            <Toast nativeID={toastId} action="error" variant="accent">
+              <VStack space="xs">
+                <ToastTitle>{t("profile.message.error.title")}</ToastTitle>
+                <ToastDescription>
+                  {t("profile.message.error.description")}
+                </ToastDescription>
+              </VStack>
+            </Toast>
+          );
+        },
+      });
     }
   };
 
@@ -219,9 +273,7 @@ const ProfileScreen = () => {
         <HStack gap={6} marginHorizontal={8}>
           <Button
             flex={1}
-            onPress={() =>
-              Alert.alert("This feature is not implemented yet 🥺!")
-            }
+            onPress={() => navigation.navigate("MealPlannerSettings")}
           >
             <ButtonText size="sm">{t("profile.changeEatingPlan")}</ButtonText>
           </Button>
@@ -262,7 +314,7 @@ const ProfileScreen = () => {
       <AppAlertDialog
         isOpen={alertOpen}
         onClose={() => setAlertOpen(false)}
-        onSubmit={() => Alert.alert("This feature is not implemented yet 🥺!")}
+        onSubmit={onResetRecordsHadnler}
         title={t("profile.deleteAllRecords")}
         description={t("profile.deleteAllRecordsAlert")}
         submitTitle={t("profile.earseData")}

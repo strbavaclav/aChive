@@ -43,8 +43,12 @@ const documents = {
     types.EditStressRecordDocument,
   "\n  query GetStressRecordsByDate($date: String!) {\n    getStressRecordsByDate(date: $date) {\n      record {\n        timestamp\n        value\n        note\n      }\n    }\n  }\n":
     types.GetStressRecordsByDateDocument,
+  "\nmutation ChangeMealPlanMutation($newPlan: [PlannedMealInput!]) {\n  changeMealPlan(newPlan: $newPlan) {\n    plan {\n      _id\n      mealName\n      mealSize\n      startTime\n      endTime\n    }\n  }\n}\n":
+    types.ChangeMealPlanMutationDocument,
   "\n  query GetUserData {\n    getUserData {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n      notifications {\n        plannerMealTime\n        logMealTime\n        listCreationTime\n        shoppingTime\n        logStressTime\n      }\n    }\n  }\n":
     types.GetUserDataDocument,
+  "\n  mutation ResetUserRecords {\n    resetUserRecords\n  }\n":
+    types.ResetUserRecordsDocument,
   "\nmutation UpdateUserData($newUserData: NewUserDataInput!) {\n  updateUserData(newUserData: $newUserData) {\n    email\n    language\n    username\n    firstName\n    lastName\n    gender\n    bornDate\n    body {\n      height\n      weight\n    }\n    eatHabitGoal\n    _id\n    notifications {\n      plannerMealTime\n      logMealTime\n      listCreationTime\n      shoppingTime\n      logStressTime\n    }\n  }\n}\n":
     types.UpdateUserDataDocument,
 };
@@ -157,8 +161,20 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
+  source: "\nmutation ChangeMealPlanMutation($newPlan: [PlannedMealInput!]) {\n  changeMealPlan(newPlan: $newPlan) {\n    plan {\n      _id\n      mealName\n      mealSize\n      startTime\n      endTime\n    }\n  }\n}\n",
+): (typeof documents)["\nmutation ChangeMealPlanMutation($newPlan: [PlannedMealInput!]) {\n  changeMealPlan(newPlan: $newPlan) {\n    plan {\n      _id\n      mealName\n      mealSize\n      startTime\n      endTime\n    }\n  }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
   source: "\n  query GetUserData {\n    getUserData {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n      notifications {\n        plannerMealTime\n        logMealTime\n        listCreationTime\n        shoppingTime\n        logStressTime\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  query GetUserData {\n    getUserData {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n      notifications {\n        plannerMealTime\n        logMealTime\n        listCreationTime\n        shoppingTime\n        logStressTime\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  mutation ResetUserRecords {\n    resetUserRecords\n  }\n",
+): (typeof documents)["\n  mutation ResetUserRecords {\n    resetUserRecords\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

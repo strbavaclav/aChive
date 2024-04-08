@@ -108,89 +108,106 @@
         },
         "action": {
             "addExtraMeal": "Add extra meal",
-            "earse":"Earse",
-            "edit":"Edit",
-            "log":"Log",
-            "update":"Update"
+            "earse": "Earse",
+            "edit": "Edit",
+            "log": "Log",
+            "update": "Update"
         },
         "modal": {
             "mealTime": "Meal time",
-            "time":"Time",
+            "time": "Time",
             "mealSize": "Size",
             "selfPrepared": "Self-prepared meal",
-            "note":"Note",
-            "noNote":"No note...",
-            "extraMealName":"Extra meal name",
-            "extraMealNamePH":"eg. Quick sandwich",
-            "actualSizePH":"The actual meal size?",
-            "describeMeal":"Describe your meal..."
+            "note": "Note",
+            "noNote": "No note...",
+            "extraMealName": "Extra meal name",
+            "extraMealNamePH": "eg. Quick sandwich",
+            "actualSizePH": "The actual meal size?",
+            "describeMeal": "Describe your meal..."
         },
-        "remove":{
-            "removing":"Removing record",
-            "description":"Are you sure you want to delete this record?"
+        "remove": {
+            "removing": "Removing record",
+            "description": "Are you sure you want to delete this record?"
         },
         "footer": {
             "dailyProgress": "Daily progress",
             "of": "of",
             "meals": "meals"
+        },
+        "change":{
+            "title1":"Change your",
+            "title2":" plan!",
+            "description1":"You need to reschedule your meal plan? No problem at all! It is ok to change your schedule to meet your goal sometimes",
+            "description2":"But remember that you should follow some of the leading tips:"
         }
     },
-    "settings":{
-        "section":{
-            "appearance":"Appearance",
-            "notifications":"Notifications"
+    "settings": {
+        "section": {
+            "appearance": "Appearance",
+            "notifications": "Notifications"
         },
-        "text":{
-            "inProgress":"This feature is still in progress"
+        "text": {
+            "inProgress": "This feature is still in progress"
         },
-        "label":{
-            "plannerMealTime":"Planned meal time",
-            "logMealTime":"Log meal reminder",
-            "listCreationTime":"Shopping list creatin reminder",
-            "shoppingTime":"Shopping time reminder",
-            "logStressTime":"Stress journal record reminder"
+        "label": {
+            "plannerMealTime": "Planned meal time",
+            "logMealTime": "Log meal reminder",
+            "listCreationTime": "Shopping list creatin reminder",
+            "shoppingTime": "Shopping time reminder",
+            "logStressTime": "Stress journal record reminder"
         },
-        "value":{
-            "on":"Turned on",
-            "off":"Turned off"
+        "value": {
+            "on": "Turned on",
+            "off": "Turned off"
         },
-        "error":{
-            "oops":"Jejda... něco se nepovedlo!",
-            "description":"Změna nebyla uložena"
+        "error": {
+            "oops": "Jejda... něco se nepovedlo!",
+            "description": "Změna nebyla uložena"
         }
     },
     "journal": {
         "record": {
             "felt": "The stress on this day was",
-            "description":"Your description",
-            "earseTitle":"Delete stress record",
-            "earseDescription":"Do you really want to delete this stress record from your journal?",
-            "isFuture":"This day has not yet come"
-
+            "description": "Your description",
+            "earseTitle": "Delete stress record",
+            "earseDescription": "Do you really want to delete this stress record from your journal?",
+            "isFuture": "This day has not yet come"
         },
-        "form":{
-            "howWasYourDay":"How was your day?",
-            "writeNote":"Write a note",
-            "notePH":"Today i was in stress beacause of important meeting with my boss...",
-            "noteDescription":"This note will help you to understand your stress level on subsequent reading"
+        "form": {
+            "howWasYourDay": "How was your day?",
+            "writeNote": "Write a note",
+            "notePH": "Today i was in stress beacause of important meeting with my boss...",
+            "noteDescription": "This note will help you to understand your stress level on subsequent reading"
         },
-        "action":{
-            "earse":"Earse",
-            "edit":"Edit",
-            "save":"Save",
-            "enlist":"Enlist",
-            "delete":"Delete"
+        "action": {
+            "earse": "Earse",
+            "edit": "Edit",
+            "save": "Save",
+            "enlist": "Enlist",
+            "delete": "Delete"
         }
     },
-    "notifications":{
-        "title":"Notifications",
-        "noNotification":"No notifications yet...",
-        "body":{
-            "plannerMealTime":"Time for",
-            "logMealTime":"Did you eat",
-            "listCreationTime":"It's time to prepare your shopping list",
-            "shoppingTime":"It's shopping time",
-            "logStressTime":"How do you feel today"
+    "profile": {
+        "message": {
+            "succes": {
+                "title": "Your data has been earsed!",
+                "description": "Let's start again strong."
+            },
+            "error": {
+                "title": "Oops... Something went wrong!",
+                "description": "The data couldn't been earsed."
+            }
+        }
+    },
+    "notifications": {
+        "title": "Notifications",
+        "noNotification": "No notifications yet...",
+        "body": {
+            "plannerMealTime": "Time for",
+            "logMealTime": "Did you eat",
+            "listCreationTime": "It's time to prepare your shopping list",
+            "shoppingTime": "It's shopping time",
+            "logStressTime": "How do you feel today"
         }
     },
     "components": {
@@ -214,6 +231,7 @@
         }
     },
     "general.cancel": "Cancel",
+    "general.save":"Save",
     "general.size": "SIZE",
     "general.loading...": "Loading...",
     "general.yes": "Yes",

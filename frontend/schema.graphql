@@ -39,11 +39,12 @@ type Mutation {
   addStressRecord(stressRecordData: StressRecordDataInput!): StressRecords!
   appleSignIn(token: String!): User!
   appleSignUp(token: String!): User!
+  changeMealPlan(newPlan: [PlannedMealInput!]): User!
   deleteStressRecord(date: String!): String!
   editStressRecord(date: String!, updatedRecord: StressRecordDataInput!): StressRecordData
   onboard(onboardData: OnboardData!): User!
   removeMealRecordById(recordId: String!, userId: String!): String!
-  resetUserRecords: User!
+  resetUserRecords: String!
   setShoppingListSettings(ShopListSettings: ShopListSettingsInput!): User!
   signIn(authData: SignInInput!): User!
   signUp(authData: SignUpInput!): User!
