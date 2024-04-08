@@ -149,8 +149,9 @@ const OnboardingStep2Screen = () => {
                     <Text>{t("onboarding.step2.text.stress1")}</Text>
                     <Text>{t("onboarding.step2.text.stress2")}</Text>
                   </VStack>
-
-                  <StressSlider name="stressRecordValue" label={""} />
+                  <View mt={20}>
+                    <StressSlider name="stressRecordValue" label={""} />
+                  </View>
 
                   <View mt={20}>
                     <FormTextArea

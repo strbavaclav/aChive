@@ -16,12 +16,12 @@ import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 import { AboutScreen } from "screens/core/about/AboutScreen";
 import { ShoppingListScreen } from "screens/modules/shopping/ShoppingListScreen";
 import CookBookScreen from "screens/modules/cookbook/CookBookScreen";
-import ReliefScreen from "screens/modules/relief/ReliefScreen";
 import { SettingsScreen } from "screens/core/settings/SettingsScreen";
 import { useNavigation } from "@react-navigation/native";
 import NotificationScreen from "screens/core/notification/NotificationScreen";
 import { PlannerStackNavigator } from "navigation/planner";
 import { useTranslation } from "react-i18next";
+import { JournalScreen } from "screens/modules/journal/JournalScreen";
 
 type Props = { children: ReactNode };
 
@@ -38,7 +38,7 @@ export type MainDrawerParams = {
   About: undefined;
   Shopping: undefined;
   Cookbook: undefined;
-  StressRelief: undefined;
+  Journal: undefined;
   Notifications: undefined;
 };
 
@@ -171,8 +171,8 @@ export const MainDrawerNavigator = () => {
           options={{ headerTitle: "" }}
         />
         <MainDrawer.Screen
-          name={"StressRelief"}
-          component={ReliefScreen}
+          name={"Journal"}
+          component={JournalScreen}
           options={{ headerTitle: "" }}
         />
         <MainDrawer.Screen

@@ -78,6 +78,8 @@ export type Mutation = {
     addStressRecord: StressRecords
     appleSignIn: User
     appleSignUp: User
+    deleteStressRecord: Scalars['String']['output']
+    editStressRecord?: Maybe<StressRecordData>
     onboard: User
     removeMealRecordById: Scalars['String']['output']
     resetUserRecords: User
@@ -111,6 +113,15 @@ export type MutationAppleSignInArgs = {
 
 export type MutationAppleSignUpArgs = {
     token: Scalars['String']['input']
+}
+
+export type MutationDeleteStressRecordArgs = {
+    date: Scalars['String']['input']
+}
+
+export type MutationEditStressRecordArgs = {
+    date: Scalars['String']['input']
+    updatedRecord: StressRecordDataInput
 }
 
 export type MutationOnboardArgs = {
@@ -194,6 +205,7 @@ export type Query = {
     _empty?: Maybe<Scalars['String']['output']>
     getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>
     getShoppingList?: Maybe<ShoppingList>
+    getStressRecordsByDate?: Maybe<DateStressRecord>
     getUser?: Maybe<User>
     getUserData?: Maybe<User>
 }
@@ -201,6 +213,10 @@ export type Query = {
 export type QueryGetMealRecordsByDateArgs = {
     date: Scalars['String']['input']
     userId: Scalars['String']['input']
+}
+
+export type QueryGetStressRecordsByDateArgs = {
+    date: Scalars['String']['input']
 }
 
 export type QueryGetUserArgs = {
@@ -295,6 +311,11 @@ export type User = {
     streak?: Maybe<Scalars['Int']['output']>
     token?: Maybe<Scalars['String']['output']>
     username?: Maybe<Scalars['String']['output']>
+}
+
+export type DateStressRecord = {
+    __typename?: 'dateStressRecord'
+    record?: Maybe<StressRecordData>
 }
 
 export type ResolverTypeWrapper<T> = Promise<T> | T
@@ -432,6 +453,7 @@ export type ResolversTypes = {
     StressRecords: ResolverTypeWrapper<StressRecords>
     String: ResolverTypeWrapper<Scalars['String']['output']>
     User: ResolverTypeWrapper<User>
+    dateStressRecord: ResolverTypeWrapper<DateStressRecord>
 }
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -464,6 +486,7 @@ export type ResolversParentTypes = {
     StressRecords: StressRecords
     String: Scalars['String']['output']
     User: User
+    dateStressRecord: DateStressRecord
 }
 
 export type BodyInfoResolvers<
@@ -549,6 +572,18 @@ export type MutationResolvers<
         ParentType,
         ContextType,
         RequireFields<MutationAppleSignUpArgs, 'token'>
+    >
+    deleteStressRecord?: Resolver<
+        ResolversTypes['String'],
+        ParentType,
+        ContextType,
+        RequireFields<MutationDeleteStressRecordArgs, 'date'>
+    >
+    editStressRecord?: Resolver<
+        Maybe<ResolversTypes['StressRecordData']>,
+        ParentType,
+        ContextType,
+        RequireFields<MutationEditStressRecordArgs, 'date' | 'updatedRecord'>
     >
     onboard?: Resolver<
         ResolversTypes['User'],
@@ -657,6 +692,12 @@ export type QueryResolvers<
         Maybe<ResolversTypes['ShoppingList']>,
         ParentType,
         ContextType
+    >
+    getStressRecordsByDate?: Resolver<
+        Maybe<ResolversTypes['dateStressRecord']>,
+        ParentType,
+        ContextType,
+        RequireFields<QueryGetStressRecordsByDateArgs, 'date'>
     >
     getUser?: Resolver<
         Maybe<ResolversTypes['User']>,
@@ -810,6 +851,18 @@ export type UserResolvers<
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
+export type DateStressRecordResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['dateStressRecord'] = ResolversParentTypes['dateStressRecord']
+> = {
+    record?: Resolver<
+        Maybe<ResolversTypes['StressRecordData']>,
+        ParentType,
+        ContextType
+    >
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
 export type Resolvers<ContextType = any> = {
     BodyInfo?: BodyInfoResolvers<ContextType>
     MealRecord?: MealRecordResolvers<ContextType>
@@ -824,4 +877,5 @@ export type Resolvers<ContextType = any> = {
     StressRecordData?: StressRecordDataResolvers<ContextType>
     StressRecords?: StressRecordsResolvers<ContextType>
     User?: UserResolvers<ContextType>
+    dateStressRecord?: DateStressRecordResolvers<ContextType>
 }

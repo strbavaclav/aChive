@@ -74,6 +74,8 @@ export type Mutation = {
   addStressRecord: StressRecords;
   appleSignIn: User;
   appleSignUp: User;
+  deleteStressRecord: Scalars["String"]["output"];
+  editStressRecord?: Maybe<StressRecordData>;
   onboard: User;
   removeMealRecordById: Scalars["String"]["output"];
   resetUserRecords: User;
@@ -107,6 +109,15 @@ export type MutationAppleSignInArgs = {
 
 export type MutationAppleSignUpArgs = {
   token: Scalars["String"]["input"];
+};
+
+export type MutationDeleteStressRecordArgs = {
+  date: Scalars["String"]["input"];
+};
+
+export type MutationEditStressRecordArgs = {
+  date: Scalars["String"]["input"];
+  updatedRecord: StressRecordDataInput;
 };
 
 export type MutationOnboardArgs = {
@@ -190,6 +201,7 @@ export type Query = {
   _empty?: Maybe<Scalars["String"]["output"]>;
   getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>;
   getShoppingList?: Maybe<ShoppingList>;
+  getStressRecordsByDate?: Maybe<DateStressRecord>;
   getUser?: Maybe<User>;
   getUserData?: Maybe<User>;
 };
@@ -197,6 +209,10 @@ export type Query = {
 export type QueryGetMealRecordsByDateArgs = {
   date: Scalars["String"]["input"];
   userId: Scalars["String"]["input"];
+};
+
+export type QueryGetStressRecordsByDateArgs = {
+  date: Scalars["String"]["input"];
 };
 
 export type QueryGetUserArgs = {
@@ -291,6 +307,11 @@ export type User = {
   streak?: Maybe<Scalars["Int"]["output"]>;
   token?: Maybe<Scalars["String"]["output"]>;
   username?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type DateStressRecord = {
+  __typename?: "dateStressRecord";
+  record?: Maybe<StressRecordData>;
 };
 
 export type AppleSignInMutationVariables = Exact<{
@@ -642,6 +663,64 @@ export type SetShoppingListSettingsMutation = {
       shopEndTime?: string | null;
     } | null;
   };
+};
+
+export type AddStressRecordMutationVariables = Exact<{
+  stressRecordData: StressRecordDataInput;
+}>;
+
+export type AddStressRecordMutation = {
+  __typename?: "Mutation";
+  addStressRecord: {
+    __typename?: "StressRecords";
+    stressRecords?: Array<{
+      __typename?: "StressRecordData";
+      timestamp: string;
+      value: number;
+      note?: string | null;
+    }> | null;
+  };
+};
+
+export type DeleteStressRecordMutationVariables = Exact<{
+  date: Scalars["String"]["input"];
+}>;
+
+export type DeleteStressRecordMutation = {
+  __typename?: "Mutation";
+  deleteStressRecord: string;
+};
+
+export type EditStressRecordMutationVariables = Exact<{
+  date: Scalars["String"]["input"];
+  updatedRecord: StressRecordDataInput;
+}>;
+
+export type EditStressRecordMutation = {
+  __typename?: "Mutation";
+  editStressRecord?: {
+    __typename?: "StressRecordData";
+    timestamp: string;
+    value: number;
+    note?: string | null;
+  } | null;
+};
+
+export type GetStressRecordsByDateQueryVariables = Exact<{
+  date: Scalars["String"]["input"];
+}>;
+
+export type GetStressRecordsByDateQuery = {
+  __typename?: "Query";
+  getStressRecordsByDate?: {
+    __typename?: "dateStressRecord";
+    record?: {
+      __typename?: "StressRecordData";
+      timestamp: string;
+      value: number;
+      note?: string | null;
+    } | null;
+  } | null;
 };
 
 export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
@@ -2084,6 +2163,259 @@ export const SetShoppingListSettingsDocument = {
 } as unknown as DocumentNode<
   SetShoppingListSettingsMutation,
   SetShoppingListSettingsMutationVariables
+>;
+export const AddStressRecordDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "AddStressRecord" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "stressRecordData" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "StressRecordDataInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "addStressRecord" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "stressRecordData" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "stressRecordData" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "stressRecords" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "timestamp" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "value" } },
+                      { kind: "Field", name: { kind: "Name", value: "note" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  AddStressRecordMutation,
+  AddStressRecordMutationVariables
+>;
+export const DeleteStressRecordDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "DeleteStressRecord" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "date" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "deleteStressRecord" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "date" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "date" },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  DeleteStressRecordMutation,
+  DeleteStressRecordMutationVariables
+>;
+export const EditStressRecordDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "EditStressRecord" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "date" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "updatedRecord" },
+          },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "StressRecordDataInput" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "editStressRecord" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "date" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "date" },
+                },
+              },
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "updatedRecord" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "updatedRecord" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "timestamp" } },
+                { kind: "Field", name: { kind: "Name", value: "value" } },
+                { kind: "Field", name: { kind: "Name", value: "note" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  EditStressRecordMutation,
+  EditStressRecordMutationVariables
+>;
+export const GetStressRecordsByDateDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetStressRecordsByDate" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "date" } },
+          type: {
+            kind: "NonNullType",
+            type: {
+              kind: "NamedType",
+              name: { kind: "Name", value: "String" },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getStressRecordsByDate" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "date" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "date" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "record" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "timestamp" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "value" } },
+                      { kind: "Field", name: { kind: "Name", value: "note" } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  GetStressRecordsByDateQuery,
+  GetStressRecordsByDateQueryVariables
 >;
 export const GetUserDataDocument = {
   kind: "Document",

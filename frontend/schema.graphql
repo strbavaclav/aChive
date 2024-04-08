@@ -39,6 +39,8 @@ type Mutation {
   addStressRecord(stressRecordData: StressRecordDataInput!): StressRecords!
   appleSignIn(token: String!): User!
   appleSignUp(token: String!): User!
+  deleteStressRecord(date: String!): String!
+  editStressRecord(date: String!, updatedRecord: StressRecordDataInput!): StressRecordData
   onboard(onboardData: OnboardData!): User!
   removeMealRecordById(recordId: String!, userId: String!): String!
   resetUserRecords: User!
@@ -96,6 +98,7 @@ type Query {
   _empty: String
   getMealRecordsByDate(date: String!, userId: String!): [MealRecord]
   getShoppingList: ShoppingList
+  getStressRecordsByDate(date: String!): dateStressRecord
   getUser(id: ID!): User
   getUserData: User
 }
@@ -182,4 +185,8 @@ type User {
   streak: Int
   token: String
   username: String
+}
+
+type dateStressRecord {
+  record: StressRecordData
 }
