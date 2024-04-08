@@ -1,10 +1,16 @@
 
 type Mutation {
   addStressRecord(stressRecordData: StressRecordDataInput!):StressRecords!
+  deleteStressRecord(date: String!): String!
+  editStressRecord(date: String!, updatedRecord: StressRecordDataInput!): StressRecordData
+
+}
+
+type Query {
+  getStressRecordsByDate(date: String!): dateStressRecord
 }
 
 type StressRecords {
-
     stressRecords:[StressRecordData!]
 }
 
@@ -18,5 +24,9 @@ input StressRecordDataInput {
   timestamp: String!
   value: Int!
   note: String
+}
+
+type dateStressRecord {
+  record: StressRecordData
 }
 

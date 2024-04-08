@@ -135,7 +135,7 @@ const HomeScreen = () => {
 
           <DashboardTile
             variant="secondary"
-            navigate={"StressRelief" as keyof MainDrawerParams}
+            navigate={"Journal" as keyof MainDrawerParams}
           >
             <HStack justifyContent="center" alignItems="center" gap={6}>
               <Ionicons size={40} name={"fitness-outline"} color={"white"} />

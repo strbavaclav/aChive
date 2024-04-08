@@ -100,9 +100,9 @@ const CustomDrawer: React.FC<Props> = ({ navigation }) => {
             navigate={() => navigation.navigate("Home")}
           />
           <CustomDrawerItem
-            label={t("navigation.stressRelief")}
+            label={t("navigation.journal")}
             icon={"fitness-outline"}
-            navigate={() => navigation.navigate("StressRelief")}
+            navigate={() => navigation.navigate("Journal")}
           />
           <CustomDrawerItem
             label={t("navigation.shoppingList")}

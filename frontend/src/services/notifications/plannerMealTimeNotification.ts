@@ -1,11 +1,11 @@
 import * as Notifications from "expo-notifications";
 
 import { PlannedMealType } from "context/appContext";
+import { t } from "i18next";
 
 export const schedulePlannerMealTimeNotification = async (
   meal: PlannedMealType
 ) => {
-  //TODO: opravit
   const mealTimestamp = meal.startTime;
   const mealTimeFormatted = new Date(parseInt(String(mealTimestamp)));
 
@@ -15,7 +15,7 @@ export const schedulePlannerMealTimeNotification = async (
   await Notifications.scheduleNotificationAsync({
     content: {
       title: `aChive`,
-      body: `Time for ${meal.mealName} 🥗!`,
+      body: `${t("notifications.body.plannerMealTime")} ${meal.mealName} 🥗!`,
       sound: "default",
       data: { type: "plannerMealTime" },
     },

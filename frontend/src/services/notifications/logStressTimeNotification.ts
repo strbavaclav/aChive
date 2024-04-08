@@ -1,10 +1,11 @@
 import * as Notifications from "expo-notifications";
+import { t } from "i18next";
 
 export const logStressTimeNotification = async () => {
   await Notifications.scheduleNotificationAsync({
     content: {
       title: `aChive`,
-      body: `How do you feel today 💚?`,
+      body: `${t("notifications.body.logStressTime")} 💚?`,
       sound: "default",
       data: { type: "logStressTime" },
     },
