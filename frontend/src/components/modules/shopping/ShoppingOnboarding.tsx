@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { z } from "zod";
 import {
   FormProvider,
@@ -11,6 +11,7 @@ import { View } from "@gluestack-ui/themed";
 import { ShoppingOnboardingPart } from "./ShoppingOnboardingPart";
 import { useSetShoppingListSettings } from "calls/shopping/useSetShoppingListSettings";
 import { GET_USER_DATA_QUERY } from "calls/user/useGetUserData";
+import { useApp } from "context/appContext";
 
 export const validationSchema = z.object({
   prepDays: z.array(z.number()),
@@ -26,20 +27,56 @@ type FormDataType = z.infer<typeof validationSchema>;
 
 type Props = {
   onFinish: () => Promise<void>;
+  change?: boolean;
 };
 
-export const ShoppingOnboarding: FC<Props> = ({ onFinish }) => {
+export const ShoppingOnboarding: FC<Props> = ({ onFinish, change }) => {
   const [step, setStep] = useState(0);
   const { setShoppingListSettingsMutation } = useSetShoppingListSettings();
+  const { appState } = useApp();
+  const [shoppingSettings, setShoppingSettings] = useState(
+    appState.userData?.shopping
+  );
+
+  useEffect(() => {
+    setShoppingSettings(appState.userData?.shopping);
+  }, [appState.userData?.shopping]);
+
+  const createDateWithDefaultHours = (
+    dateString: string | undefined,
+    defaultHours: number,
+    defaultMinutes: number = 0
+  ): Date => {
+    let date: Date;
+    if (dateString) {
+      date = new Date(dateString);
+      // Check if the date is valid
+      if (isNaN(date.getTime())) {
+        // If invalid, create a new date with default hours and minutes
+        date = new Date(
+          new Date().setHours(defaultHours, defaultMinutes, 0, 0)
+        );
+      }
+    } else {
+      // If dateString is undefined, create a new date with default hours and minutes
+      date = new Date(new Date().setHours(defaultHours, defaultMinutes, 0, 0));
+    }
+    return date;
+  };
 
   const defaultValues: Partial<FormDataType> = {
-    prepDays: [],
-    prepStartTime: new Date(new Date().setHours(16, 30, 0, 0)),
-    prepEndTime: new Date(new Date().setHours(17, 0, 0, 0)),
-
-    shopDays: [],
-    shopStartTime: new Date(new Date().setHours(17, 0, 0, 0)),
-    shopEndTime: new Date(new Date().setHours(18, 0, 0, 0)),
+    prepDays: shoppingSettings?.prepDays ?? [],
+    prepStartTime: createDateWithDefaultHours(
+      shoppingSettings?.prepStartTime,
+      17
+    ),
+    prepEndTime: createDateWithDefaultHours(shoppingSettings?.prepEndTime, 17),
+    shopDays: shoppingSettings?.shopDays ?? [],
+    shopStartTime: createDateWithDefaultHours(
+      shoppingSettings?.shopStartTime,
+      17
+    ),
+    shopEndTime: createDateWithDefaultHours(shoppingSettings?.shopEndTime, 18),
   };
 
   const formContext = useForm<FormDataType>({
@@ -50,7 +87,7 @@ export const ShoppingOnboarding: FC<Props> = ({ onFinish }) => {
 
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
     try {
-      const result = await setShoppingListSettingsMutation({
+      await setShoppingListSettingsMutation({
         variables: {
           shopListSettings: {
             prepDays: values.prepDays,
@@ -62,6 +99,8 @@ export const ShoppingOnboarding: FC<Props> = ({ onFinish }) => {
           },
         },
       });
+      setStep(0);
+      formContext.reset(defaultValues);
       await onFinish();
     } catch (error) {
       console.log(error);
@@ -88,6 +127,8 @@ export const ShoppingOnboarding: FC<Props> = ({ onFinish }) => {
             title="Let's get started!"
             description="Eating healthy is all about being ready with your meals on time. Make sure you keep an eye on what food you've got at home. Pick times during your week when you're free to write down a shopping list."
             onNextStep={() => setStep(1)}
+            changeHeading={change}
+            cancelBtn={change}
           />
         )}
 
@@ -105,6 +146,7 @@ export const ShoppingOnboarding: FC<Props> = ({ onFinish }) => {
             onNextStep={() => setStep(1)}
             onPreviousStep={() => setStep(0)}
             onStart={onStart}
+            changeHeading={change}
             submitBtn
           />
         )}

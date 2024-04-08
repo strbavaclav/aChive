@@ -279,9 +279,7 @@ const ProfileScreen = () => {
           </Button>
           <Button
             flex={1}
-            onPress={() =>
-              Alert.alert("This feature is not implemented yet 🥺!")
-            }
+            onPress={() => navigation.navigate("ShoppingSettings")}
           >
             <ButtonText textAlign="center" size="sm">
               {t("profile.changeShoppingPlan")}
