@@ -135,6 +135,12 @@
             "dailyProgress": "Denní souhrn",
             "of": "z",
             "meals": "jídel"
+        },
+        "change": {
+            "title1": "Změn si svůj",
+            "title2": " plán!",
+            "description1": "Potřebujete přeplánovat svůj jídelníček? Vůbec to není problém! Je v pořádku změnit svůj plán, aby odpovídal vašemu cíli.",
+            "description2": "Ale nezapomeňte, že byste měli dodržovat některé z hlavních tipů:"
         }
     },
     "settings": {
@@ -164,23 +170,35 @@
     "journal": {
         "record": {
             "felt": "Tento den tvůj stress byl",
-            "description":"Tvá poznámka",
-            "earseTitle":"Smazat záznam",
-            "earseDescription":"Opravdu chceš smazat tento záznam z deníku?",
-            "isFuture":"Tento den ještě nenastal"
+            "description": "Tvá poznámka",
+            "earseTitle": "Smazat záznam",
+            "earseDescription": "Opravdu chceš smazat tento záznam z deníku?",
+            "isFuture": "Tento den ještě nenastal"
         },
-        "form":{
-            "howWasYourDay":"Jak jsi se cítil?",
-            "writeNote":"Napiš poznámku",
-            "notePH":"Dnes jsem se cítil pod stresem, jelikož jsem měl v práci důležitou schůzku...",
-            "noteDescription":"Tato poznámka ti pomůže porozumět záznamům i při budoucím čtení"
+        "form": {
+            "howWasYourDay": "Jak jsi se cítil?",
+            "writeNote": "Napiš poznámku",
+            "notePH": "Dnes jsem se cítil pod stresem, jelikož jsem měl v práci důležitou schůzku...",
+            "noteDescription": "Tato poznámka ti pomůže porozumět záznamům i při budoucím čtení"
         },
-        "action":{
-            "earse":"Smazat",
-            "edit":"Upravit",
-            "save":"Uložit",
-            "enlist":"Přidat",
-            "delete":"Smazat"
+        "action": {
+            "earse": "Smazat",
+            "edit": "Upravit",
+            "save": "Uložit",
+            "enlist": "Přidat",
+            "delete": "Smazat"
+        }
+    },
+    "profile": {
+        "message": {
+            "succes": {
+                "title": "Tvé záznamy byly smazány!",
+                "description": "Můžeš začít s čistým štítem."
+            },
+            "error": {
+                "title": "Jejda... něco se nepovedlo!",
+                "description": "Tvá data nemohla být smazána."
+            }
         }
     },
     "notifications": {
@@ -216,6 +234,7 @@
     },
     "general.cancel": "Zrušit",
     "general.size": "Velikost",
+    "general.save": "Uložit",
     "general.loading...": "Načítání...",
     "general.yes": "Ano",
     "general.no": "Ne",

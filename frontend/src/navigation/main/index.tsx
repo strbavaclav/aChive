@@ -22,6 +22,8 @@ import NotificationScreen from "screens/core/notification/NotificationScreen";
 import { PlannerStackNavigator } from "navigation/planner";
 import { useTranslation } from "react-i18next";
 import { JournalScreen } from "screens/modules/journal/JournalScreen";
+import { MealPlannerSettingsScreen } from "screens/modules/mealplanning/MealPlannerSettingsScreen";
+import { ShoppingListSettingsScreen } from "screens/modules/shopping/ShoppingListSettingsScreen";
 
 type Props = { children: ReactNode };
 
@@ -37,9 +39,11 @@ export type MainDrawerParams = {
   Settings: undefined;
   About: undefined;
   Shopping: undefined;
+  ShoppingSettings: undefined;
   Cookbook: undefined;
   Journal: undefined;
   Notifications: undefined;
+  MealPlannerSettings: undefined;
 };
 
 const MainTab = createBottomTabNavigator<MainTabsParams>();
@@ -183,6 +187,16 @@ export const MainDrawerNavigator = () => {
         <MainDrawer.Screen
           name={"Notifications"}
           component={NotificationScreen}
+          options={{ headerTitle: "" }}
+        />
+        <MainDrawer.Screen
+          name={"MealPlannerSettings"}
+          component={MealPlannerSettingsScreen}
+          options={{ headerTitle: "" }}
+        />
+        <MainDrawer.Screen
+          name={"ShoppingSettings"}
+          component={ShoppingListSettingsScreen}
           options={{ headerTitle: "" }}
         />
       </MainDrawer.Navigator>

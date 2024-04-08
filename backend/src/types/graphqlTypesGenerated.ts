@@ -78,11 +78,12 @@ export type Mutation = {
     addStressRecord: StressRecords
     appleSignIn: User
     appleSignUp: User
+    changeMealPlan: User
     deleteStressRecord: Scalars['String']['output']
     editStressRecord?: Maybe<StressRecordData>
     onboard: User
     removeMealRecordById: Scalars['String']['output']
-    resetUserRecords: User
+    resetUserRecords: Scalars['String']['output']
     setShoppingListSettings: User
     signIn: User
     signUp: User
@@ -113,6 +114,10 @@ export type MutationAppleSignInArgs = {
 
 export type MutationAppleSignUpArgs = {
     token: Scalars['String']['input']
+}
+
+export type MutationChangeMealPlanArgs = {
+    newPlan?: InputMaybe<Array<PlannedMealInput>>
 }
 
 export type MutationDeleteStressRecordArgs = {
@@ -573,6 +578,12 @@ export type MutationResolvers<
         ContextType,
         RequireFields<MutationAppleSignUpArgs, 'token'>
     >
+    changeMealPlan?: Resolver<
+        ResolversTypes['User'],
+        ParentType,
+        ContextType,
+        Partial<MutationChangeMealPlanArgs>
+    >
     deleteStressRecord?: Resolver<
         ResolversTypes['String'],
         ParentType,
@@ -597,7 +608,11 @@ export type MutationResolvers<
         ContextType,
         RequireFields<MutationRemoveMealRecordByIdArgs, 'recordId' | 'userId'>
     >
-    resetUserRecords?: Resolver<ResolversTypes['User'], ParentType, ContextType>
+    resetUserRecords?: Resolver<
+        ResolversTypes['String'],
+        ParentType,
+        ContextType
+    >
     setShoppingListSettings?: Resolver<
         ResolversTypes['User'],
         ParentType,

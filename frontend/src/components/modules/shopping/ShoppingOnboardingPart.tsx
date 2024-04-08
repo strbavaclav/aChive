@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction } from "react";
+import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
 import DayPicker from "components/custom/DayPicker";
 import {
   Button,
@@ -7,6 +7,8 @@ import {
   CheckIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
+  CloseIcon,
+  EditIcon,
   HStack,
   Heading,
   Image,
@@ -20,6 +22,11 @@ import Animated, {
   FadeOut,
   FadeOutLeft,
 } from "react-native-reanimated";
+import { useTranslation } from "react-i18next";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
+import { MainDrawerParams } from "navigation/main";
+import { useNavigation } from "@react-navigation/native";
+import { useApp } from "context/appContext";
 
 type FormInputKeys = {
   daySelectorKey: string;
@@ -39,6 +46,8 @@ type Props = {
   nextBtn?: boolean;
   previousBtn?: boolean;
   submitBtn?: boolean;
+  cancelBtn?: boolean;
+  changeHeading?: boolean;
 
   onNextStep?: () => void;
   onPreviousStep?: () => void;
@@ -61,7 +70,12 @@ export const ShoppingOnboardingPart: FC<Props> = (props) => {
     onPreviousStep,
     onStart,
     submitBtn,
+    changeHeading,
+    cancelBtn,
   } = props;
+  const { t } = useTranslation();
+  const navigation = useNavigation<DrawerNavigationProp<MainDrawerParams>>();
+
   const imageSource = imageMap[imagePathKey];
 
   return (
@@ -71,6 +85,15 @@ export const ShoppingOnboardingPart: FC<Props> = (props) => {
         exiting={FadeOutLeft}
         style={{ alignItems: "center", gap: 20 }}
       >
+        {changeHeading && (
+          <Heading>
+            {t("mealPlanner.change.title1")}
+            <Heading color="$primary500">
+              {t("mealPlanner.change.title2")}
+            </Heading>
+          </Heading>
+        )}
+
         <Image
           source={imageSource}
           h={300}
@@ -100,6 +123,17 @@ export const ShoppingOnboardingPart: FC<Props> = (props) => {
 
       <View style={{ width: "100%" }}>
         <HStack justifyContent="center">
+          {cancelBtn && (
+            <Button
+              m={10}
+              w={"30%"}
+              action="secondary"
+              onPress={() => navigation.goBack()}
+            >
+              <ButtonIcon as={CloseIcon} />
+              <ButtonText>{t("general.cancel")}</ButtonText>
+            </Button>
+          )}
           {previousBtn && (
             <Button
               m={10}
@@ -114,8 +148,8 @@ export const ShoppingOnboardingPart: FC<Props> = (props) => {
 
           {submitBtn ? (
             <Button m={10} w={"30%"} onPress={onStart}>
-              <ButtonText>Start</ButtonText>
-              <ButtonIcon as={CheckIcon} />
+              <ButtonText>{changeHeading ? "Save" : "Start"}</ButtonText>
+              <ButtonIcon as={changeHeading ? EditIcon : CheckIcon} ml={4} />
             </Button>
           ) : (
             <Button m={10} w={"30%"} onPress={onNextStep}>

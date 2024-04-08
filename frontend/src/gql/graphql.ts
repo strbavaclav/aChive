@@ -74,11 +74,12 @@ export type Mutation = {
   addStressRecord: StressRecords;
   appleSignIn: User;
   appleSignUp: User;
+  changeMealPlan: User;
   deleteStressRecord: Scalars["String"]["output"];
   editStressRecord?: Maybe<StressRecordData>;
   onboard: User;
   removeMealRecordById: Scalars["String"]["output"];
-  resetUserRecords: User;
+  resetUserRecords: Scalars["String"]["output"];
   setShoppingListSettings: User;
   signIn: User;
   signUp: User;
@@ -109,6 +110,10 @@ export type MutationAppleSignInArgs = {
 
 export type MutationAppleSignUpArgs = {
   token: Scalars["String"]["input"];
+};
+
+export type MutationChangeMealPlanArgs = {
+  newPlan?: InputMaybe<Array<PlannedMealInput>>;
 };
 
 export type MutationDeleteStressRecordArgs = {
@@ -723,6 +728,25 @@ export type GetStressRecordsByDateQuery = {
   } | null;
 };
 
+export type ChangeMealPlanMutationMutationVariables = Exact<{
+  newPlan?: InputMaybe<Array<PlannedMealInput> | PlannedMealInput>;
+}>;
+
+export type ChangeMealPlanMutationMutation = {
+  __typename?: "Mutation";
+  changeMealPlan: {
+    __typename?: "User";
+    plan?: Array<{
+      __typename?: "PlannedMeal";
+      _id: string;
+      mealName: string;
+      mealSize: string;
+      startTime: string;
+      endTime: string;
+    }> | null;
+  };
+};
+
 export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetUserDataQuery = {
@@ -766,6 +790,13 @@ export type GetUserDataQuery = {
       logStressTime?: boolean | null;
     } | null;
   } | null;
+};
+
+export type ResetUserRecordsMutationVariables = Exact<{ [key: string]: never }>;
+
+export type ResetUserRecordsMutation = {
+  __typename?: "Mutation";
+  resetUserRecords: string;
 };
 
 export type UpdateUserDataMutationVariables = Exact<{
@@ -2417,6 +2448,88 @@ export const GetStressRecordsByDateDocument = {
   GetStressRecordsByDateQuery,
   GetStressRecordsByDateQueryVariables
 >;
+export const ChangeMealPlanMutationDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "ChangeMealPlanMutation" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: {
+            kind: "Variable",
+            name: { kind: "Name", value: "newPlan" },
+          },
+          type: {
+            kind: "ListType",
+            type: {
+              kind: "NonNullType",
+              type: {
+                kind: "NamedType",
+                name: { kind: "Name", value: "PlannedMealInput" },
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "changeMealPlan" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "newPlan" },
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "newPlan" },
+                },
+              },
+            ],
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "plan" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "_id" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealName" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "mealSize" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "startTime" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "endTime" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ChangeMealPlanMutationMutation,
+  ChangeMealPlanMutationMutationVariables
+>;
 export const GetUserDataDocument = {
   kind: "Document",
   definitions: [
@@ -2559,6 +2672,25 @@ export const GetUserDataDocument = {
     },
   ],
 } as unknown as DocumentNode<GetUserDataQuery, GetUserDataQueryVariables>;
+export const ResetUserRecordsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "ResetUserRecords" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          { kind: "Field", name: { kind: "Name", value: "resetUserRecords" } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
+  ResetUserRecordsMutation,
+  ResetUserRecordsMutationVariables
+>;
 export const UpdateUserDataDocument = {
   kind: "Document",
   definitions: [
