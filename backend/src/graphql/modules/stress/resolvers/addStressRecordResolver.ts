@@ -20,7 +20,7 @@ export const addStressRecordResolver = async (
     const { timestamp, value, note } = stressRecordData
 
     try {
-        const user = await User.findOne({ email: authUser })
+        const user = await User.findOne({ _id: authUser.userId })
         if (!user) {
             throw new GraphQLError('User not found', {
                 extensions: { code: 'USER_NOT_FOUND' },
@@ -30,7 +30,7 @@ export const addStressRecordResolver = async (
         const updatedStressData = await StressData.findOneAndUpdate(
             { _id: user._id },
             {
-                $push: { stressJournal: { timestamp, value, note } },
+                $push: { records: { timestamp, value, note } },
             },
             { new: true, upsert: true }
         )
@@ -51,6 +51,8 @@ export const addStressRecordResolver = async (
         }
     } catch (error) {
         console.log(error)
-        throw error
+        throw new GraphQLError('Stress record adding fail', {
+            extensions: { code: 'STRESS_RECORD_ADD_FAIL' },
+        })
     }
 }

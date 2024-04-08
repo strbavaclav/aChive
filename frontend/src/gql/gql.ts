@@ -35,6 +35,14 @@ const documents = {
     types.GetShoppingListDocument,
   "\nmutation SetShoppingListSettings($shopListSettings: ShopListSettingsInput!) {\n  setShoppingListSettings(ShopListSettings: $shopListSettings) {\n    shopping {\n      prepDays\n      prepStartTime\n      prepEndTime\n      shopDays\n      shopStartTime\n      shopEndTime\n    }\n  }\n}\n":
     types.SetShoppingListSettingsDocument,
+  "\nmutation AddStressRecord($stressRecordData: StressRecordDataInput!) {\n  addStressRecord(stressRecordData: $stressRecordData) {\n    stressRecords {\n      timestamp\n      value\n      note\n    }\n  }\n}\n":
+    types.AddStressRecordDocument,
+  "\n\nmutation DeleteStressRecord($date: String!) {\n    deleteStressRecord(date: $date)\n  }\n":
+    types.DeleteStressRecordDocument,
+  "\n\nmutation EditStressRecord($date: String!, $updatedRecord: StressRecordDataInput!) {\n  editStressRecord(date: $date, updatedRecord: $updatedRecord) {\n    timestamp\n    value\n    note\n  }\n}\n":
+    types.EditStressRecordDocument,
+  "\n  query GetStressRecordsByDate($date: String!) {\n    getStressRecordsByDate(date: $date) {\n      record {\n        timestamp\n        value\n        note\n      }\n    }\n  }\n":
+    types.GetStressRecordsByDateDocument,
   "\n  query GetUserData {\n    getUserData {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n      notifications {\n        plannerMealTime\n        logMealTime\n        listCreationTime\n        shoppingTime\n        logStressTime\n      }\n    }\n  }\n":
     types.GetUserDataDocument,
   "\nmutation UpdateUserData($newUserData: NewUserDataInput!) {\n  updateUserData(newUserData: $newUserData) {\n    email\n    language\n    username\n    firstName\n    lastName\n    gender\n    bornDate\n    body {\n      height\n      weight\n    }\n    eatHabitGoal\n    _id\n    notifications {\n      plannerMealTime\n      logMealTime\n      listCreationTime\n      shoppingTime\n      logStressTime\n    }\n  }\n}\n":
@@ -121,6 +129,30 @@ export function gql(
 export function gql(
   source: "\nmutation SetShoppingListSettings($shopListSettings: ShopListSettingsInput!) {\n  setShoppingListSettings(ShopListSettings: $shopListSettings) {\n    shopping {\n      prepDays\n      prepStartTime\n      prepEndTime\n      shopDays\n      shopStartTime\n      shopEndTime\n    }\n  }\n}\n",
 ): (typeof documents)["\nmutation SetShoppingListSettings($shopListSettings: ShopListSettingsInput!) {\n  setShoppingListSettings(ShopListSettings: $shopListSettings) {\n    shopping {\n      prepDays\n      prepStartTime\n      prepEndTime\n      shopDays\n      shopStartTime\n      shopEndTime\n    }\n  }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\nmutation AddStressRecord($stressRecordData: StressRecordDataInput!) {\n  addStressRecord(stressRecordData: $stressRecordData) {\n    stressRecords {\n      timestamp\n      value\n      note\n    }\n  }\n}\n",
+): (typeof documents)["\nmutation AddStressRecord($stressRecordData: StressRecordDataInput!) {\n  addStressRecord(stressRecordData: $stressRecordData) {\n    stressRecords {\n      timestamp\n      value\n      note\n    }\n  }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n\nmutation DeleteStressRecord($date: String!) {\n    deleteStressRecord(date: $date)\n  }\n",
+): (typeof documents)["\n\nmutation DeleteStressRecord($date: String!) {\n    deleteStressRecord(date: $date)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n\nmutation EditStressRecord($date: String!, $updatedRecord: StressRecordDataInput!) {\n  editStressRecord(date: $date, updatedRecord: $updatedRecord) {\n    timestamp\n    value\n    note\n  }\n}\n",
+): (typeof documents)["\n\nmutation EditStressRecord($date: String!, $updatedRecord: StressRecordDataInput!) {\n  editStressRecord(date: $date, updatedRecord: $updatedRecord) {\n    timestamp\n    value\n    note\n  }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  query GetStressRecordsByDate($date: String!) {\n    getStressRecordsByDate(date: $date) {\n      record {\n        timestamp\n        value\n        note\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query GetStressRecordsByDate($date: String!) {\n    getStressRecordsByDate(date: $date) {\n      record {\n        timestamp\n        value\n        note\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

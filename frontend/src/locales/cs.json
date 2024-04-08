@@ -110,27 +110,26 @@
         },
         "action": {
             "addExtraMeal": "Přidat jídlo",
-            "earse":"Smazat",
-            "edit":"Upravit",
-            "log":"Zapsat",
-            "update":"Uložit"
-
+            "earse": "Smazat",
+            "edit": "Upravit",
+            "log": "Zapsat",
+            "update": "Uložit"
         },
         "modal": {
             "mealTime": "Čas jídla",
-            "time":"Čas",
+            "time": "Čas",
             "mealSize": "Velikost",
             "selfPrepared": "Vlastní jídlo",
-            "note":"Poznámka",
-            "noNote":"Bez popisku...",
-            "extraMealName":"Název jídla",
-            "extraMealNamePH":"např. Sendvič",
-            "actualSizePH":"Skutečná velikost jídla?",
-            "describeMeal":"Popiš své jídlo..."
+            "note": "Poznámka",
+            "noNote": "Bez popisku...",
+            "extraMealName": "Název jídla",
+            "extraMealNamePH": "např. Sendvič",
+            "actualSizePH": "Skutečná velikost jídla?",
+            "describeMeal": "Popiš své jídlo..."
         },
-        "remove":{
-            "removing":"Smazat záznam",
-            "description":"Opravdu chceš smazat tento záznam?"
+        "remove": {
+            "removing": "Smazat záznam",
+            "description": "Opravdu chceš smazat tento záznam?"
         },
         "footer": {
             "dailyProgress": "Denní souhrn",
@@ -138,39 +137,61 @@
             "meals": "jídel"
         }
     },
-    "settings":{
-        "section":{
-            "appearance":"Rozhraní",
-            "notifications":"Oznámení"
+    "settings": {
+        "section": {
+            "appearance": "Rozhraní",
+            "notifications": "Oznámení"
         },
-        "text":{
-            "inProgress":"Na této možnosti ještě pracujeme"
+        "text": {
+            "inProgress": "Na této možnosti ještě pracujeme"
         },
-        "label":{
-            "plannerMealTime":"Čas plánovaného jídla",
-            "logMealTime":"Připomenout zápis jídla",
-            "listCreationTime":"Připomenout vytvoření seznamu",
-            "shoppingTime":"Čas na nákup",
-            "logStressTime":"Připomenout záznam stresu"
+        "label": {
+            "plannerMealTime": "Čas plánovaného jídla",
+            "logMealTime": "Připomenout zápis jídla",
+            "listCreationTime": "Připomenout vytvoření seznamu",
+            "shoppingTime": "Čas na nákup",
+            "logStressTime": "Připomenout záznam stresu"
         },
-        "value":{
-            "on":"zapnuto",
-            "off":"vypnuto"
+        "value": {
+            "on": "zapnuto",
+            "off": "vypnuto"
         },
-        "error":{
-            "oops":"Jejda... něco se nepovedlo!",
-            "description":"Změna nebyla uložena"
+        "error": {
+            "oops": "Jejda... něco se nepovedlo!",
+            "description": "Změna nebyla uložena"
         }
     },
-    "notifications":{
-        "title":"Oznámení",
-        "noNotification":"Žádné oznámení...",
-        "body":{
-            "plannerMealTime":"Je čas na",
-            "logMealTime":"Už jsi měl",
-            "listCreationTime":"Je čas na to sepsat si seznam",
-            "shoppingTime":"Je čas jít nakupovat",
-            "logStressTime":"Jak se dnes cítíš"
+    "journal": {
+        "record": {
+            "felt": "Tento den tvůj stress byl",
+            "description":"Tvá poznámka",
+            "earseTitle":"Smazat záznam",
+            "earseDescription":"Opravdu chceš smazat tento záznam z deníku?",
+            "isFuture":"Tento den ještě nenastal"
+        },
+        "form":{
+            "howWasYourDay":"Jak jsi se cítil?",
+            "writeNote":"Napiš poznámku",
+            "notePH":"Dnes jsem se cítil pod stresem, jelikož jsem měl v práci důležitou schůzku...",
+            "noteDescription":"Tato poznámka ti pomůže porozumět záznamům i při budoucím čtení"
+        },
+        "action":{
+            "earse":"Smazat",
+            "edit":"Upravit",
+            "save":"Uložit",
+            "enlist":"Přidat",
+            "delete":"Smazat"
+        }
+    },
+    "notifications": {
+        "title": "Oznámení",
+        "noNotification": "Žádné oznámení...",
+        "body": {
+            "plannerMealTime": "Je čas na",
+            "logMealTime": "Už jsi měl",
+            "listCreationTime": "Je čas na to sepsat si seznam",
+            "shoppingTime": "Je čas jít nakupovat",
+            "logStressTime": "Jak se dnes cítíš"
         }
     },
     "components": {
@@ -202,7 +223,7 @@
     "dashboard.dateFormat": "DD. MMMM YYYY",
     "navigation.viewProfile": "Zobrazit profil",
     "navigation.dashboard": "Přehled",
-    "navigation.stressRelief": "Deník stresu",
+    "navigation.journal": "Deník stresu",
     "navigation.shoppingList": "Nákupní seznam",
     "navigation.recipes": "Recepty",
     "navigation.settings": "Nastavení",

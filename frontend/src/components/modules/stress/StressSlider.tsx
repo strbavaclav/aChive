@@ -6,6 +6,7 @@ import {
   SliderTrack,
   Text,
   VStack,
+  View,
 } from "@gluestack-ui/themed";
 import React, { FC } from "react";
 import { Controller, useFormContext } from "react-hook-form";
@@ -61,15 +62,21 @@ export const StressSlider: FC<Props> = (props) => {
                 </SliderThumb>
               </Slider>
             </HStack>
-            <HStack w={"100%"} justifyContent="space-between" mt={20}>
-              <Text>{t("components.stressFormSlider.peace")}</Text>
-              <VStack justifyContent="center" alignItems="center">
-                <Text bold>{value}</Text>
-                <Text bold>
-                  {t(`components.stressFormSlider.value.${value}`)}
-                </Text>
-              </VStack>
-              <Text>{t("components.stressFormSlider.stress")}</Text>
+            <HStack w={"100%"} mt={20}>
+              <View flex={1} alignItems="flex-start">
+                <Text>{t("components.stressFormSlider.peace")}</Text>
+              </View>
+              <View flex={2} justifyContent="center">
+                <VStack justifyContent="center" alignItems="center">
+                  <Text bold>{value}</Text>
+                  <Text bold>
+                    {t(`components.stressFormSlider.value.${value}`)}
+                  </Text>
+                </VStack>
+              </View>
+              <View flex={1} alignItems="flex-end">
+                <Text>{t("components.stressFormSlider.stress")}</Text>
+              </View>
             </HStack>
           </>
         )}

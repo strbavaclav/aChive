@@ -159,6 +159,29 @@
             "description":"Změna nebyla uložena"
         }
     },
+    "journal": {
+        "record": {
+            "felt": "The stress on this day was",
+            "description":"Your description",
+            "earseTitle":"Delete stress record",
+            "earseDescription":"Do you really want to delete this stress record from your journal?",
+            "isFuture":"This day has not yet come"
+
+        },
+        "form":{
+            "howWasYourDay":"How was your day?",
+            "writeNote":"Write a note",
+            "notePH":"Today i was in stress beacause of important meeting with my boss...",
+            "noteDescription":"This note will help you to understand your stress level on subsequent reading"
+        },
+        "action":{
+            "earse":"Earse",
+            "edit":"Edit",
+            "save":"Save",
+            "enlist":"Enlist",
+            "delete":"Delete"
+        }
+    },
     "notifications":{
         "title":"Notifications",
         "noNotification":"No notifications yet...",
@@ -199,7 +222,7 @@
     "dashboard.dateFormat": "MMMM DD, YYYY",
     "navigation.viewProfile": "View your profile",
     "navigation.dashboard": "Dashboard",
-    "navigation.stressRelief": "Stress journal",
+    "navigation.journal": "Stress journal",
     "navigation.shoppingList": "Shopping list",
     "navigation.recipes": "Recipes",
     "navigation.settings": "Settings",
