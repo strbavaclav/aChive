@@ -67,7 +67,9 @@ export const MealPlannerSettingsScreen = () => {
     oldPlannedMeals!
   ) as unknown as PlannedMealType[];
 
+
   const validationSchema = z.object({
+    _id: z.string(),
     mealName: z.string().min(1, t("onboarding.step3.error.required")),
     mealSize: z.string().min(1, t("onboarding.step3.error.required")),
     startTime: z.date(),
@@ -100,6 +102,7 @@ export const MealPlannerSettingsScreen = () => {
 
   useEffect(() => {
     const defaultValues: Partial<FormDataType> = {
+      _id: selectedMeal?._id ?? "",
       mealName: selectedMeal?.mealName ?? "",
       mealSize: selectedMeal?.mealSize ?? "",
       startTime: selectedMeal?.startTime ?? defaultStartTime,
@@ -126,6 +129,7 @@ export const MealPlannerSettingsScreen = () => {
   const onSaveHandler = async () => {
     setIsLoading(true);
     const plannedMealsConverted = plannedMeals.map((meal) => ({
+      _id: meal._id || "",
       endTime: meal.endTime ? meal.endTime.toISOString() : "",
       mealName: meal.mealName || "Default Meal Name",
       mealSize: meal.mealSize || "Default Meal Size",
@@ -163,6 +167,7 @@ export const MealPlannerSettingsScreen = () => {
       );
     } else {
       const newMeal = {
+        _id: "",
         mealName: values.mealName,
         mealSize: values.mealSize,
         startTime: values.startTime,

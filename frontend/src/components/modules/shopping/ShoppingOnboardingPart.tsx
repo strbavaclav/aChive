@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useEffect } from "react";
+import React, { FC } from "react";
 import DayPicker from "components/custom/DayPicker";
 import {
   Button,
@@ -17,16 +17,11 @@ import {
 } from "@gluestack-ui/themed";
 import { FormDateTimePicker } from "components/form/FormDateTimePicker";
 import { Text } from "@gluestack-ui/themed";
-import Animated, {
-  FadeIn,
-  FadeOut,
-  FadeOutLeft,
-} from "react-native-reanimated";
+import Animated, { FadeIn, FadeOutLeft } from "react-native-reanimated";
 import { useTranslation } from "react-i18next";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { MainDrawerParams } from "navigation/main";
 import { useNavigation } from "@react-navigation/native";
-import { useApp } from "context/appContext";
 
 type FormInputKeys = {
   daySelectorKey: string;

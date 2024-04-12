@@ -44,6 +44,14 @@ export type BodyInfo = {
     weight: Scalars['Float']['output']
 }
 
+export type ChangedMealInput = {
+    _id?: InputMaybe<Scalars['String']['input']>
+    endTime: Scalars['String']['input']
+    mealName: Scalars['String']['input']
+    mealSize: Scalars['String']['input']
+    startTime: Scalars['String']['input']
+}
+
 export type InputMealRecord = {
     cooked: Scalars['Boolean']['input']
     description?: InputMaybe<Scalars['String']['input']>
@@ -117,7 +125,7 @@ export type MutationAppleSignUpArgs = {
 }
 
 export type MutationChangeMealPlanArgs = {
-    newPlan?: InputMaybe<Array<PlannedMealInput>>
+    newPlan?: InputMaybe<Array<ChangedMealInput>>
 }
 
 export type MutationDeleteStressRecordArgs = {
@@ -433,6 +441,7 @@ export type ResolversTypes = {
     BodyDataInput: BodyDataInput
     BodyInfo: ResolverTypeWrapper<BodyInfo>
     Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>
+    ChangedMealInput: ChangedMealInput
     Float: ResolverTypeWrapper<Scalars['Float']['output']>
     ID: ResolverTypeWrapper<Scalars['ID']['output']>
     InputMealRecord: InputMealRecord
@@ -466,6 +475,7 @@ export type ResolversParentTypes = {
     BodyDataInput: BodyDataInput
     BodyInfo: BodyInfo
     Boolean: Scalars['Boolean']['output']
+    ChangedMealInput: ChangedMealInput
     Float: Scalars['Float']['output']
     ID: Scalars['ID']['output']
     InputMealRecord: InputMealRecord

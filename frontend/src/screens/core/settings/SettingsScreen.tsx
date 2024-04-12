@@ -37,7 +37,7 @@ type FormDataType = z.infer<typeof validationSchema>;
 export const SettingsScreen = () => {
   const { t } = useTranslation();
   const toast = useToast();
-  const { appState } = useApp();
+  const { appState, refetchUserData } = useApp();
   const { updateUserDataMutation } = useUpdateUserData();
 
   const language = appState.userData?.language;
@@ -69,6 +69,7 @@ export const SettingsScreen = () => {
     const subscription = watch((value, { name, type }) => {
       if (name === "language") {
         changeLanguage(formContext.watch(name));
+        refetchUserData();
       }
       if (typeof name === "undefined") return;
 

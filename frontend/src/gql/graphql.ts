@@ -40,6 +40,14 @@ export type BodyInfo = {
   weight: Scalars["Float"]["output"];
 };
 
+export type ChangedMealInput = {
+  _id?: InputMaybe<Scalars["String"]["input"]>;
+  endTime: Scalars["String"]["input"];
+  mealName: Scalars["String"]["input"];
+  mealSize: Scalars["String"]["input"];
+  startTime: Scalars["String"]["input"];
+};
+
 export type InputMealRecord = {
   cooked: Scalars["Boolean"]["input"];
   description?: InputMaybe<Scalars["String"]["input"]>;
@@ -113,7 +121,7 @@ export type MutationAppleSignUpArgs = {
 };
 
 export type MutationChangeMealPlanArgs = {
-  newPlan?: InputMaybe<Array<PlannedMealInput>>;
+  newPlan?: InputMaybe<Array<ChangedMealInput>>;
 };
 
 export type MutationDeleteStressRecordArgs = {
@@ -729,7 +737,7 @@ export type GetStressRecordsByDateQuery = {
 };
 
 export type ChangeMealPlanMutationMutationVariables = Exact<{
-  newPlan?: InputMaybe<Array<PlannedMealInput> | PlannedMealInput>;
+  newPlan?: InputMaybe<Array<ChangedMealInput> | ChangedMealInput>;
 }>;
 
 export type ChangeMealPlanMutationMutation = {
@@ -2468,7 +2476,7 @@ export const ChangeMealPlanMutationDocument = {
               kind: "NonNullType",
               type: {
                 kind: "NamedType",
-                name: { kind: "Name", value: "PlannedMealInput" },
+                name: { kind: "Name", value: "ChangedMealInput" },
               },
             },
           },
