@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.achive.achive",
-      "buildNumber": "6",
+      "buildNumber": "8",
       "usesAppleSignIn": true
     },
     "android": {

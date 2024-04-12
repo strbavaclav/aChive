@@ -10,10 +10,6 @@ export const ShoppingListSettingsScreen = () => {
   const navigation = useNavigation<DrawerNavigationProp<MainDrawerParams>>();
   const { refetchUserData } = useApp();
 
-  useEffect(() => {
-    refetchUserData();
-  }, []);
-
   const onSaveHandler = async () => {
     await refetchUserData();
     navigation.goBack();
