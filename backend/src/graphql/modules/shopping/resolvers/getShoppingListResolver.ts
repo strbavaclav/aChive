@@ -23,9 +23,18 @@ export const getShoppingListResolver = async (
             }
         }
 
+        const itemsWithIdAsString = shoppingData.items.map((item) => ({
+            ...item,
+            _id: item._id ? item._id.toString() : 'null',
+            itemName: item.itemName,
+            quantity: item.quantity,
+            unit: item.unit,
+            checked: item.checked,
+        }))
+
         return {
             userId: shoppingData.userId.toString(),
-            items: shoppingData.items,
+            items: itemsWithIdAsString,
         }
     } catch (error) {
         console.error(error)

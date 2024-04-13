@@ -31,10 +31,14 @@ const documents = {
     types.RemoveMealRecordByIdDocument,
   "\nmutation UpdateMealRecordById($userId: String!, $recordId: String!, $updatedRecord: InputMealRecord!) {\n  updateMealRecordById(userId: $userId, recordId: $recordId, updatedRecord: $updatedRecord) {\n    userId\n    records {\n      _id\n      mealId\n      loggedDateTime\n      size\n      description\n      cooked\n      extraMealName\n    }\n  }\n}\n":
     types.UpdateMealRecordByIdDocument,
-  "\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n":
+  "\nmutation AddShoppingListItem($item: ShoppingListItemInput!) {\n  addShoppingListItem(item: $item) {\n    userId\n    items {\n      itemName\n      quantity\n      unit\n      checked\n    }\n  }\n}\n":
+    types.AddShoppingListItemDocument,
+  "\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        _id\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n":
     types.GetShoppingListDocument,
   "\nmutation SetShoppingListSettings($shopListSettings: ShopListSettingsInput!) {\n  setShoppingListSettings(ShopListSettings: $shopListSettings) {\n    shopping {\n      prepDays\n      prepStartTime\n      prepEndTime\n      shopDays\n      shopStartTime\n      shopEndTime\n    }\n  }\n}\n":
     types.SetShoppingListSettingsDocument,
+  "\nmutation SyncShoppingList($items: [ShoppingListItemInput!]) {\n    syncShoppingList(items: $items)\n  }\n":
+    types.SyncShoppingListDocument,
   "\nmutation AddStressRecord($stressRecordData: StressRecordDataInput!) {\n  addStressRecord(stressRecordData: $stressRecordData) {\n    stressRecords {\n      timestamp\n      value\n      note\n    }\n  }\n}\n":
     types.AddStressRecordDocument,
   "\n\nmutation DeleteStressRecord($date: String!) {\n    deleteStressRecord(date: $date)\n  }\n":
@@ -125,14 +129,26 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: "\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n",
-): (typeof documents)["\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n"];
+  source: "\nmutation AddShoppingListItem($item: ShoppingListItemInput!) {\n  addShoppingListItem(item: $item) {\n    userId\n    items {\n      itemName\n      quantity\n      unit\n      checked\n    }\n  }\n}\n",
+): (typeof documents)["\nmutation AddShoppingListItem($item: ShoppingListItemInput!) {\n  addShoppingListItem(item: $item) {\n    userId\n    items {\n      itemName\n      quantity\n      unit\n      checked\n    }\n  }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        _id\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n",
+): (typeof documents)["\n  query GetShoppingList {\n    getShoppingList {\n      userId\n      items {\n        _id\n        itemName\n        quantity\n        unit\n        checked\n      }\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
   source: "\nmutation SetShoppingListSettings($shopListSettings: ShopListSettingsInput!) {\n  setShoppingListSettings(ShopListSettings: $shopListSettings) {\n    shopping {\n      prepDays\n      prepStartTime\n      prepEndTime\n      shopDays\n      shopStartTime\n      shopEndTime\n    }\n  }\n}\n",
 ): (typeof documents)["\nmutation SetShoppingListSettings($shopListSettings: ShopListSettingsInput!) {\n  setShoppingListSettings(ShopListSettings: $shopListSettings) {\n    shopping {\n      prepDays\n      prepStartTime\n      prepEndTime\n      shopDays\n      shopStartTime\n      shopEndTime\n    }\n  }\n}\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\nmutation SyncShoppingList($items: [ShoppingListItemInput!]) {\n    syncShoppingList(items: $items)\n  }\n",
+): (typeof documents)["\nmutation SyncShoppingList($items: [ShoppingListItemInput!]) {\n    syncShoppingList(items: $items)\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

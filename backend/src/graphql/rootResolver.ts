@@ -21,6 +21,7 @@ import { deleteStressRecordResolver } from './modules/stress/resolvers/deleteStr
 import { editStressRecordResolver } from './modules/stress/resolvers/editStressRecordResolver'
 import { resetUserRecordsResolver } from './modules/user/resolvers/resetUserRecordsResolver'
 import { changeMealPlanResolver } from './modules/user/resolvers/changeMealPlanResolver'
+import { syncShoppingListResolver } from './modules/shopping/resolvers/syncShoppingListResolver'
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -43,7 +44,7 @@ const resolvers: Resolvers = {
 
         //shoppingList
         setShoppingListSettings: setShoppingListSettingsResolver,
-        addShoppingListItem: addShoppingListItemResolver,
+        syncShoppingList: syncShoppingListResolver,
 
         //user
         updateUserData: updateUserDataResolver,
