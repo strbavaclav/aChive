@@ -112,9 +112,9 @@ export const ShoppingOnboarding: FC<Props> = ({ onFinish, change }) => {
           },
         },
       });
+      await onFinish();
       setStep(0);
       formContext.reset(defaultValues);
-      await onFinish();
     } catch (error) {
       console.log(error);
     }

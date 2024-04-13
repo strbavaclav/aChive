@@ -20,6 +20,7 @@ import {
 } from "react-hook-form";
 import { z } from "zod";
 import { ShoppingListItem as ShoppingListItemType } from "gql/graphql";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   open: boolean;
@@ -32,9 +33,13 @@ type Props = {
 
 export const validationSchema = z.object({
   _id: z.string(),
-  name: z.string(),
-  quantity: z.string(),
-  unit: z.string(),
+  name: z.string().min(1, "Cannot be empty"),
+  quantity: z
+    .string()
+    .refine((val) => !isNaN(parseFloat(val)) && val.trim().length > 0, {
+      message: "Not a number!",
+    }),
+  unit: z.string().min(1, "Cannot be empty"),
 });
 
 type FormDataType = z.infer<typeof validationSchema>;
@@ -47,6 +52,8 @@ export const ShoppingListModal: FC<Props> = ({
   onDelete,
   onEdit,
 }) => {
+  const { t } = useTranslation();
+
   const generateRandomID = () => {
     let result = "";
     const characters = "0123456789abcdef";
@@ -75,6 +82,7 @@ export const ShoppingListModal: FC<Props> = ({
 
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
     const { name, quantity, unit } = values;
+
     try {
       if (selectedItem) {
         onEdit({
@@ -107,16 +115,33 @@ export const ShoppingListModal: FC<Props> = ({
   const onPress = formContext.handleSubmit(onSubmit, onError);
 
   return (
-    <AppModal title="Add item" open={open} onClose={onClose}>
+    <AppModal
+      title={
+        selectedItem
+          ? t("shoppingList.modal.titleEdit")
+          : t("shoppingList.modal.titleAdd")
+      }
+      open={open}
+      onClose={onClose}
+    >
       <View flex={1}>
         <FormProvider {...formContext}>
-          <FormInput name="name" placeholder="Name (eg. Chive)" />
+          <FormInput
+            name="name"
+            placeholder={t("shoppingList.modal.placeholder.name")}
+          />
           <HStack flex={1} w={"100%"} gap={10} mb={10}>
             <View flex={2}>
-              <FormInput name="quantity" placeholder="Qunatity" />
+              <FormInput
+                name="quantity"
+                placeholder={t("shoppingList.modal.placeholder.quantity")}
+              />
             </View>
             <View flex={3}>
-              <FormInput name="unit" placeholder="Unit (kg, l, pcs...)" />
+              <FormInput
+                name="unit"
+                placeholder={t("shoppingList.modal.placeholder.unit")}
+              />
             </View>
           </HStack>
 
@@ -128,20 +153,22 @@ export const ShoppingListModal: FC<Props> = ({
                   action="secondary"
                 >
                   <ButtonIcon as={TrashIcon} mr={4} />
-                  <ButtonText>Delete</ButtonText>
+                  <ButtonText>
+                    {t("shoppingList.modal.action.delete")}
+                  </ButtonText>
                 </Button>
               </View>
               <View flex={1}>
                 <Button onPress={onPress}>
                   <ButtonIcon as={EditIcon} mr={4} />
-                  <ButtonText>Save</ButtonText>
+                  <ButtonText>{t("shoppingList.modal.action.save")}</ButtonText>
                 </Button>
               </View>
             </HStack>
           ) : (
             <Button onPress={onPress}>
               <ButtonIcon as={AddIcon} mr={4} />
-              <ButtonText>Add</ButtonText>
+              <ButtonText>{t("shoppingList.modal.action.add")}</ButtonText>
             </Button>
           )}
         </FormProvider>

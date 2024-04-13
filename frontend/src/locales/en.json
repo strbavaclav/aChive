@@ -199,6 +199,48 @@
             }
         }
     },
+    "shoppingList": {
+        "title": "Shopping list",
+        "header": {
+            "title1": "Looks like",
+            "title2": "there is something to do!"
+        },
+        "list": {
+            "section": {
+                "toGet": " Items to get",
+                "have": " Items already have"
+            },
+            "clear": "CLEAR",
+            "status": {
+                "syncing": "Syncing",
+                "notSynced": "Not synced",
+                "synced": "Synced"
+            },
+            "addItem": "Add item"
+        },
+        "empty": {
+            "title": "Your list is empty",
+            "description": "Add some items right now!"
+        },
+        "modal": {
+            "titleAdd": "Add item",
+            "titleEdit": "Edit item",
+            "placeholder": {
+                "name": "Name (eg. Chive)",
+                "quantity": "Quantity",
+                "unit": "Unit (Kg, L, pcs...)"
+            },
+            "action": {
+                "add": "Add",
+                "delete": "Delete",
+                "save": "Save"
+            },
+            "error": {
+                "notNumber": "Not a number!",
+                "required": "Cannot be empty!"
+            }
+        }
+    },
     "notifications": {
         "title": "Notifications",
         "noNotification": "No notifications yet...",

@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
 import { ShoppingOnboarding } from "components/modules/shopping/ShoppingOnboarding";
 import { useApp } from "context/appContext";
@@ -7,6 +13,7 @@ import {
   Badge,
   BadgeIcon,
   BadgeText,
+  CheckIcon,
   CloseIcon,
   Divider,
   Fab,
@@ -14,6 +21,8 @@ import {
   FabLabel,
   HStack,
   Heading,
+  Icon,
+  Spinner,
   Text,
   VStack,
   View,
@@ -26,15 +35,46 @@ import { GET_SHOPPING_LIST } from "calls/shopping/useGetShoppingList";
 import { ShoppingListModal } from "components/modules/shopping/ShoppingListModal";
 import { ShoppingListItem as ShoppingListItemType } from "gql/graphql";
 import { useSyncShoppingList } from "calls/shopping/useSyncShoppingList";
+import ShoppingListEmpty from "components/modules/shopping/ShoppingListEmpty";
+import { useTranslation } from "react-i18next";
+
+const Header = React.memo(() => {
+  const { t } = useTranslation();
+  const toShopImageSource = useMemo(
+    () => require("../../../assets/images/toShop.png"),
+    []
+  );
+  return (
+    <View mb={20}>
+      <HStack justifyContent="space-between" alignItems="center" gap={20}>
+        <Image
+          w={130}
+          h={130}
+          source={toShopImageSource}
+          resizeMode="contain"
+          alt="toShop"
+        />
+        <VStack flex={1}>
+          <Heading color="$primary500">
+            {t("shoppingList.header.title1")}
+          </Heading>
+          <Heading> {t("shoppingList.header.title2")}</Heading>
+        </VStack>
+      </HStack>
+    </View>
+  );
+});
 
 export const ShoppingListScreen = () => {
+  const { t } = useTranslation();
+
   const { appState, refetchUserData } = useApp();
 
-  const [activeShoppingList, setActiveShoppingList] = useState(false);
+  const [activeShoppingList, setActiveShoppingList] = useState<
+    boolean | undefined
+  >(undefined);
 
   const [allItems, setAllItems] = useState<ShoppingListItemType[]>([]);
-  const [itemsToBuy, setItemsToBuy] = useState<ShoppingListItemType[]>([]);
-  const [itemsGot, setItemsGot] = useState<ShoppingListItemType[]>([]);
 
   const [dataSections, setDataSections] = useState([]);
 
@@ -43,11 +83,11 @@ export const ShoppingListScreen = () => {
   >(undefined);
 
   const [showModal, setShowModal] = useState(false);
-  const [debounceTimeout, setDebounceTimeout] = useState(null);
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [isSyncing, setIsSyncing] = useState<boolean | undefined>(false);
+  const [initialized, setInitialized] = useState(false);
 
   const { syncShoppingListMutation } = useSyncShoppingList();
-
-  console.log(allItems);
 
   const {
     loading: loadingShoppingList,
@@ -62,37 +102,39 @@ export const ShoppingListScreen = () => {
   }, [shoppingList]);
 
   const syncShoppingList = useCallback(() => {
-    if (debounceTimeout) {
-      clearTimeout(debounceTimeout);
+    if (allItems !== shoppingList?.getShoppingList?.items && shoppingList) {
+      setIsSyncing(undefined);
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+
+      debounceTimeoutRef.current = setTimeout(() => {
+        setIsSyncing(true);
+        syncShoppingListMutation({
+          variables: {
+            items: allItems.map(
+              ({ _id, itemName, quantity, unit, checked }) => ({
+                _id,
+                itemName,
+                quantity,
+                unit,
+                checked,
+              })
+            ),
+          },
+        })
+          .then(() => refetchShoppingList())
+          .catch((error) => Alert.alert("Error syncing data", error.message))
+          .finally(() => setIsSyncing(false));
+      }, 10000);
     }
-
-    const timeout = setTimeout(() => {
-      syncShoppingListMutation({
-        variables: {
-          items: allItems.map((item) => {
-            return {
-              _id: item._id,
-              itemName: item.itemName,
-              quantity: item.quantity,
-              unit: item.unit,
-              checked: item.checked,
-            };
-          }),
-        },
-      })
-        .then(() => refetchShoppingList())
-        .catch((error) => Alert.alert("Error syncing data", error.message));
-    }, 10000);
-
-    //@ts-ignore
-    setDebounceTimeout(timeout);
   }, [allItems, syncShoppingListMutation, refetchShoppingList]);
 
   useEffect(() => {
     return () => {
-      if (debounceTimeout) clearTimeout(debounceTimeout);
+      if (debounceTimeoutRef.current) clearTimeout(debounceTimeoutRef.current);
     };
-  }, [debounceTimeout]);
+  }, []);
 
   useEffect(() => {
     syncShoppingList();
@@ -102,54 +144,69 @@ export const ShoppingListScreen = () => {
     const itemsToBuy = allItems.filter((item) => !item.checked);
     const itemsGot = allItems.filter((item) => item.checked);
 
-    setItemsToBuy(itemsToBuy);
-    setItemsGot(itemsGot);
-  }, [allItems]);
+    let sections = [];
 
-  const renderItem = ({
-    item,
-    index,
-  }: {
-    item: ShoppingListItemType;
-    index: number;
-  }) => (
-    <ShoppingListItem
-      itemName={item.itemName}
-      quantity={item.quantity}
-      checked={item.checked}
-      unit={item.unit}
-      onCheck={() => onCheckItem(item._id)}
-      onPress={() => onSelectHandler(item)}
-    />
-  );
-
-  useEffect(() => {
-    const sections = [
-      {
+    if (itemsToBuy.length > 0) {
+      sections.push({
         count: itemsToBuy.length,
-        title: " to get",
+        title: t("shoppingList.list.section.toGet"),
         data: itemsToBuy,
-        renderItem: renderItem,
-        onClear: () =>
-          setAllItems((prevState) =>
-            prevState.filter((item) => !item.checked === false)
-          ),
-      },
-      {
-        count: itemsGot.length,
-        title: " already have ",
-        data: itemsGot,
-        renderItem: renderItem,
+        renderItem: ({
+          item,
+          index,
+        }: {
+          item: ShoppingListItemType;
+          index: number;
+        }) => (
+          <ShoppingListItem
+            key={index}
+            itemName={item.itemName}
+            quantity={item.quantity}
+            checked={item.checked}
+            unit={item.unit}
+            onCheck={() => onCheckItem(item._id)}
+            onPress={() => onSelectHandler(item)}
+          />
+        ),
         onClear: () =>
           setAllItems((prevState) =>
             prevState.filter((item) => item.checked === true)
           ),
-      },
-    ];
+      });
+    }
+
+    if (itemsGot.length > 0) {
+      sections.push({
+        count: itemsGot.length,
+        title: t("shoppingList.list.section.have"),
+        data: itemsGot,
+        renderItem: ({
+          item,
+          index,
+        }: {
+          item: ShoppingListItemType;
+          index: number;
+        }) => (
+          <ShoppingListItem
+            key={index}
+            itemName={item.itemName}
+            quantity={item.quantity}
+            checked={item.checked}
+            unit={item.unit}
+            onCheck={() => onCheckItem(item._id)}
+            onPress={() => onSelectHandler(item)}
+          />
+        ),
+        onClear: () =>
+          setAllItems((prevState) =>
+            prevState.filter((item) => item.checked === false)
+          ),
+      });
+    }
 
     //@ts-ignore
     setDataSections(sections);
-  }, [itemsToBuy, itemsGot]);
+  }, [allItems]);
 
   const onAddItem = (newItem: ShoppingListItemType) => {
     setAllItems((prevState) => [...prevState, newItem]);
@@ -193,6 +250,8 @@ export const ShoppingListScreen = () => {
   useEffect(() => {
     if (appState.userData?.shopping?.prepStartTime) {
       setActiveShoppingList(true);
+    } else {
+      setActiveShoppingList(false);
     }
   }, [appState.userData?.shopping]);
 
@@ -204,102 +263,117 @@ export const ShoppingListScreen = () => {
     }
   };
 
-  return (
-    <DrawerScreenWrapper isBack screenTitle="Shopping list">
-      {!activeShoppingList && (
+  if (!activeShoppingList)
+    return (
+      <DrawerScreenWrapper isBack screenTitle={t("shoppingList.title")}>
         <ShoppingOnboarding onFinish={onFinishOnboarding} />
-      )}
-      {activeShoppingList && (
-        <>
-          <View marginHorizontal={8} flex={1}>
-            <SectionList
-              style={{ marginTop: 4 }}
-              sections={dataSections}
-              ListHeaderComponent={() => (
-                <View mb={20}>
-                  <HStack
-                    justifyContent="space-between"
-                    alignItems="center"
-                    gap={20}
-                  >
-                    <Image
-                      w={130}
-                      h={130}
-                      source={require("../../../assets/images/toShop.png")}
-                      resizeMode="contain"
-                      alt="toShop"
-                    />
-                    <VStack flex={1}>
-                      <Heading color="$primary500">Looks like </Heading>
-                      <Heading>there is something to do!</Heading>
-                    </VStack>
-                  </HStack>
-                </View>
-              )}
-              ListFooterComponent={() => <View style={{ height: 80 }} />}
-              renderSectionFooter={() => <View style={{ height: 20 }} />}
-              ItemSeparatorComponent={Divider}
-              stickySectionHeadersEnabled={false}
-              renderSectionHeader={({ section: { title, count, onClear } }) =>
-                !loadingShoppingList ? (
-                  <>
-                    <HStack>
-                      <HStack flex={1}>
-                        <View flex={1}>
-                          <Text color="black" fontWeight="500" ml={8}>
-                            <Text color="$primary500" fontWeight="600">
-                              {count}
-                            </Text>
-                            {title}
-                          </Text>
-                        </View>
-                        {count > 0 && (
-                          <TouchableOpacity onPress={onClear}>
-                            <Badge
-                              size="sm"
-                              variant="outline"
-                              borderRadius="$full"
-                              action="muted"
-                            >
-                              <BadgeIcon as={CloseIcon} />
-                              <BadgeText>Clear</BadgeText>
-                            </Badge>
-                          </TouchableOpacity>
-                        )}
-                      </HStack>
-                    </HStack>
-                    <Divider h={1} />
-                  </>
-                ) : null
-              }
-              renderItem={({ item, section, index }) => {
-                if (loadingShoppingList) return null;
-                //@ts-ignore
-                return section.renderItem({ item, index });
-              }}
-            />
-          </View>
+      </DrawerScreenWrapper>
+    );
 
-          <Fab
-            size="md"
-            placement="bottom right"
-            bottom={40}
-            right={10}
-            onPress={onOpenHandler}
-          >
-            <FabIcon as={AddIcon} mr="$1" />
-            <FabLabel>Add item</FabLabel>
-          </Fab>
-          <ShoppingListModal
-            open={showModal}
-            onClose={onCloseHandler}
-            onAdd={onAddItem}
-            onEdit={onEditHandler}
-            selectedItem={selectedItem}
-            onDelete={onDeleteHandler}
+  return (
+    <DrawerScreenWrapper isBack screenTitle={t("shoppingList.title")}>
+      {allItems.length > 0 && !loadingShoppingList ? (
+        <View marginHorizontal={8} flex={1}>
+          <SectionList
+            style={{ marginTop: 4 }}
+            sections={dataSections}
+            ListHeaderComponent={<Header />}
+            ListFooterComponent={
+              <HStack justifyContent="flex-end">
+                {isSyncing === true ? (
+                  <HStack justifyContent="center" alignItems="center">
+                    <Spinner size={15} />
+                    <Text size="sm" italic ml={4}>
+                      {t("shoppingList.list.status.syncing")}
+                    </Text>
+                  </HStack>
+                ) : isSyncing === false ? (
+                  <HStack justifyContent="center" alignItems="center">
+                    <Icon as={CheckIcon} color="$primary500" />
+                    <Text size="sm" italic ml={4}>
+                      {t("shoppingList.list.status.synced")}
+                    </Text>
+                  </HStack>
+                ) : (
+                  <HStack justifyContent="center" alignItems="center">
+                    <Icon as={CloseIcon} color="$primary500" />
+                    <Text size="sm" italic ml={4}>
+                      {t("shoppingList.list.status.notSynced")}
+                    </Text>
+                  </HStack>
+                )}
+              </HStack>
+            }
+            renderSectionFooter={() => <View style={{ height: 20 }} />}
+            ItemSeparatorComponent={Divider}
+            stickySectionHeadersEnabled={false}
+            renderSectionHeader={({ section: { title, count, onClear } }) =>
+              !loadingShoppingList ? (
+                <>
+                  <HStack>
+                    <HStack flex={1}>
+                      <View flex={1}>
+                        <Text color="black" fontWeight="500" ml={8}>
+                          <Text color="$primary500" fontWeight="600">
+                            {count}
+                          </Text>
+                          {title}
+                        </Text>
+                      </View>
+                      {count > 0 && (
+                        <TouchableOpacity onPress={onClear}>
+                          <Badge
+                            size="sm"
+                            variant="outline"
+                            borderRadius="$full"
+                            action="muted"
+                          >
+                            <BadgeIcon as={CloseIcon} />
+                            <BadgeText>
+                              {t("shoppingList.list.clear")}
+                            </BadgeText>
+                          </Badge>
+                        </TouchableOpacity>
+                      )}
+                    </HStack>
+                  </HStack>
+                  <Divider h={1} />
+                </>
+              ) : null
+            }
+            renderItem={({ item, section, index }) => {
+              if (loadingShoppingList) return null;
+              //@ts-ignore
+              return section.renderItem({ item, index });
+            }}
           />
-        </>
+        </View>
+      ) : allItems.length < 1 && !loadingShoppingList ? (
+        <ShoppingListEmpty />
+      ) : (
+        <View flex={1} justifyContent="center" alignItems="center">
+          <Spinner size={"large"} />
+        </View>
       )}
+
+      <Fab
+        size="md"
+        placement="bottom right"
+        bottom={40}
+        right={10}
+        onPress={onOpenHandler}
+      >
+        <FabIcon as={AddIcon} mr="$1" />
+        <FabLabel> {t("shoppingList.list.addItem")}</FabLabel>
+      </Fab>
+      <ShoppingListModal
+        open={showModal}
+        onClose={onCloseHandler}
+        onAdd={onAddItem}
+        onEdit={onEditHandler}
+        selectedItem={selectedItem}
+        onDelete={onDeleteHandler}
+      />
     </DrawerScreenWrapper>
   );
 };
