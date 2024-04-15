@@ -134,11 +134,11 @@
             "of": "of",
             "meals": "meals"
         },
-        "change":{
-            "title1":"Change your",
-            "title2":" plan!",
-            "description1":"You need to reschedule your meal plan? No problem at all! It is ok to change your schedule to meet your goal sometimes",
-            "description2":"But remember that you should follow some of the leading tips:"
+        "change": {
+            "title1": "Change your",
+            "title2": " plan!",
+            "description1": "You need to reschedule your meal plan? No problem at all! It is ok to change your schedule to meet your goal sometimes",
+            "description2": "But remember that you should follow some of the leading tips:"
         }
     },
     "settings": {
@@ -241,29 +241,41 @@
             }
         }
     },
-    "recipes":{
-        "featuring":"Featuring",
-        "cookbook":"Cookbook",
-        "info":{
-            "preview":"This is just a feature preview...",
-            "englishOnly":"English versions only yet",
-            "working":"We are still working on this part!"
+    "recipes": {
+        "featuring": "Featuring",
+        "cookbook": "Cookbook",
+        "info": {
+            "preview": "This is just a feature preview...",
+            "englishOnly": "English versions only yet",
+            "working": "We are still working on this part!"
         },
-        "detail":{
-            "macros":{
-                "cals":"CALS",
-                "protein":"PROTEIN",
-                "carbs":"CARBS",
-                "fat":"FAT"
+        "detail": {
+            "macros": {
+                "cals": "CALS",
+                "protein": "PROTEIN",
+                "carbs": "CARBS",
+                "fat": "FAT"
             },
-            "ingredients":"ingredients",
-            "instructions":"Instructions",
-            "cookingMode":"Cooking mode",
-            "cookingModeActivated":"Cooking mode activated!",
-            "cookingModeDescription":"The device stays awake.",
-            "instructionsMayDiifer":"Instructions may differ if you select a substitute ingredient."
+            "ingredients": "ingredients",
+            "instructions": "Instructions",
+            "cookingMode": "Cooking mode",
+            "cookingModeActivated": "Cooking mode activated!",
+            "cookingModeDescription": "The device stays awake.",
+            "instructionsMayDiifer": "Instructions may differ if you select a substitute ingredient."
         },
-        "search":"Search..."
+        "search": "Search..."
+    },
+    "tips": {
+        "title": "Eating tips",
+        "header1": "Read up",
+        "header2": "on healthy habits",
+        "description": "This section is aiming to help you to extend your knowledge about healhy eating habits and things which are having a influence on you food behaviour.",
+        "earned": "Earned tips",
+        "starting": "Staring with",
+        "noTitle": "No tips yet!",
+        "noDescription": "You have to follow your plan to get tips.",
+        "gotIt": "Got it!",
+        "dateFormat": "MMMM DD, YYYY"
     },
     "notifications": {
         "title": "Notifications",
@@ -297,7 +309,7 @@
         }
     },
     "general.cancel": "Cancel",
-    "general.save":"Save",
+    "general.save": "Save",
     "general.size": "SIZE",
     "general.loading...": "Loading...",
     "general.yes": "Yes",
@@ -316,7 +328,7 @@
     "navigation.signOut": "Sign out",
     "navigation.Home": "Dashboard",
     "navigation.Planner": "Planner",
-    "navigation.Insights": "Insights",
+    "navigation.Insights": "Tips",
     "navigation.Profile": "Profile",
     "navigation.myProfile": "My Profile",
     "settings.applicationLanguage": "Application's language",

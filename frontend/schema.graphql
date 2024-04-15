@@ -25,6 +25,12 @@ input InputMealRecord {
   size: String!
 }
 
+type LanguageType {
+  content: String!
+  description: String!
+  name: String!
+}
+
 type MealRecord {
   _id: String!
   cooked: Boolean!
@@ -43,7 +49,6 @@ type MealRecordData {
 type Mutation {
   _empty(nothing: String): String
   addMealRecord(mealRecord: InputMealRecord!, userId: String!): MealRecordData
-  addShoppingListItem(item: ShoppingListItemInput!): ShoppingList!
   addStressRecord(stressRecordData: StressRecordDataInput!): StressRecords!
   appleSignIn(token: String!): User!
   appleSignUp(token: String!): User!
@@ -109,6 +114,7 @@ type Query {
   getMealRecordsByDate(date: String!, userId: String!): [MealRecord]
   getShoppingList: ShoppingList
   getStressRecordsByDate(date: String!): dateStressRecord
+  getTips: [TipItem!]
   getUser(id: ID!): User
   getUserData: User
 }
@@ -177,6 +183,13 @@ input StressRecordDataInput {
 
 type StressRecords {
   stressRecords: [StressRecordData!]
+}
+
+type TipItem {
+  cs: LanguageType!
+  date: String!
+  en: LanguageType!
+  id: String!
 }
 
 type User {

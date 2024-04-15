@@ -61,6 +61,13 @@ export type InputMealRecord = {
     size: Scalars['String']['input']
 }
 
+export type LanguageType = {
+    __typename?: 'LanguageType'
+    content: Scalars['String']['output']
+    description: Scalars['String']['output']
+    name: Scalars['String']['output']
+}
+
 export type MealRecord = {
     __typename?: 'MealRecord'
     _id: Scalars['String']['output']
@@ -82,7 +89,6 @@ export type Mutation = {
     __typename?: 'Mutation'
     _empty?: Maybe<Scalars['String']['output']>
     addMealRecord?: Maybe<MealRecordData>
-    addShoppingListItem: ShoppingList
     addStressRecord: StressRecords
     appleSignIn: User
     appleSignUp: User
@@ -107,10 +113,6 @@ export type Mutation_EmptyArgs = {
 export type MutationAddMealRecordArgs = {
     mealRecord: InputMealRecord
     userId: Scalars['String']['input']
-}
-
-export type MutationAddShoppingListItemArgs = {
-    item: ShoppingListItemInput
 }
 
 export type MutationAddStressRecordArgs = {
@@ -224,6 +226,7 @@ export type Query = {
     getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>
     getShoppingList?: Maybe<ShoppingList>
     getStressRecordsByDate?: Maybe<DateStressRecord>
+    getTips?: Maybe<Array<TipItem>>
     getUser?: Maybe<User>
     getUserData?: Maybe<User>
 }
@@ -310,6 +313,14 @@ export type StressRecordDataInput = {
 export type StressRecords = {
     __typename?: 'StressRecords'
     stressRecords?: Maybe<Array<StressRecordData>>
+}
+
+export type TipItem = {
+    __typename?: 'TipItem'
+    cs: LanguageType
+    date: Scalars['String']['output']
+    en: LanguageType
+    id: Scalars['String']['output']
 }
 
 export type User = {
@@ -453,6 +464,7 @@ export type ResolversTypes = {
     ID: ResolverTypeWrapper<Scalars['ID']['output']>
     InputMealRecord: InputMealRecord
     Int: ResolverTypeWrapper<Scalars['Int']['output']>
+    LanguageType: ResolverTypeWrapper<LanguageType>
     MealRecord: ResolverTypeWrapper<MealRecord>
     MealRecordData: ResolverTypeWrapper<MealRecordData>
     Mutation: ResolverTypeWrapper<{}>
@@ -473,6 +485,7 @@ export type ResolversTypes = {
     StressRecordDataInput: StressRecordDataInput
     StressRecords: ResolverTypeWrapper<StressRecords>
     String: ResolverTypeWrapper<Scalars['String']['output']>
+    TipItem: ResolverTypeWrapper<TipItem>
     User: ResolverTypeWrapper<User>
     dateStressRecord: ResolverTypeWrapper<DateStressRecord>
 }
@@ -487,6 +500,7 @@ export type ResolversParentTypes = {
     ID: Scalars['ID']['output']
     InputMealRecord: InputMealRecord
     Int: Scalars['Int']['output']
+    LanguageType: LanguageType
     MealRecord: MealRecord
     MealRecordData: MealRecordData
     Mutation: {}
@@ -507,6 +521,7 @@ export type ResolversParentTypes = {
     StressRecordDataInput: StressRecordDataInput
     StressRecords: StressRecords
     String: Scalars['String']['output']
+    TipItem: TipItem
     User: User
     dateStressRecord: DateStressRecord
 }
@@ -517,6 +532,16 @@ export type BodyInfoResolvers<
 > = {
     height?: Resolver<ResolversTypes['Float'], ParentType, ContextType>
     weight?: Resolver<ResolversTypes['Float'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type LanguageTypeResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['LanguageType'] = ResolversParentTypes['LanguageType']
+> = {
+    content?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    description?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -570,12 +595,6 @@ export type MutationResolvers<
         ParentType,
         ContextType,
         RequireFields<MutationAddMealRecordArgs, 'mealRecord' | 'userId'>
-    >
-    addShoppingListItem?: Resolver<
-        ResolversTypes['ShoppingList'],
-        ParentType,
-        ContextType,
-        RequireFields<MutationAddShoppingListItemArgs, 'item'>
     >
     addStressRecord?: Resolver<
         ResolversTypes['StressRecords'],
@@ -737,6 +756,11 @@ export type QueryResolvers<
         ContextType,
         RequireFields<QueryGetStressRecordsByDateArgs, 'date'>
     >
+    getTips?: Resolver<
+        Maybe<Array<ResolversTypes['TipItem']>>,
+        ParentType,
+        ContextType
+    >
     getUser?: Resolver<
         Maybe<ResolversTypes['User']>,
         ParentType,
@@ -834,6 +858,17 @@ export type StressRecordsResolvers<
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
+export type TipItemResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['TipItem'] = ResolversParentTypes['TipItem']
+> = {
+    cs?: Resolver<ResolversTypes['LanguageType'], ParentType, ContextType>
+    date?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    en?: Resolver<ResolversTypes['LanguageType'], ParentType, ContextType>
+    id?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
 export type UserResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
@@ -904,6 +939,7 @@ export type DateStressRecordResolvers<
 
 export type Resolvers<ContextType = any> = {
     BodyInfo?: BodyInfoResolvers<ContextType>
+    LanguageType?: LanguageTypeResolvers<ContextType>
     MealRecord?: MealRecordResolvers<ContextType>
     MealRecordData?: MealRecordDataResolvers<ContextType>
     Mutation?: MutationResolvers<ContextType>
@@ -915,6 +951,7 @@ export type Resolvers<ContextType = any> = {
     ShoppingListSettings?: ShoppingListSettingsResolvers<ContextType>
     StressRecordData?: StressRecordDataResolvers<ContextType>
     StressRecords?: StressRecordsResolvers<ContextType>
+    TipItem?: TipItemResolvers<ContextType>
     User?: UserResolvers<ContextType>
     dateStressRecord?: DateStressRecordResolvers<ContextType>
 }

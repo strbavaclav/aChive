@@ -243,30 +243,41 @@
             }
         }
     },
-    "recipes":{
-        "featuring":"Doporučujeme",
-        "cookbook":"Seznam receptů",
-        "info":{
-            "preview":"Toto je zatím pouhý náhled...",
-            "englishOnly":"Recepty mají jen anglickou verzi.",
-            "working":"Stále na funkci ještě pracujeme!"
+    "recipes": {
+        "featuring": "Doporučujeme",
+        "cookbook": "Seznam receptů",
+        "info": {
+            "preview": "Toto je zatím pouhý náhled...",
+            "englishOnly": "Recepty mají jen anglickou verzi.",
+            "working": "Stále na funkci ještě pracujeme!"
         },
-        "detail":{
-            "macros":{
-                "cals":"KALORIE",
-                "protein":"BÍLKOVINY",
-                "carbs":"SACHARIDY",
-                "fat":"TUKY"
+        "detail": {
+            "macros": {
+                "cals": "KALORIE",
+                "protein": "BÍLKOVINY",
+                "carbs": "SACHARIDY",
+                "fat": "TUKY"
             },
-            "ingredients":"Ingredience",
-            "instructions":"Postup",
-            "cookingMode":"Režim vaření",
-            "cookingModeActivated":"Režim vaření aktivován!",
-            "cookingModeDescription":"Zařízení zůstane probuzené.",
-            "instructionsMayDiifer":"Pokyny se mohou lišit, pokud zvolíte náhradní ingredienci."
+            "ingredients": "Ingredience",
+            "instructions": "Postup",
+            "cookingMode": "Režim vaření",
+            "cookingModeActivated": "Režim vaření aktivován!",
+            "cookingModeDescription": "Zařízení zůstane probuzené.",
+            "instructionsMayDiifer": "Pokyny se mohou lišit, pokud zvolíte náhradní ingredienci."
         },
-        "search":"Hledat..."
-
+        "search": "Hledat..."
+    },
+    "tips": {
+        "title": "Stravovací tipy",
+        "header1": "Pročtěte se",
+        "header2": "k zdravému stravování",
+        "description": "Cílem této sekce je pomoci vám rozšířit si znalosti o zdravých stravovacích návycích a věcech, které mají vliv na vaše chování k jídlu.",
+        "earned": "Získané tipy",
+        "starting": "Začněme s",
+        "noTitle": "Žádné tipy!",
+        "noDescription": "Chcete-li získat tipy, musíte svůj plán dodržovat.",
+        "gotIt": "Rozumím!",
+        "dateFormat": "DD. MMMM YYYY"
     },
     "notifications": {
         "title": "Oznámení",
