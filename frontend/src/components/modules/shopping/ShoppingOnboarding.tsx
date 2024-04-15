@@ -33,14 +33,25 @@ type Props = {
 export const ShoppingOnboarding: FC<Props> = ({ onFinish, change }) => {
   const [step, setStep] = useState(0);
   const { setShoppingListSettingsMutation } = useSetShoppingListSettings();
-  const { appState } = useApp();
+  const { appState, refetchUserData } = useApp();
   const [shoppingSettings, setShoppingSettings] = useState(
     appState.userData?.shopping
   );
 
   useEffect(() => {
+    const fetchData = async () => {
+      await refetchUserData();
+      setShoppingSettings(appState.userData?.shopping);
+      formContext.reset(defaultValues);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
     setShoppingSettings(appState.userData?.shopping);
-  }, [appState.userData?.shopping]);
+    formContext.reset(defaultValues);
+  }, [appState.userData?.shopping, shoppingSettings]);
 
   const createDateWithDefaultHours = (
     dateString: string | undefined,
@@ -85,6 +96,8 @@ export const ShoppingOnboarding: FC<Props> = ({ onFinish, change }) => {
     resolver: zodResolver(validationSchema),
   });
 
+  console.log("TEST", formContext.getValues("shopDays"));
+
   const onSubmit: SubmitHandler<FormDataType> = async (values) => {
     try {
       await setShoppingListSettingsMutation({
@@ -99,12 +112,11 @@ export const ShoppingOnboarding: FC<Props> = ({ onFinish, change }) => {
           },
         },
       });
+      await onFinish();
       setStep(0);
       formContext.reset(defaultValues);
-      await onFinish();
     } catch (error) {
       console.log(error);
-    } finally {
     }
   };
 

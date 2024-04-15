@@ -11,6 +11,7 @@ import { CheckIcon } from "@gluestack-ui/themed";
 import { TouchableOpacity } from "react-native";
 
 type Props = {
+  onPress: () => void;
   itemName: string;
   quantity: number;
   unit: string;
@@ -23,9 +24,10 @@ export const ShoppingListItem: FC<Props> = ({
   unit,
   checked,
   onCheck,
+  onPress,
 }) => {
   return (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={onPress}>
       <HStack
         m={6}
         marginVertical={8}

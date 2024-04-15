@@ -1,61 +1,76 @@
 import { ChevronsUpDownIcon, HStack, Icon } from "@gluestack-ui/themed";
 import { DrawerNavigationProp } from "@react-navigation/drawer";
 import { useNavigation } from "@react-navigation/native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Meal } from "data/mock/meals";
 import { LinearGradient } from "expo-linear-gradient";
 import i18next from "i18next";
 import { MainDrawerParams } from "navigation/main";
-import React, { FC } from "react";
+import React from "react";
 import {
   ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ViewToken,
 } from "react-native";
 import Animated, {
-  interpolate,
-  SharedValue,
   useAnimatedStyle,
+  withTiming,
 } from "react-native-reanimated";
 
 type Props = {
-  width: number;
-  item: Meal;
-  index: number;
-  x: SharedValue<number>;
+  meal: Meal;
+  viewableItems: Animated.SharedValue<ViewToken[]>;
 };
-
-const MealCarouselCard: FC<Props> = ({ width, item, index, x }) => {
-  const navigation = useNavigation<DrawerNavigationProp<MainDrawerParams>>();
+const MealCard: React.FC<Props> = React.memo(({ meal, viewableItems }) => {
   const currentLanguage = i18next.language as "cs" | "en";
 
-  const style = useAnimatedStyle(() => {
-    const scale = interpolate(
-      x.value,
-      [(index - 2) * width, (index - 1) * width, index * width],
-      [0.8, 1, 0.8]
-    );
-    return { transform: [{ scale }] };
-  });
+  const navigation = useNavigation<DrawerNavigationProp<MainDrawerParams>>();
 
+  const rStyle = useAnimatedStyle(() => {
+    const isVisible = Boolean(
+      viewableItems.value
+        .filter((item) => item.isViewable)
+        .find((viewableItem) => viewableItem.item.id === meal.id)
+    );
+
+    return {
+      opacity: withTiming(isVisible ? 1 : 0.5),
+      transform: [{ scale: withTiming(isVisible ? 1 : 0.9) }],
+    };
+  });
   return (
-    <TouchableOpacity
-      style={{
-        width: width,
-      }}
-      onPress={() => navigation.navigate("RecipeDetail", { item: item })}
-    >
-      <Animated.View style={[styles.imageContainer, style]}>
-        <ImageBackground source={{ uri: item.image }} style={styles.image}>
+    <Animated.View style={rStyle}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("RecipeDetail", { item: meal })}
+        style={[
+          {
+            flexDirection: "row",
+            borderRadius: 10,
+            marginHorizontal: 5,
+            marginVertical: 3,
+            height: 150,
+            shadowColor: `rgba(0,0,0,0.7)`,
+            shadowOffset: {
+              width: 0,
+              height: 1,
+            },
+            backgroundColor: "black",
+            shadowOpacity: 1,
+            shadowRadius: 3,
+          },
+        ]}
+      >
+        <ImageBackground
+          source={{ uri: meal.image }}
+          style={styles.image}
+          imageStyle={{ borderRadius: 10 }}
+        >
           <LinearGradient
-            colors={[
-              `rgba(0,0,0,0.9)`,
-              "rgba(0,0,0,0.2)",
-              "transparent",
-              `rgba(0,0,0,0.6)`,
-            ]}
-            locations={[0.0, 0.3, 0.6, 1]}
+            colors={[`rgba(0,0,0,0.9)`, "rgba(0,0,0,0.2)", "transparent"]}
+            locations={[0.0, 0.3, 1]}
             style={{ flex: 1, borderRadius: 10, height: "50%" }}
           >
             <View
@@ -66,7 +81,7 @@ const MealCarouselCard: FC<Props> = ({ width, item, index, x }) => {
                 marginLeft: 10,
               }}
             >
-              <Text style={styles.text}>{item[currentLanguage].name}</Text>
+              <Text style={styles.text}>{meal[currentLanguage].name}</Text>
 
               <HStack
                 justifyContent="center"
@@ -91,7 +106,7 @@ const MealCarouselCard: FC<Props> = ({ width, item, index, x }) => {
                     },
                   ]}
                 >
-                  {item.size}
+                  {meal.size}
                 </Text>
               </HStack>
 
@@ -115,30 +130,21 @@ const MealCarouselCard: FC<Props> = ({ width, item, index, x }) => {
                     },
                   ]}
                 >
-                  {item.time}
+                  {meal.time}
                 </Text>
               </View>
             </View>
           </LinearGradient>
         </ImageBackground>
-      </Animated.View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </Animated.View>
   );
-};
-
-export default MealCarouselCard;
+});
 
 const styles = StyleSheet.create({
-  imageContainer: {
-    borderRadius: 10,
-    overflow: "hidden",
-    shadowColor: "black",
-    shadowOffset: { width: 1, height: 1 },
-  },
   image: {
-    width: "100%",
-    height: 150,
-    borderRadius: 10,
+    flex: 1,
+    borderRadius: 20,
   },
   text: {
     lineHeight: 25,
@@ -153,3 +159,5 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
   },
 });
+
+export default MealCard;

@@ -5,11 +5,10 @@ import {
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
 import ProfileScreen from "screens/core/profile/ProfileScreen";
-import MealPlannerScreen from "screens/modules/mealplanning/MealPlannerScreen";
 import { EducationScreen } from "screens/modules/education/EducationScreen";
 import { MaterialIcons } from "@expo/vector-icons";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import CustomDrawer from "components/navigation/CustomDrawer";
 import DrawerScreenWrapper from "components/navigation/DrawerScreenWrapper";
@@ -24,6 +23,8 @@ import { useTranslation } from "react-i18next";
 import { JournalScreen } from "screens/modules/journal/JournalScreen";
 import { MealPlannerSettingsScreen } from "screens/modules/mealplanning/MealPlannerSettingsScreen";
 import { ShoppingListSettingsScreen } from "screens/modules/shopping/ShoppingListSettingsScreen";
+import RecipeDetailScreen from "screens/modules/cookbook/RecipeDetailScreen";
+import { Meal } from "data/mock/meals";
 
 type Props = { children: ReactNode };
 
@@ -41,6 +42,7 @@ export type MainDrawerParams = {
   Shopping: undefined;
   ShoppingSettings: undefined;
   Cookbook: undefined;
+  RecipeDetail: { item: Meal };
   Journal: undefined;
   Notifications: undefined;
   MealPlannerSettings: undefined;
@@ -172,6 +174,11 @@ export const MainDrawerNavigator = () => {
         <MainDrawer.Screen
           name={"Cookbook"}
           component={CookBookScreen}
+          options={{ headerTitle: "" }}
+        />
+        <MainDrawer.Screen
+          name={"RecipeDetail"}
+          component={RecipeDetailScreen}
           options={{ headerTitle: "" }}
         />
         <MainDrawer.Screen

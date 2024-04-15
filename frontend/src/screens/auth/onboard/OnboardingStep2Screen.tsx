@@ -87,8 +87,7 @@ const OnboardingStep2Screen = () => {
     const keyboardDidShowListener = Keyboard.addListener(
       "keyboardDidShow",
       (e) => {
-        const keyboardHeight = e.endCoordinates.height;
-        const yourDesiredOffset = 100;
+        const yourDesiredOffset = 300;
         scrollViewRef.current?.scrollTo({
           y: yourDesiredOffset,
           animated: true,
@@ -126,7 +125,7 @@ const OnboardingStep2Screen = () => {
             contentContainerStyle={{ alignItems: "center" }}
             ref={scrollViewRef}
           >
-            <VStack flex={1} w={"90%"} alignItems="center" mt={10}>
+            <VStack flex={1} w={"95%"} alignItems="center" mt={10}>
               <FormProvider {...formContext}>
                 <VStack flex={1} w={"100%"}>
                   <Text textAlign="center">

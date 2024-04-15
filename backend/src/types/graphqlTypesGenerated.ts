@@ -44,6 +44,14 @@ export type BodyInfo = {
     weight: Scalars['Float']['output']
 }
 
+export type ChangedMealInput = {
+    _id?: InputMaybe<Scalars['String']['input']>
+    endTime: Scalars['String']['input']
+    mealName: Scalars['String']['input']
+    mealSize: Scalars['String']['input']
+    startTime: Scalars['String']['input']
+}
+
 export type InputMealRecord = {
     cooked: Scalars['Boolean']['input']
     description?: InputMaybe<Scalars['String']['input']>
@@ -87,6 +95,7 @@ export type Mutation = {
     setShoppingListSettings: User
     signIn: User
     signUp: User
+    syncShoppingList: Scalars['String']['output']
     updateMealRecordById?: Maybe<MealRecordData>
     updateUserData: User
 }
@@ -117,7 +126,7 @@ export type MutationAppleSignUpArgs = {
 }
 
 export type MutationChangeMealPlanArgs = {
-    newPlan?: InputMaybe<Array<PlannedMealInput>>
+    newPlan?: InputMaybe<Array<ChangedMealInput>>
 }
 
 export type MutationDeleteStressRecordArgs = {
@@ -148,6 +157,10 @@ export type MutationSignInArgs = {
 
 export type MutationSignUpArgs = {
     authData: SignUpInput
+}
+
+export type MutationSyncShoppingListArgs = {
+    items?: InputMaybe<Array<ShoppingListItemInput>>
 }
 
 export type MutationUpdateMealRecordByIdArgs = {
@@ -245,6 +258,7 @@ export type ShoppingList = {
 
 export type ShoppingListItem = {
     __typename?: 'ShoppingListItem'
+    _id: Scalars['String']['output']
     checked: Scalars['Boolean']['output']
     itemName: Scalars['String']['output']
     quantity: Scalars['Float']['output']
@@ -252,6 +266,7 @@ export type ShoppingListItem = {
 }
 
 export type ShoppingListItemInput = {
+    _id: Scalars['String']['input']
     checked?: InputMaybe<Scalars['Boolean']['input']>
     itemName: Scalars['String']['input']
     quantity: Scalars['Float']['input']
@@ -433,6 +448,7 @@ export type ResolversTypes = {
     BodyDataInput: BodyDataInput
     BodyInfo: ResolverTypeWrapper<BodyInfo>
     Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>
+    ChangedMealInput: ChangedMealInput
     Float: ResolverTypeWrapper<Scalars['Float']['output']>
     ID: ResolverTypeWrapper<Scalars['ID']['output']>
     InputMealRecord: InputMealRecord
@@ -466,6 +482,7 @@ export type ResolversParentTypes = {
     BodyDataInput: BodyDataInput
     BodyInfo: BodyInfo
     Boolean: Scalars['Boolean']['output']
+    ChangedMealInput: ChangedMealInput
     Float: Scalars['Float']['output']
     ID: Scalars['ID']['output']
     InputMealRecord: InputMealRecord
@@ -631,6 +648,12 @@ export type MutationResolvers<
         ContextType,
         RequireFields<MutationSignUpArgs, 'authData'>
     >
+    syncShoppingList?: Resolver<
+        ResolversTypes['String'],
+        ParentType,
+        ContextType,
+        Partial<MutationSyncShoppingListArgs>
+    >
     updateMealRecordById?: Resolver<
         Maybe<ResolversTypes['MealRecordData']>,
         ParentType,
@@ -744,6 +767,7 @@ export type ShoppingListItemResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['ShoppingListItem'] = ResolversParentTypes['ShoppingListItem']
 > = {
+    _id?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     checked?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>
     itemName?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     quantity?: Resolver<ResolversTypes['Float'], ParentType, ContextType>

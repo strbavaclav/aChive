@@ -2,7 +2,7 @@ import { useMutation } from "@apollo/client";
 import { gql } from "gql/gql";
 
 const CHANGE_MEAL_PLAN_MUTATION = gql(`
-mutation ChangeMealPlanMutation($newPlan: [PlannedMealInput!]) {
+mutation ChangeMealPlanMutation($newPlan: [ChangedMealInput!]) {
   changeMealPlan(newPlan: $newPlan) {
     plan {
       _id

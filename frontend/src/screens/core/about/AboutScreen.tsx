@@ -33,7 +33,7 @@ export const AboutScreen = () => {
           <TouchableOpacity
             onPress={() => Linking.openURL("mailto:achiveapp@gmail.com")}
           >
-            <Text color="#10b981" textDecorationLine="underline">
+            <Text color="$primary500" textDecorationLine="underline">
               achiveapp@gmail.com
             </Text>
           </TouchableOpacity>

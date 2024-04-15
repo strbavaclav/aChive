@@ -5,6 +5,7 @@ export const GET_SHOPPING_LIST = gql(/* GraphQL */ `
     getShoppingList {
       userId
       items {
+        _id
         itemName
         quantity
         unit

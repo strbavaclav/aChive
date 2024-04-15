@@ -41,7 +41,7 @@ import { AppAlertDialog } from "components/general/AppAlertDialog";
 export const JournalScreen = () => {
   const [selectedDay, setSelectedDay] = useState<Date>(() => {
     const initialDate = new Date();
-    initialDate.setHours(0, 0, 0, 0);
+    initialDate.setUTCHours(0, 0, 0, 0);
     return initialDate;
   });
   const [showHelp, setShowHelp] = useState(false);
@@ -226,7 +226,7 @@ export const JournalScreen = () => {
           keyboardVerticalOffset={100}
         >
           <ScrollView
-            contentContainerStyle={{ alignItems: "center", flex: 1 }}
+            contentContainerStyle={{ alignItems: "center" }}
             ref={scrollViewRef}
           >
             {isFuture && (
@@ -337,7 +337,7 @@ export const JournalScreen = () => {
                       <Heading size="sm">
                         {t("journal.form.howWasYourDay")}
                       </Heading>
-                      <TouchableOpacity
+                      {/* <TouchableOpacity
                         onPress={() => {
                           setShowHelp((prevState) => !prevState);
                         }}
@@ -351,7 +351,7 @@ export const JournalScreen = () => {
                           size={20}
                           color={"#10b981"}
                         />
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
                     </HStack>
                     <StressSlider name="stressValue" />
                     <View flex={1} width={"100%"}>

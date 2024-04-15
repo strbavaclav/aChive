@@ -201,6 +201,73 @@
             }
         }
     },
+    "shoppingList": {
+        "title": "Nákupní seznam",
+        "header": {
+            "title1": "Vypadá to",
+            "title2": "že je potřeba něco nakoupit!"
+        },
+        "list": {
+            "section": {
+                "toGet": " Potřebuji sehnat",
+                "have": " Už mám"
+            },
+            "clear": "SMAZAT",
+            "status": {
+                "syncing": "Synchronizace",
+                "notSynced": "Nesynchronizováno",
+                "synced": "Synchronizováno"
+            },
+            "addItem": "Přidat"
+        },
+        "empty": {
+            "title": "Tvůj seznam je prázdný",
+            "description": "Přidej nějaké položky!"
+        },
+        "modal": {
+            "titleAdd": "Přidat položku",
+            "titleEdit": "Upravit položku",
+            "placeholder": {
+                "name": "Jméno (např. Pažitka)",
+                "quantity": "Množství",
+                "unit": "Jednotka (Kg, L, kus...)"
+            },
+            "action": {
+                "add": "Přidat",
+                "delete": "Smazat",
+                "save": "Uložit"
+            },
+            "error": {
+                "notNumber": "Musí být číslo!",
+                "required": "Povinný údaj!"
+            }
+        }
+    },
+    "recipes":{
+        "featuring":"Doporučujeme",
+        "cookbook":"Seznam receptů",
+        "info":{
+            "preview":"Toto je zatím pouhý náhled...",
+            "englishOnly":"Recepty mají jen anglickou verzi.",
+            "working":"Stále na funkci ještě pracujeme!"
+        },
+        "detail":{
+            "macros":{
+                "cals":"KALORIE",
+                "protein":"BÍLKOVINY",
+                "carbs":"SACHARIDY",
+                "fat":"TUKY"
+            },
+            "ingredients":"Ingredience",
+            "instructions":"Postup",
+            "cookingMode":"Režim vaření",
+            "cookingModeActivated":"Režim vaření aktivován!",
+            "cookingModeDescription":"Zařízení zůstane probuzené.",
+            "instructionsMayDiifer":"Pokyny se mohou lišit, pokud zvolíte náhradní ingredienci."
+        },
+        "search":"Hledat..."
+
+    },
     "notifications": {
         "title": "Oznámení",
         "noNotification": "Žádné oznámení...",

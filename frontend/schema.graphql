@@ -8,6 +8,14 @@ type BodyInfo {
   weight: Float!
 }
 
+input ChangedMealInput {
+  _id: String
+  endTime: String!
+  mealName: String!
+  mealSize: String!
+  startTime: String!
+}
+
 input InputMealRecord {
   cooked: Boolean!
   description: String
@@ -39,7 +47,7 @@ type Mutation {
   addStressRecord(stressRecordData: StressRecordDataInput!): StressRecords!
   appleSignIn(token: String!): User!
   appleSignUp(token: String!): User!
-  changeMealPlan(newPlan: [PlannedMealInput!]): User!
+  changeMealPlan(newPlan: [ChangedMealInput!]): User!
   deleteStressRecord(date: String!): String!
   editStressRecord(date: String!, updatedRecord: StressRecordDataInput!): StressRecordData
   onboard(onboardData: OnboardData!): User!
@@ -48,6 +56,7 @@ type Mutation {
   setShoppingListSettings(ShopListSettings: ShopListSettingsInput!): User!
   signIn(authData: SignInInput!): User!
   signUp(authData: SignUpInput!): User!
+  syncShoppingList(items: [ShoppingListItemInput!]): String!
   updateMealRecordById(recordId: String!, updatedRecord: InputMealRecord!, userId: String!): MealRecordData
   updateUserData(newUserData: NewUserDataInput!): User!
 }
@@ -119,6 +128,7 @@ type ShoppingList {
 }
 
 type ShoppingListItem {
+  _id: String!
   checked: Boolean!
   itemName: String!
   quantity: Float!
@@ -126,6 +136,7 @@ type ShoppingListItem {
 }
 
 input ShoppingListItemInput {
+  _id: String!
   checked: Boolean
   itemName: String!
   quantity: Float!
