@@ -112,7 +112,7 @@ export const MainTabNavigator = () => {
     currentScreen === "Planner"
       ? t("mealPlanner.title")
       : currentScreen === "Insights"
-        ? "Eating hacks"
+        ? t("tips.title")
         : currentScreen === "Profile"
           ? t("navigation.myProfile")
           : undefined;
