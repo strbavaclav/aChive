@@ -21,6 +21,7 @@ import { editStressRecordResolver } from './modules/stress/resolvers/editStressR
 import { resetUserRecordsResolver } from './modules/user/resolvers/resetUserRecordsResolver'
 import { changeMealPlanResolver } from './modules/user/resolvers/changeMealPlanResolver'
 import { syncShoppingListResolver } from './modules/shopping/resolvers/syncShoppingListResolver'
+import { getTipsResolver } from './modules/tips/resolvers/getTipsResolver'
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -63,6 +64,9 @@ const resolvers: Resolvers = {
 
         //stress
         getStressRecordsByDate: getStressRecordsByDateResolver,
+
+        //tips
+        getTips: getTipsResolver,
     },
 }
 

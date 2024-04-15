@@ -57,6 +57,13 @@ export type InputMealRecord = {
   size: Scalars["String"]["input"];
 };
 
+export type LanguageType = {
+  __typename?: "LanguageType";
+  content: Scalars["String"]["output"];
+  description: Scalars["String"]["output"];
+  name: Scalars["String"]["output"];
+};
+
 export type MealRecord = {
   __typename?: "MealRecord";
   _id: Scalars["String"]["output"];
@@ -78,7 +85,6 @@ export type Mutation = {
   __typename?: "Mutation";
   _empty?: Maybe<Scalars["String"]["output"]>;
   addMealRecord?: Maybe<MealRecordData>;
-  addShoppingListItem: ShoppingList;
   addStressRecord: StressRecords;
   appleSignIn: User;
   appleSignUp: User;
@@ -103,10 +109,6 @@ export type Mutation_EmptyArgs = {
 export type MutationAddMealRecordArgs = {
   mealRecord: InputMealRecord;
   userId: Scalars["String"]["input"];
-};
-
-export type MutationAddShoppingListItemArgs = {
-  item: ShoppingListItemInput;
 };
 
 export type MutationAddStressRecordArgs = {
@@ -220,6 +222,7 @@ export type Query = {
   getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>;
   getShoppingList?: Maybe<ShoppingList>;
   getStressRecordsByDate?: Maybe<DateStressRecord>;
+  getTips?: Maybe<Array<TipItem>>;
   getUser?: Maybe<User>;
   getUserData?: Maybe<User>;
 };
@@ -306,6 +309,14 @@ export type StressRecordDataInput = {
 export type StressRecords = {
   __typename?: "StressRecords";
   stressRecords?: Maybe<Array<StressRecordData>>;
+};
+
+export type TipItem = {
+  __typename?: "TipItem";
+  cs: LanguageType;
+  date: Scalars["String"]["output"];
+  en: LanguageType;
+  id: Scalars["String"]["output"];
 };
 
 export type User = {
@@ -648,25 +659,6 @@ export type UpdateMealRecordByIdMutation = {
   } | null;
 };
 
-export type AddShoppingListItemMutationVariables = Exact<{
-  item: ShoppingListItemInput;
-}>;
-
-export type AddShoppingListItemMutation = {
-  __typename?: "Mutation";
-  addShoppingListItem: {
-    __typename?: "ShoppingList";
-    userId: string;
-    items?: Array<{
-      __typename?: "ShoppingListItem";
-      itemName: string;
-      quantity: number;
-      unit: string;
-      checked: boolean;
-    }> | null;
-  };
-};
-
 export type GetShoppingListQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetShoppingListQuery = {
@@ -770,6 +762,29 @@ export type GetStressRecordsByDateQuery = {
       note?: string | null;
     } | null;
   } | null;
+};
+
+export type GetTipsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetTipsQuery = {
+  __typename?: "Query";
+  getTips?: Array<{
+    __typename?: "TipItem";
+    id: string;
+    date: string;
+    cs: {
+      __typename?: "LanguageType";
+      name: string;
+      description: string;
+      content: string;
+    };
+    en: {
+      __typename?: "LanguageType";
+      name: string;
+      description: string;
+      content: string;
+    };
+  }> | null;
 };
 
 export type ChangeMealPlanMutationMutationVariables = Exact<{
@@ -2103,79 +2118,6 @@ export const UpdateMealRecordByIdDocument = {
   UpdateMealRecordByIdMutation,
   UpdateMealRecordByIdMutationVariables
 >;
-export const AddShoppingListItemDocument = {
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "mutation",
-      name: { kind: "Name", value: "AddShoppingListItem" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "item" } },
-          type: {
-            kind: "NonNullType",
-            type: {
-              kind: "NamedType",
-              name: { kind: "Name", value: "ShoppingListItemInput" },
-            },
-          },
-        },
-      ],
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "addShoppingListItem" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "item" },
-                value: {
-                  kind: "Variable",
-                  name: { kind: "Name", value: "item" },
-                },
-              },
-            ],
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "userId" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "items" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "itemName" },
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "quantity" },
-                      },
-                      { kind: "Field", name: { kind: "Name", value: "unit" } },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "checked" },
-                      },
-                    ],
-                  },
-                },
-              ],
-            },
-          },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode<
-  AddShoppingListItemMutation,
-  AddShoppingListItemMutationVariables
->;
 export const GetShoppingListDocument = {
   kind: "Document",
   definitions: [
@@ -2617,6 +2559,68 @@ export const GetStressRecordsByDateDocument = {
   GetStressRecordsByDateQuery,
   GetStressRecordsByDateQueryVariables
 >;
+export const GetTipsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "GetTips" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getTips" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "cs" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "content" },
+                      },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "en" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      { kind: "Field", name: { kind: "Name", value: "name" } },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "description" },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "content" },
+                      },
+                    ],
+                  },
+                },
+                { kind: "Field", name: { kind: "Name", value: "date" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<GetTipsQuery, GetTipsQueryVariables>;
 export const ChangeMealPlanMutationDocument = {
   kind: "Document",
   definitions: [

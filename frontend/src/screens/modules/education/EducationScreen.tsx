@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Box,
   Button,
@@ -21,94 +21,164 @@ import {
 } from "@gluestack-ui/themed";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { eatingHabitsTips } from "data/mock/educationTips";
 import { Image } from "@gluestack-ui/themed";
+import { useQuery } from "@apollo/client";
+import { GET_TIPS } from "calls/tips/useGetTips";
+import moment from "moment";
+import { useFocusEffect } from "@react-navigation/native";
+import DefaultTipsCarousel from "components/modules/tips/DefaultTipsCarousel";
+import { defaultTips } from "data/mock/defaultTips";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
-type EatingHabitTipType = {
+export type EatingHabitTipType = {
+  id: string;
+  cs: {
+    name: string;
+    description: string;
+    content: string;
+  };
+  en: {
+    name: string;
+    description: string;
+    content: string;
+  };
   date: string;
-  name: string;
-  description: string;
-  message: string;
 };
 
 export const EducationScreen = () => {
+  const { t } = useTranslation();
+  const currentLanguage = i18next.language as "cs" | "en";
   const [selectedTip, setSelectedTip] = useState<
     EatingHabitTipType | undefined
   >(undefined);
 
+  const {
+    loading: loadingTips,
+    data: tips,
+    refetch: refetchTips,
+  } = useQuery(GET_TIPS);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetchTips();
+    }, [refetchTips])
+  );
+
+  const onSelectHandler = (item: EatingHabitTipType) => {
+    setSelectedTip(item);
+  };
+
   return (
     <View style={{ flex: 1, marginHorizontal: 5 }}>
-      <ScrollView style={{ flex: 1, marginTop: 6 }}>
-        <View alignItems="center">
-          <Image
-            w={150}
-            h={150}
-            source={require("../../../assets/images/insights.png")}
-            resizeMode="contain"
-            alt="about"
-          />
-        </View>
-        <Text bold size="lg" style={{ color: "#10b981" }}>
-          Read up on healthy habits
-        </Text>
-        <Text size="sm">
-          This section is aiming to help you to extend your knowledge about
-          healhy eating habits and things which are having a influence on you
-          food behaviour.
-        </Text>
-        <VStack gap={6} mt={6}>
-          {eatingHabitsTips.map((item: EatingHabitTipType, index: number) => (
-            <Box
-              key={index}
-              style={
-                index === eatingHabitsTips.length - 1
-                  ? { marginBottom: 10 }
-                  : {}
-              }
-            >
-              <Text size="xs" style={{ color: "gray" }}>
-                {item.date}
-              </Text>
-              <TouchableOpacity onPress={() => setSelectedTip(item)}>
-                <Box
-                  style={{
-                    backgroundColor: "white",
-                    height: 100,
-                    borderRadius: 8,
-                    justifyContent: "center",
-                    padding: 10,
-                  }}
-                >
-                  <HStack justifyContent="space-between" alignItems="center">
-                    <HStack
-                      justifyContent="center"
-                      alignItems="center"
-                      gap={10}
-                    >
+      <ScrollView
+        contentContainerStyle={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <VStack
+          flex={1}
+          gap={10}
+          w={"90%"}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <HStack flex={1} alignItems="center" justifyContent="space-evenly">
+            <Image
+              w={150}
+              h={150}
+              source={require("../../../assets/images/insights.png")}
+              resizeMode="contain"
+              alt="about"
+            />
+            <VStack>
+              <Heading color="$primary500">{t("tips.header1")}</Heading>
+              <Heading>{t("tips.header2")}</Heading>
+            </VStack>
+          </HStack>
+          <View flex={1} justifyContent="center" alignItems="center">
+            <Text size="sm" textAlign="justify">
+              {t("tips.description")}
+            </Text>
+          </View>
+        </VStack>
+        <VStack gap={6} mt={10} flex={1} w={"100%"}>
+          <Heading size="sm">{t("tips.earned")}</Heading>
+          {tips && tips.getTips && tips.getTips.length < 1 && (
+            <VStack flex={1} justifyContent="center" alignItems="center">
+              <Image
+                w={200}
+                h={200}
+                source={require("../../../assets/images/results.png")}
+                resizeMode="contain"
+                alt="about"
+              />
+              <Text bold>{t("tips.noTitle")}</Text>
+              <Text>{t("tips.noDescription")}</Text>
+            </VStack>
+          )}
+          {tips &&
+            tips?.getTips &&
+            tips?.getTips.map((item: EatingHabitTipType, index: number) => (
+              <Box
+                key={index}
+                style={
+                  index === tips?.getTips!.length - 1
+                    ? { marginBottom: 10 }
+                    : {}
+                }
+              >
+                <Text size="xs" style={{ color: "gray" }}>
+                  {moment(item.date)
+                    .locale(currentLanguage)
+                    .format(t("tips.dateFormat"))}
+                </Text>
+                <TouchableOpacity onPress={() => setSelectedTip(item)}>
+                  <Box
+                    style={{
+                      backgroundColor: "white",
+                      height: 100,
+                      borderRadius: 8,
+                      justifyContent: "center",
+                      padding: 10,
+                    }}
+                  >
+                    <HStack justifyContent="space-between" alignItems="center">
+                      <HStack
+                        justifyContent="center"
+                        alignItems="center"
+                        gap={10}
+                      >
+                        <Ionicons
+                          name="bulb-outline"
+                          size={26}
+                          color={"#10b981"}
+                        />
+                        <VStack>
+                          <Text size="lg" style={{ color: "#10b981" }}>
+                            {item[currentLanguage].name}
+                          </Text>
+                          <Text size="sm" style={{ color: "grey" }}>
+                            {item[currentLanguage].description}
+                          </Text>
+                        </VStack>
+                      </HStack>
                       <Ionicons
-                        name="bulb-outline"
+                        name={"chevron-forward-outline"}
                         size={26}
                         color={"#10b981"}
                       />
-                      <VStack>
-                        <Text size="lg" style={{ color: "#10b981" }}>
-                          {item.name}
-                        </Text>
-                        <Text size="sm" style={{ color: "grey" }}>
-                          {item.description}
-                        </Text>
-                      </VStack>
                     </HStack>
-                    <Ionicons
-                      name={"chevron-forward-outline"}
-                      size={26}
-                      color={"#10b981"}
-                    />
-                  </HStack>
-                </Box>
-              </TouchableOpacity>
-            </Box>
-          ))}
+                  </Box>
+                </TouchableOpacity>
+              </Box>
+            ))}
+          <Heading size="sm">{t("tips.starting")}</Heading>
+          <DefaultTipsCarousel
+            data={defaultTips}
+            setSelected={onSelectHandler}
+          />
         </VStack>
       </ScrollView>
 
@@ -121,18 +191,22 @@ export const EducationScreen = () => {
         <ModalBackdrop />
         <ModalContent>
           <ModalHeader>
-            <Heading size="lg">{selectedTip?.name}</Heading>
+            <Heading size="lg">
+              {selectedTip && selectedTip[currentLanguage].name}
+            </Heading>
             <ModalCloseButton>
               <Icon as={CloseIcon} />
             </ModalCloseButton>
           </ModalHeader>
           <ModalBody>
-            <Text>{selectedTip?.message}</Text>
+            <Text size="xs">
+              {selectedTip && selectedTip[currentLanguage].content}
+            </Text>
           </ModalBody>
           <ModalFooter>
             <HStack flex={1} justifyContent="flex-end">
               <Button size="sm" onPress={() => setSelectedTip(undefined)}>
-                <ButtonText>Got it!</ButtonText>
+                <ButtonText>{t("tips.gotIt")}</ButtonText>
               </Button>
             </HStack>
           </ModalFooter>

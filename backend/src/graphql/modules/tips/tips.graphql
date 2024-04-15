@@ -1,0 +1,16 @@
+type Query {
+  getTips: [TipItem!]
+}
+
+type TipItem {
+  id:String!,
+  cs: LanguageType!
+  en: LanguageType!
+  date:String!
+}
+
+type LanguageType {
+  name: String!
+  description:String!
+  content:String!
+}
