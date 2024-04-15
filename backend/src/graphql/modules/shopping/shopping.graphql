@@ -1,8 +1,7 @@
 
 type Mutation {
   setShoppingListSettings(ShopListSettings: ShopListSettingsInput!):User!
-
-  addShoppingListItem(item:ShoppingListItemInput!): ShoppingList!
+  syncShoppingList(items: [ShoppingListItemInput!]):String!
 }
 
 type Query {
@@ -19,6 +18,7 @@ input ShopListSettingsInput {
 }
 
 input ShoppingListItemInput {
+  _id: String!
   itemName: String!
   quantity: Float!
   unit: String!
@@ -26,6 +26,7 @@ input ShoppingListItemInput {
 }
 
 type ShoppingListItem {
+  _id: String!
   itemName: String!
   quantity: Float!
   unit: String!

@@ -14,13 +14,13 @@ import { removeMealRecordByIdResolver } from './modules/planner/resolvers/remove
 import { updateMealRecordByIdResolver } from './modules/planner/resolvers/updateMealRecordResolver'
 import { setShoppingListSettingsResolver } from './modules/shopping/resolvers/setShoppingListSettingsResolver'
 import { updateUserDataResolver } from './modules/user/resolvers/updateUserDataResolver'
-import { addShoppingListItemResolver } from './modules/shopping/resolvers/addShoppingListItemResolver'
 import { getShoppingListResolver } from './modules/shopping/resolvers/getShoppingListResolver'
 import { getStressRecordsByDateResolver } from './modules/stress/resolvers/getStressRecordsByDateResolver'
 import { deleteStressRecordResolver } from './modules/stress/resolvers/deleteStressRecordResolver'
 import { editStressRecordResolver } from './modules/stress/resolvers/editStressRecordResolver'
 import { resetUserRecordsResolver } from './modules/user/resolvers/resetUserRecordsResolver'
 import { changeMealPlanResolver } from './modules/user/resolvers/changeMealPlanResolver'
+import { syncShoppingListResolver } from './modules/shopping/resolvers/syncShoppingListResolver'
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -43,7 +43,7 @@ const resolvers: Resolvers = {
 
         //shoppingList
         setShoppingListSettings: setShoppingListSettingsResolver,
-        addShoppingListItem: addShoppingListItemResolver,
+        syncShoppingList: syncShoppingListResolver,
 
         //user
         updateUserData: updateUserDataResolver,
