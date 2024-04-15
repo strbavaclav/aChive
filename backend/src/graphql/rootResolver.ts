@@ -14,7 +14,6 @@ import { removeMealRecordByIdResolver } from './modules/planner/resolvers/remove
 import { updateMealRecordByIdResolver } from './modules/planner/resolvers/updateMealRecordResolver'
 import { setShoppingListSettingsResolver } from './modules/shopping/resolvers/setShoppingListSettingsResolver'
 import { updateUserDataResolver } from './modules/user/resolvers/updateUserDataResolver'
-import { addShoppingListItemResolver } from './modules/shopping/resolvers/addShoppingListItemResolver'
 import { getShoppingListResolver } from './modules/shopping/resolvers/getShoppingListResolver'
 import { getStressRecordsByDateResolver } from './modules/stress/resolvers/getStressRecordsByDateResolver'
 import { deleteStressRecordResolver } from './modules/stress/resolvers/deleteStressRecordResolver'

@@ -241,6 +241,30 @@
             }
         }
     },
+    "recipes":{
+        "featuring":"Featuring",
+        "cookbook":"Cookbook",
+        "info":{
+            "preview":"This is just a feature preview...",
+            "englishOnly":"English versions only yet",
+            "working":"We are still working on this part!"
+        },
+        "detail":{
+            "macros":{
+                "cals":"CALS",
+                "protein":"PROTEIN",
+                "carbs":"CARBS",
+                "fat":"FAT"
+            },
+            "ingredients":"ingredients",
+            "instructions":"Instructions",
+            "cookingMode":"Cooking mode",
+            "cookingModeActivated":"Cooking mode activated!",
+            "cookingModeDescription":"The device stays awake.",
+            "instructionsMayDiifer":"Instructions may differ if you select a substitute ingredient."
+        },
+        "search":"Search..."
+    },
     "notifications": {
         "title": "Notifications",
         "noNotification": "No notifications yet...",

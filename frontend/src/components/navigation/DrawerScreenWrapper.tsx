@@ -21,6 +21,7 @@ type Props = {
   isNotification?: boolean;
   isSettings?: boolean;
   screenTitle?: string;
+  isRecipeDetail?: boolean;
 };
 const DrawerScreenWrapper: React.FC<Props> = ({
   children,
@@ -28,6 +29,7 @@ const DrawerScreenWrapper: React.FC<Props> = ({
   isNotification,
   isSettings,
   screenTitle,
+  isRecipeDetail,
 }) => {
   const statusBarHeight = Constants.statusBarHeight;
   const progress = useDrawerProgress();
@@ -93,6 +95,15 @@ const DrawerScreenWrapper: React.FC<Props> = ({
         >
           {isBack && (
             <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Ionicons
+                name={"arrow-back-circle-outline"}
+                size={26}
+                color={"#10b981"}
+              />
+            </TouchableOpacity>
+          )}
+          {isRecipeDetail && (
+            <TouchableOpacity onPress={() => navigation.navigate("Cookbook")}>
               <Ionicons
                 name={"arrow-back-circle-outline"}
                 size={26}
