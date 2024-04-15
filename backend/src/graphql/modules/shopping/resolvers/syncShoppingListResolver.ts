@@ -1,10 +1,6 @@
 import { GraphQLError } from 'graphql'
 import { CustomContext } from '../../../..'
-import {
-    MutationAddShoppingListItemArgs,
-    MutationSyncShoppingListArgs,
-    ShoppingList,
-} from '../../../../types/graphqlTypesGenerated'
+import { MutationSyncShoppingListArgs } from '../../../../types/graphqlTypesGenerated'
 import ShoppingData from '../../../../models/ShoppingDataModel'
 
 export const syncShoppingListResolver = async (
