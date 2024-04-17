@@ -16,6 +16,11 @@ input ChangedMealInput {
   startTime: String!
 }
 
+type Charts {
+  commit: [MealCommit!]
+  line: MealLine
+}
+
 input InputMealRecord {
   cooked: Boolean!
   description: String
@@ -29,6 +34,16 @@ type LanguageType {
   content: String!
   description: String!
   name: String!
+}
+
+type MealCommit {
+  count: Int!
+  date: String!
+}
+
+type MealLine {
+  counts: [Int!]
+  labels: [String!]
 }
 
 type MealRecord {
@@ -113,10 +128,16 @@ type Query {
   _empty: String
   getMealRecordsByDate(date: String!, userId: String!): [MealRecord]
   getShoppingList: ShoppingList
+  getStatistics: UserStatistics!
   getStressRecordsByDate(date: String!): dateStressRecord
   getTips: [TipItem!]
   getUser(id: ID!): User
   getUserData: User
+}
+
+type Records {
+  meal: Int!
+  stress: Int!
 }
 
 input ShopListSettingsInput {
@@ -210,6 +231,13 @@ type User {
   streak: Int
   token: String
   username: String
+}
+
+type UserStatistics {
+  chart: Charts!
+  records: Records!
+  streak: Int!
+  stressAvg: Float!
 }
 
 type dateStressRecord {

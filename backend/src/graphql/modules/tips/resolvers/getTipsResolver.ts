@@ -28,8 +28,6 @@ export const getTipsResolver = async (
             return []
         }
 
-        console.log(user.plan.length)
-
         const dateCountMap: Record<string, number> = {}
         mealRecords.records.forEach((record) => {
             const date = record.loggedDateTime.toISOString().split('T')[0]

@@ -1,5 +1,6 @@
 type Query {
   getUserData: User
+  getStatistics: UserStatistics!
 }
 
 type Mutation {
@@ -21,4 +22,31 @@ input ChangedMealInput {
   mealSize:String!
   startTime:String!
   endTime:String!
+}
+
+type UserStatistics {
+  records: Records!
+  streak: Int!
+  stressAvg: Float!
+  chart: Charts!
+}
+
+type Records {
+  meal:Int!
+  stress:Int!
+}
+
+type Charts {
+  commit: [MealCommit!]
+  line: MealLine
+}
+
+type MealCommit {
+  date: String!
+  count: Int!
+}
+
+type MealLine {
+  labels: [String!]
+  counts: [Int!]
 }

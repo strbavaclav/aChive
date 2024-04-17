@@ -279,6 +279,31 @@
         "gotIt": "Rozumím!",
         "dateFormat": "DD. MMMM YYYY"
     },
+    "dashboard": {
+        "streak": {
+            "days": "dny",
+            "streak": "stravování"
+        },
+        "stress": {
+            "underStress": "pod stresem",
+            "happy": "cítí se dobře"
+        },
+        "counter": {
+            "title": "Počet  záznamů",
+            "meal": "stravovací plán",
+            "stress": "deník stresu"
+        },
+        "progress": "Tvůj pokrok",
+        "weekStatistics": "Týdenní souhrn",
+        "commited": "Podívej se na své stravování!",
+        "meals": " jídel",
+        "onDay": "Dne",
+        "uAte": "jsi měl",
+        "dateFormatCommit":"DD. MM. YYYY",
+        "dateFormatLine":"DD.MM",
+        "noData":"Žádná data. Nejdřív zaznamej stravu!"
+
+    },
     "notifications": {
         "title": "Oznámení",
         "noNotification": "Žádné oznámení...",

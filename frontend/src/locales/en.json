@@ -288,6 +288,30 @@
             "logStressTime": "How do you feel today"
         }
     },
+    "dashboard": {
+        "streak": {
+            "days": "days",
+            "streak": "streak"
+        },
+        "stress": {
+            "underStress": "under stress",
+            "happy": "feeling good"
+        },
+        "counter": {
+            "title": "Records counter",
+            "meal": "meal planner",
+            "stress": "stress journal"
+        },
+        "progress": "Your progress",
+        "weekStatistics": "Week statistics",
+        "commited": "That's how you are commited!",
+        "meals": " meals",
+        "onDay": "On day",
+        "uAte": "you had",
+        "dateFormatCommit":" DD/MM YYYY",
+        "dateFormatLine":"DD/MM",
+        "noData":"No data yet. Add meal records first!"
+    },
     "components": {
         "stressFormSlider": {
             "label": "Slide the knob to select the level of stress",
