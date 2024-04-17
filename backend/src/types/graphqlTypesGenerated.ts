@@ -52,6 +52,12 @@ export type ChangedMealInput = {
     startTime: Scalars['String']['input']
 }
 
+export type Charts = {
+    __typename?: 'Charts'
+    commit?: Maybe<Array<MealCommit>>
+    line?: Maybe<MealLine>
+}
+
 export type InputMealRecord = {
     cooked: Scalars['Boolean']['input']
     description?: InputMaybe<Scalars['String']['input']>
@@ -66,6 +72,18 @@ export type LanguageType = {
     content: Scalars['String']['output']
     description: Scalars['String']['output']
     name: Scalars['String']['output']
+}
+
+export type MealCommit = {
+    __typename?: 'MealCommit'
+    count: Scalars['Int']['output']
+    date: Scalars['String']['output']
+}
+
+export type MealLine = {
+    __typename?: 'MealLine'
+    counts?: Maybe<Array<Scalars['Int']['output']>>
+    labels?: Maybe<Array<Scalars['String']['output']>>
 }
 
 export type MealRecord = {
@@ -225,6 +243,7 @@ export type Query = {
     _empty?: Maybe<Scalars['String']['output']>
     getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>
     getShoppingList?: Maybe<ShoppingList>
+    getStatistics: UserStatistics
     getStressRecordsByDate?: Maybe<DateStressRecord>
     getTips?: Maybe<Array<TipItem>>
     getUser?: Maybe<User>
@@ -242,6 +261,12 @@ export type QueryGetStressRecordsByDateArgs = {
 
 export type QueryGetUserArgs = {
     id: Scalars['ID']['input']
+}
+
+export type Records = {
+    __typename?: 'Records'
+    meal: Scalars['Int']['output']
+    stress: Scalars['Int']['output']
 }
 
 export type ShopListSettingsInput = {
@@ -342,6 +367,14 @@ export type User = {
     streak?: Maybe<Scalars['Int']['output']>
     token?: Maybe<Scalars['String']['output']>
     username?: Maybe<Scalars['String']['output']>
+}
+
+export type UserStatistics = {
+    __typename?: 'UserStatistics'
+    chart: Charts
+    records: Records
+    streak: Scalars['Int']['output']
+    stressAvg: Scalars['Float']['output']
 }
 
 export type DateStressRecord = {
@@ -460,11 +493,14 @@ export type ResolversTypes = {
     BodyInfo: ResolverTypeWrapper<BodyInfo>
     Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>
     ChangedMealInput: ChangedMealInput
+    Charts: ResolverTypeWrapper<Charts>
     Float: ResolverTypeWrapper<Scalars['Float']['output']>
     ID: ResolverTypeWrapper<Scalars['ID']['output']>
     InputMealRecord: InputMealRecord
     Int: ResolverTypeWrapper<Scalars['Int']['output']>
     LanguageType: ResolverTypeWrapper<LanguageType>
+    MealCommit: ResolverTypeWrapper<MealCommit>
+    MealLine: ResolverTypeWrapper<MealLine>
     MealRecord: ResolverTypeWrapper<MealRecord>
     MealRecordData: ResolverTypeWrapper<MealRecordData>
     Mutation: ResolverTypeWrapper<{}>
@@ -474,6 +510,7 @@ export type ResolversTypes = {
     PlannedMeal: ResolverTypeWrapper<PlannedMeal>
     PlannedMealInput: PlannedMealInput
     Query: ResolverTypeWrapper<{}>
+    Records: ResolverTypeWrapper<Records>
     ShopListSettingsInput: ShopListSettingsInput
     ShoppingList: ResolverTypeWrapper<ShoppingList>
     ShoppingListItem: ResolverTypeWrapper<ShoppingListItem>
@@ -487,6 +524,7 @@ export type ResolversTypes = {
     String: ResolverTypeWrapper<Scalars['String']['output']>
     TipItem: ResolverTypeWrapper<TipItem>
     User: ResolverTypeWrapper<User>
+    UserStatistics: ResolverTypeWrapper<UserStatistics>
     dateStressRecord: ResolverTypeWrapper<DateStressRecord>
 }
 
@@ -496,11 +534,14 @@ export type ResolversParentTypes = {
     BodyInfo: BodyInfo
     Boolean: Scalars['Boolean']['output']
     ChangedMealInput: ChangedMealInput
+    Charts: Charts
     Float: Scalars['Float']['output']
     ID: Scalars['ID']['output']
     InputMealRecord: InputMealRecord
     Int: Scalars['Int']['output']
     LanguageType: LanguageType
+    MealCommit: MealCommit
+    MealLine: MealLine
     MealRecord: MealRecord
     MealRecordData: MealRecordData
     Mutation: {}
@@ -510,6 +551,7 @@ export type ResolversParentTypes = {
     PlannedMeal: PlannedMeal
     PlannedMealInput: PlannedMealInput
     Query: {}
+    Records: Records
     ShopListSettingsInput: ShopListSettingsInput
     ShoppingList: ShoppingList
     ShoppingListItem: ShoppingListItem
@@ -523,6 +565,7 @@ export type ResolversParentTypes = {
     String: Scalars['String']['output']
     TipItem: TipItem
     User: User
+    UserStatistics: UserStatistics
     dateStressRecord: DateStressRecord
 }
 
@@ -535,6 +578,19 @@ export type BodyInfoResolvers<
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
+export type ChartsResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['Charts'] = ResolversParentTypes['Charts']
+> = {
+    commit?: Resolver<
+        Maybe<Array<ResolversTypes['MealCommit']>>,
+        ParentType,
+        ContextType
+    >
+    line?: Resolver<Maybe<ResolversTypes['MealLine']>, ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
 export type LanguageTypeResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['LanguageType'] = ResolversParentTypes['LanguageType']
@@ -542,6 +598,32 @@ export type LanguageTypeResolvers<
     content?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     description?: Resolver<ResolversTypes['String'], ParentType, ContextType>
     name?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type MealCommitResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['MealCommit'] = ResolversParentTypes['MealCommit']
+> = {
+    count?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+    date?: Resolver<ResolversTypes['String'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
+export type MealLineResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['MealLine'] = ResolversParentTypes['MealLine']
+> = {
+    counts?: Resolver<
+        Maybe<Array<ResolversTypes['Int']>>,
+        ParentType,
+        ContextType
+    >
+    labels?: Resolver<
+        Maybe<Array<ResolversTypes['String']>>,
+        ParentType,
+        ContextType
+    >
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
@@ -750,6 +832,11 @@ export type QueryResolvers<
         ParentType,
         ContextType
     >
+    getStatistics?: Resolver<
+        ResolversTypes['UserStatistics'],
+        ParentType,
+        ContextType
+    >
     getStressRecordsByDate?: Resolver<
         Maybe<ResolversTypes['dateStressRecord']>,
         ParentType,
@@ -772,6 +859,15 @@ export type QueryResolvers<
         ParentType,
         ContextType
     >
+}
+
+export type RecordsResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['Records'] = ResolversParentTypes['Records']
+> = {
+    meal?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+    stress?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
 export type ShoppingListResolvers<
@@ -925,6 +1021,17 @@ export type UserResolvers<
     __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
 }
 
+export type UserStatisticsResolvers<
+    ContextType = any,
+    ParentType extends ResolversParentTypes['UserStatistics'] = ResolversParentTypes['UserStatistics']
+> = {
+    chart?: Resolver<ResolversTypes['Charts'], ParentType, ContextType>
+    records?: Resolver<ResolversTypes['Records'], ParentType, ContextType>
+    streak?: Resolver<ResolversTypes['Int'], ParentType, ContextType>
+    stressAvg?: Resolver<ResolversTypes['Float'], ParentType, ContextType>
+    __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>
+}
+
 export type DateStressRecordResolvers<
     ContextType = any,
     ParentType extends ResolversParentTypes['dateStressRecord'] = ResolversParentTypes['dateStressRecord']
@@ -939,13 +1046,17 @@ export type DateStressRecordResolvers<
 
 export type Resolvers<ContextType = any> = {
     BodyInfo?: BodyInfoResolvers<ContextType>
+    Charts?: ChartsResolvers<ContextType>
     LanguageType?: LanguageTypeResolvers<ContextType>
+    MealCommit?: MealCommitResolvers<ContextType>
+    MealLine?: MealLineResolvers<ContextType>
     MealRecord?: MealRecordResolvers<ContextType>
     MealRecordData?: MealRecordDataResolvers<ContextType>
     Mutation?: MutationResolvers<ContextType>
     Notifications?: NotificationsResolvers<ContextType>
     PlannedMeal?: PlannedMealResolvers<ContextType>
     Query?: QueryResolvers<ContextType>
+    Records?: RecordsResolvers<ContextType>
     ShoppingList?: ShoppingListResolvers<ContextType>
     ShoppingListItem?: ShoppingListItemResolvers<ContextType>
     ShoppingListSettings?: ShoppingListSettingsResolvers<ContextType>
@@ -953,5 +1064,6 @@ export type Resolvers<ContextType = any> = {
     StressRecords?: StressRecordsResolvers<ContextType>
     TipItem?: TipItemResolvers<ContextType>
     User?: UserResolvers<ContextType>
+    UserStatistics?: UserStatisticsResolvers<ContextType>
     dateStressRecord?: DateStressRecordResolvers<ContextType>
 }

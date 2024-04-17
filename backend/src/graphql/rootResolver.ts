@@ -22,6 +22,7 @@ import { resetUserRecordsResolver } from './modules/user/resolvers/resetUserReco
 import { changeMealPlanResolver } from './modules/user/resolvers/changeMealPlanResolver'
 import { syncShoppingListResolver } from './modules/shopping/resolvers/syncShoppingListResolver'
 import { getTipsResolver } from './modules/tips/resolvers/getTipsResolver'
+import { getUserStatiscticsResolver } from './modules/user/resolvers/getUserStatistics'
 
 const resolvers: Resolvers = {
     Mutation: {
@@ -55,6 +56,7 @@ const resolvers: Resolvers = {
     Query: {
         //user
         getUserData: getUserDataResolver,
+        getStatistics: getUserStatiscticsResolver,
 
         //mealRecords
         getMealRecordsByDate: getMealRecordsByDate,
