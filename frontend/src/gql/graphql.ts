@@ -48,6 +48,12 @@ export type ChangedMealInput = {
   startTime: Scalars["String"]["input"];
 };
 
+export type Charts = {
+  __typename?: "Charts";
+  commit?: Maybe<Array<MealCommit>>;
+  line?: Maybe<MealLine>;
+};
+
 export type InputMealRecord = {
   cooked: Scalars["Boolean"]["input"];
   description?: InputMaybe<Scalars["String"]["input"]>;
@@ -62,6 +68,18 @@ export type LanguageType = {
   content: Scalars["String"]["output"];
   description: Scalars["String"]["output"];
   name: Scalars["String"]["output"];
+};
+
+export type MealCommit = {
+  __typename?: "MealCommit";
+  count: Scalars["Int"]["output"];
+  date: Scalars["String"]["output"];
+};
+
+export type MealLine = {
+  __typename?: "MealLine";
+  counts?: Maybe<Array<Scalars["Int"]["output"]>>;
+  labels?: Maybe<Array<Scalars["String"]["output"]>>;
 };
 
 export type MealRecord = {
@@ -221,6 +239,7 @@ export type Query = {
   _empty?: Maybe<Scalars["String"]["output"]>;
   getMealRecordsByDate?: Maybe<Array<Maybe<MealRecord>>>;
   getShoppingList?: Maybe<ShoppingList>;
+  getStatistics: UserStatistics;
   getStressRecordsByDate?: Maybe<DateStressRecord>;
   getTips?: Maybe<Array<TipItem>>;
   getUser?: Maybe<User>;
@@ -238,6 +257,12 @@ export type QueryGetStressRecordsByDateArgs = {
 
 export type QueryGetUserArgs = {
   id: Scalars["ID"]["input"];
+};
+
+export type Records = {
+  __typename?: "Records";
+  meal: Scalars["Int"]["output"];
+  stress: Scalars["Int"]["output"];
 };
 
 export type ShopListSettingsInput = {
@@ -338,6 +363,14 @@ export type User = {
   streak?: Maybe<Scalars["Int"]["output"]>;
   token?: Maybe<Scalars["String"]["output"]>;
   username?: Maybe<Scalars["String"]["output"]>;
+};
+
+export type UserStatistics = {
+  __typename?: "UserStatistics";
+  chart: Charts;
+  records: Records;
+  streak: Scalars["Int"]["output"];
+  stressAvg: Scalars["Float"]["output"];
 };
 
 export type DateStressRecord = {
@@ -849,6 +882,31 @@ export type GetUserDataQuery = {
       logStressTime?: boolean | null;
     } | null;
   } | null;
+};
+
+export type RecordsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type RecordsQuery = {
+  __typename?: "Query";
+  getStatistics: {
+    __typename?: "UserStatistics";
+    stressAvg: number;
+    streak: number;
+    records: { __typename?: "Records"; stress: number; meal: number };
+    chart: {
+      __typename?: "Charts";
+      commit?: Array<{
+        __typename?: "MealCommit";
+        date: string;
+        count: number;
+      }> | null;
+      line?: {
+        __typename?: "MealLine";
+        labels?: Array<string> | null;
+        counts?: Array<number> | null;
+      } | null;
+    };
+  };
 };
 
 export type ResetUserRecordsMutationVariables = Exact<{ [key: string]: never }>;
@@ -2845,6 +2903,89 @@ export const GetUserDataDocument = {
     },
   ],
 } as unknown as DocumentNode<GetUserDataQuery, GetUserDataQueryVariables>;
+export const RecordsDocument = {
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "Records" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "getStatistics" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "records" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "stress" },
+                      },
+                      { kind: "Field", name: { kind: "Name", value: "meal" } },
+                    ],
+                  },
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "chart" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "commit" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "date" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "count" },
+                            },
+                          ],
+                        },
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "line" },
+                        selectionSet: {
+                          kind: "SelectionSet",
+                          selections: [
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "labels" },
+                            },
+                            {
+                              kind: "Field",
+                              name: { kind: "Name", value: "counts" },
+                            },
+                          ],
+                        },
+                      },
+                    ],
+                  },
+                },
+                { kind: "Field", name: { kind: "Name", value: "stressAvg" } },
+                { kind: "Field", name: { kind: "Name", value: "streak" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<RecordsQuery, RecordsQueryVariables>;
 export const ResetUserRecordsDocument = {
   kind: "Document",
   definitions: [

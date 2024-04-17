@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from "react";
-import { Heading, Text, VStack, View } from "@gluestack-ui/themed";
+import { Heading, VStack, View } from "@gluestack-ui/themed";
+import { Image } from "@gluestack-ui/themed";
 
 type Props = {
   children: ReactNode;
@@ -11,6 +12,7 @@ export const DashboardChartTile: FC<Props> = ({ children, title }) => {
     <VStack
       flex={1}
       p={6}
+      pb={0}
       backgroundColor="white"
       borderRadius={8}
       style={{
@@ -22,10 +24,17 @@ export const DashboardChartTile: FC<Props> = ({ children, title }) => {
       }}
     >
       <Heading color="grey">{title}</Heading>
-      <View flex={2}>{children}</View>
-      <View flex={1}>
-        <Text>Here will be text describing the chart data!</Text>
-      </View>
+      <View flex={1}>{children}</View>
+
+      <Image
+        w={"100%"}
+        h={140}
+        source={require("../../../assets/images/lineChart.png")}
+        alt="about"
+        opacity={0.4}
+        resizeMode="cover"
+        resizeMethod="resize"
+      />
     </VStack>
   );
 };

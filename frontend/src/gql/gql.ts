@@ -51,6 +51,8 @@ const documents = {
     types.ChangeMealPlanMutationDocument,
   "\n  query GetUserData {\n    getUserData {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n      notifications {\n        plannerMealTime\n        logMealTime\n        listCreationTime\n        shoppingTime\n        logStressTime\n      }\n    }\n  }\n":
     types.GetUserDataDocument,
+  "\n  query Records {\n    getStatistics {\n      records {\n        stress\n        meal\n      }\n      chart {\n        commit {\n          date\n          count\n        }\n        line {\n          labels\n          counts\n        }\n      }\n      stressAvg\n      streak\n    }\n  }\n":
+    types.RecordsDocument,
   "\n  mutation ResetUserRecords {\n    resetUserRecords\n  }\n":
     types.ResetUserRecordsDocument,
   "\nmutation UpdateUserData($newUserData: NewUserDataInput!) {\n  updateUserData(newUserData: $newUserData) {\n    email\n    language\n    username\n    firstName\n    lastName\n    gender\n    bornDate\n    body {\n      height\n      weight\n    }\n    eatHabitGoal\n    _id\n    notifications {\n      plannerMealTime\n      logMealTime\n      listCreationTime\n      shoppingTime\n      logStressTime\n    }\n  }\n}\n":
@@ -185,6 +187,12 @@ export function gql(
 export function gql(
   source: "\n  query GetUserData {\n    getUserData {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n      notifications {\n        plannerMealTime\n        logMealTime\n        listCreationTime\n        shoppingTime\n        logStressTime\n      }\n    }\n  }\n",
 ): (typeof documents)["\n  query GetUserData {\n    getUserData {\n      _id\n      email\n      onboarded\n      language\n      username\n      firstName\n      lastName\n      gender\n      bornDate\n      body {\n        height\n        weight\n      }\n      eatHabitGoal\n      plan {\n        _id\n        mealName\n        mealSize\n        startTime\n        endTime\n      }\n      shopping {\n        prepDays\n        prepStartTime\n        prepEndTime\n        shopDays\n        shopStartTime\n        shopEndTime\n      }\n      notifications {\n        plannerMealTime\n        logMealTime\n        listCreationTime\n        shoppingTime\n        logStressTime\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(
+  source: "\n  query Records {\n    getStatistics {\n      records {\n        stress\n        meal\n      }\n      chart {\n        commit {\n          date\n          count\n        }\n        line {\n          labels\n          counts\n        }\n      }\n      stressAvg\n      streak\n    }\n  }\n",
+): (typeof documents)["\n  query Records {\n    getStatistics {\n      records {\n        stress\n        meal\n      }\n      chart {\n        commit {\n          date\n          count\n        }\n        line {\n          labels\n          counts\n        }\n      }\n      stressAvg\n      streak\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
