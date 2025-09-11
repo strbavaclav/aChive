@@ -67,8 +67,9 @@ const init = async () => {
         res.status(404).json('404 - endpoint do not exits!')
     })
 
-    await httpServer.listen({ port: 4000 })
-    console.log(`🚀 Server ready at http://localhost:4000/graphql`)
+    const port = process.env.PORT || 4000
+    await httpServer.listen({ port })
+    console.log(`🚀 Server ready at http://localhost:${port}/graphql`)
 }
 
 init()
